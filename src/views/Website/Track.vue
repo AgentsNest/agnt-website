@@ -4,7 +4,7 @@
         <v-row class="">
             <v-col md="8" offset-md="2">
                 <v-card class="mx-auto" tile>
-                    <v-img
+                    <!-- <v-img
                         :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
                         :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
                         class="white--text align-end"
@@ -13,13 +13,13 @@
                     >   
                         <div class="text-center pb-2">
                             <h6>PREPARED FOR</h6>
-                            <h4>@CLIENTNAME</h4>
+                            <h4>{{lead_name}}</h4>
                         </div>
-                    </v-img>
-                    <!-- <div class="text-center py-2 blue white--text">
+                    </v-img> -->
+                    <div class="text-center py-2 grey darken-4 white--text">
                         <h6>PREPARED FOR</h6>
-                        <h4>{{lead.name}}</h4>
-                    </div> -->
+                        <h4>{{lead_name}}</h4>
+                    </div>
 
                     <v-card-title>{{website.title}}</v-card-title>
                     <v-card-subtitle>{{website.about}}</v-card-subtitle>
@@ -72,21 +72,34 @@
                 <div class="caption">{{agent.contact}}</div>
             </v-card-text>
             <v-card-actions class="justify-center">
-                <v-btn outlined class="text-capitalize" color="blue darken-3">
+                <v-btn outlined class="text-capitalize" color="blue darken-3"
+                    :href="`tel:${agent.contact}`"
+                    target="_blank"
+                    link
+                >
                     <v-icon left>mdi-phone</v-icon>
                     <span>Call</span>
                 </v-btn>
-                <v-btn outlined class="text-capitalize" color="grey darken-1">
+                <v-btn outlined class="text-capitalize" color="grey darken-1"
+                    :href="`sms:${agent.contact}`"
+                    target="_blank"
+                    link
+                >
                     <v-icon left>mdi-message-processing-outline</v-icon>
                     <span>SMS</span>
                 </v-btn>
-                <v-btn outlined class="text-capitalize" color="teal darken-3">
+                <v-btn outlined class="text-capitalize" color="teal darken-3"
+                    :href="`https://wa.me/${agent.contact}`"
+                    target="_blank"
+                    link
+                >
                     <v-icon left>mdi-whatsapp</v-icon>
                     <span>Whatsapp</span>
                 </v-btn>
             </v-card-actions>
+
             <v-card-text class="text-center">
-                <v-icon>mdi-lightning-bolt-outline</v-icon>
+                <v-icon color="orange">mdi-lightning-bolt</v-icon>
                 Powered By AgentsNest
             </v-card-text>
         </v-card>
@@ -105,6 +118,7 @@ export default {
         return{
             website:'',
             tracker_id: '',
+            share_id: '',
             time: 0,
             duration: '',
             tracker: '',
@@ -112,7 +126,8 @@ export default {
             lead: '',
             agent_id : '',
             lead_id : '',
-            website_id: ''
+            website_id: '',
+            lead_name: ''
         }
     },
     created(){
@@ -123,7 +138,7 @@ export default {
         });
     },
     methods:{
-        sendRespose(tracker){
+        sendResponse(tracker){
             Tracker.track(this.tracker_id, {crossdomain:true})
             .then(response => {
             })
@@ -148,44 +163,49 @@ export default {
                 // console.log('agent id:', response.data)
             });
         },
-        async fetchLead(){
-            let lead = this.lead_id;
-            await Tracker.leadDetails(lead)
-            .then(response => {
-                this.lead = response.data;
-            });
-        },
+        // async fetchLead(){
+        //     let lead = this.lead_id;
+        //     await Tracker.leadDetails(lead)
+        //     .then(response => {
+        //         this.lead = response.data;
+        //     });
+        // },
         async fetchWebsite(){
             let website = this.website_id;
             await Tracker.websiteShowById(website)
             .then(response => {
                 this.website = response.data.website;
-                // console.log('website data:',response.data)
             });
         },
-        fetchTrackerDetails(){
-            Tracker.fetchWebsiteForSharedTrackById(this.tracker_id)
+        fetchShareDetails(){
+            Tracker.fetchShareDetailsByUrl(this.share_id)
             .then(response => {
-                // console.log(response)
+                // console.log(response.data)
                 this.agent_id = response.data.agent_id
                 this.website_id = response.data.website_id
-                this.lead_id = response.data.lead_id
-                this.tracker = response.data
                 this.fetchAgent();
-                this.fetchLead();
                 this.fetchWebsite();
             }).catch(error => {
                 console.log(error)
             })
+        },
+        fetchTrackDetails(){
+            Tracker.fetchTrackeDetailsById(this.tracker_id)
+            .then(response => {
+                this.lead_name = response.data.lead_name
+            })
         }
     },
     mounted(){
-        this.sendRespose();
+        this.sendResponse();
         this.duration = setInterval(this.incrementTime, 1000);
-        this.fetchTrackerDetails();
+        this.fetchShareDetails();
+        this.fetchTrackDetails();
     },
     beforeMount(){
+        this.share_id = this.$route.params.share;
         this.tracker_id = this.$route.params.tracker;
+        // console.log(this.$route.params)
     }
 }
 </script>

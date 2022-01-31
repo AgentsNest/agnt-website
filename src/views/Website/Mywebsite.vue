@@ -1,5 +1,12 @@
 <template>
     <div>
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
+            {{snackbarText}}
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
+
         <v-card class="rounded-xl shadow" elevation="0">
             <v-toolbar flat>
                 <v-btn width="50%" class="rounded-l-xl text-capitalize dark" dark depressed :to="{name: 'MyWebsite'}">My Projects</v-btn>
@@ -32,7 +39,7 @@
                           <v-icon left>mdi-pencil</v-icon>
                           Edit
                         </v-btn>
-                        <v-btn width="50%" class="grey darken-3 text-capitalize" @click="shareSidebarOpen(website.id)" dark>
+                        <v-btn width="50%" class="grey darken-3 text-capitalize" @click="shareSidebarOpen(website)" dark>
                           <v-icon left color="white">mdi-share-variant</v-icon>
                           Share
                         </v-btn>
@@ -106,17 +113,20 @@
                   >
                     Share
                   </v-btn> -->
-                  <v-btn @click="showSelectedWebsiteMessage(lead)">Share</v-btn>
+                  <!-- <v-btn @click="showSelectedWebsiteMessage(lead)">Share</v-btn> -->
                 </v-list-item-action>
 
                 <!-- Default website share message window -->
-                <v-dialog v-model="editWebsiteWindow" width="500">
-                  <v-card class="pt-5 rounded-lg">
+                <v-dialog v-model="editWebsiteWindow[lead.id]" width="500">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on">Share</v-btn>
+                  </template>
 
+                  <v-card class="pt-5 rounded-lg">
                       <v-card-text>
-                          <span class="caption grey--text">Hi, {clientName}</span> <br>
+                          <span class="caption grey--text">Hi, {clientName},</span> <br>
                           <div>{{selectedWebsiteMsg}}</div>
-                          <span class="caption grey--text">{websiteName}</span> <br>
+                          <!-- <span class="caption grey--text">https://agentsnest.com/wt/{{website.share.url}}</span> <br> -->
                           <span class="caption grey--text">Regards,</span> <br/>
                           <span class="caption grey--text">{yourName}</span>
                       </v-card-text>
@@ -127,19 +137,26 @@
                       <v-card-actions>
                           <span class="grey--text text--darken-2">Share Via:</span>
                           <v-spacer></v-spacer>
-                          <v-btn @click="shareNow(lead, website)">Share</v-btn>
                           <v-btn 
+                            @click="shareNowViaWhatsapp(lead, website)"
+                            fab x-small elevation="1" class="green" dark
+                          ><v-icon>mdi-whatsapp</v-icon></v-btn>
+                          <v-btn 
+                            @click="shareNowViaMsg(lead, website)"
+                            fab x-small elevation="1" class="blue" dark
+                          ><v-icon>mdi-message-text-outline</v-icon></v-btn>
+                          <!-- <v-btn 
                               fab x-small elevation="1" class="green" dark
                               :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a Regards: ${agent.name}`"
                               target="_blank"
                               @click="addActivityWhatsapp"
-                          ><v-icon>mdi-whatsapp</v-icon></v-btn>
-                          <v-btn 
+                          ><v-icon>mdi-whatsapp</v-icon></v-btn> -->
+                          <!-- <v-btn 
                               fab x-small elevation="1" class="blue lighten-1" dark
                               :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a Regards, %0a ${agent.name}`"
                               target="_blank"
                               @click="addActivityMessage"
-                          ><v-icon>mdi-message-text-outline</v-icon></v-btn>
+                          ><v-icon>mdi-message-text-outline</v-icon></v-btn> -->
                       </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -193,9 +210,11 @@ export default {
         previewImage: [],
         images: [],
         allLeadSidebar: false,
-        selectedWebsiteMsg: '',
-        editWebsiteWindow: false,
+        selectedWebsiteMsg: 'Here is the details for',
+        editWebsiteWindow: {},
         whatsappShare: false,
+        snackbarText: '',
+        snackbar: false
       }
     },
     watch: {
@@ -217,17 +236,17 @@ export default {
       fetchData(){
         Website.auth().then(response => {
             this.websites = response.data.data;
-            // console.log(response.data.data);
         });
       },
-      fetchLeadsDetails(){
-        Lead.auth().then(response => {
-          this.leads = response.data.data;
-        });
-      },
+      // fetchLeadsDetails(){
+      //   Lead.auth().then(response => {
+      //     this.leads = response.data.data;
+      //   });
+      // },
       shareSidebarOpen(website){
         this.allLeadSidebar = true
         this.website = website
+        // console.log(website)
       },
       updateImageList(){
           var selectedFiles = this.$refs.files.files;
@@ -278,7 +297,85 @@ export default {
             .then(() => {
                 // this.fetchData();
             })
-        },
+      },
+      // Share Website via whatsapp
+      shareNowViaWhatsapp(lead, website){
+          this.websiteName = website;
+
+          let form = new FormData();
+          form.append('website_id', website.id)
+          form.append('website_name', website.title)
+          form.append('lead_id', lead.id)
+          form.append('lead_name', lead.name)
+          form.append('agent_id', this.agent.id)
+          form.append('type', 'whatsapp')
+          form.append('opened', false)
+          form.append('total_views', 0)
+          form.append('share_id', website.share.id)
+
+          // for (var pair of form.entries()){
+          //     console.log(pair[0]+ ', '+ pair[1]); 
+          // }
+
+          Tracker.new(form)
+          .then(response => {
+              this.tracker_id = response.data.url
+              
+              window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`, '_blank');
+
+              console.log(response.data)
+              if (response.data == 'Already Sent') {
+                  this.snackbarText = 'Already Sent!'
+                  this.snackbar = true
+              } else {
+                  // this.sendWhatsapp();
+              }
+              // this.websiteShareConfirmation = true
+          })
+          .catch(error => {
+              console.log(error);
+          })
+      },
+      // sendWhatsapp(){
+      //     window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
+      // },
+      /* ===================================
+      -- -- Share website via message --- --
+      =====================================*/
+      shareNowViaMsg(lead, website){
+          this.websiteName = website;
+
+          let form = new FormData();
+          form.append('website_id', website.id)
+          form.append('website_name', website.title)
+          form.append('lead_id', lead.id)
+          form.append('lead_name', lead.name)
+          form.append('agent_id', this.agent.id)
+          form.append('type', 'message')
+          form.append('opened', false)
+          form.append('total_views', 0)
+          form.append('share_id', website.share.id)
+
+          Tracker.new(form)
+          .then(response => {
+              this.tracker_id = response.data.url
+
+              window.open(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`);
+
+              if (response.data == 'Already Sent') {
+                  this.snackbarText = 'Already Sent Text Msg!'
+                  this.snackbar = true
+              } else {
+                  // this.sendTextMessage();
+              }
+          })
+          .catch(error => {
+              console.log(error);
+          })
+      },
+      // sendTextMessage(){
+      //     window.open(`sms:/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
+      // },
     },
     computed:{
       selectAll:{
@@ -308,7 +405,7 @@ export default {
     },
     mounted(){
       this.fetchData();
-      this.fetchLeadsDetails();
+      // this.fetchLeadsDetails();
       User.auth().then(response => {
           this.shareData.agent_id = response.data.data.id;
       });

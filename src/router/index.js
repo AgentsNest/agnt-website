@@ -435,7 +435,7 @@ const routes = [
   },
   {
     // path: "/w/:tracker/:website",
-    path: "/wt/:website/:tracker",
+    path: "/wt/:tracker/:share",
     name: "trackWebsite",
     component: () =>
       import(

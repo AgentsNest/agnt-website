@@ -40,8 +40,11 @@ export default {
     return Api().get("/websiteTracker/" + params);
   },
 
-  fetchWebsiteForSharedTrackById(params) {
-    return Api().get("/fetchWebsiteForSharedTrackById/" + params);
+  fetchShareDetailsByUrl(params) {
+    return Api().get("/fetchShareDetailsByUrl/" + params);
+  },
+  fetchTrackeDetailsById(params) {
+    return Api().get("/fetchTrackeDetailsById/" + params);
   },
 
   // Agent Details

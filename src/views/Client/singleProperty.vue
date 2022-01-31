@@ -42,8 +42,6 @@
                     </v-col>
                 </v-row>
 
-
-
                 <v-row>
                     <!-- All Charges and Taxes -->
                     <v-col cols="12">
@@ -172,55 +170,6 @@
                             <v-toolbar flat>
                                 <v-toolbar-title>Applicants</v-toolbar-title>
                             </v-toolbar>
-                            <!-- <v-card-text>
-                                <v-row>
-                                    <v-col v-if="applicantOneDetails.name !== null">
-                                        <v-card outlined>
-                                            <v-card-subtitle>Applicant 2nd Details</v-card-subtitle>
-                                            <v-simple-table dense>
-                                                <tbody>
-                                                    <tr><td><strong>Name:</strong></td><td>{{applicantOneDetails.name}}</td></tr>
-                                                    <tr><td><strong>Email:</strong></td><td>{{applicantOneDetails.email}}</td></tr>
-                                                    <tr><td><strong>DOB:</strong></td><td>{{applicantOneDetails.dob}}</td></tr>
-                                                    <tr><td><strong>PAN No.:</strong></td><td>{{applicantOneDetails.pan}}</td></tr>
-                                                    <tr><td><strong>Profession:</strong></td><td>{{applicantOneDetails.professsion}}</td></tr>
-                                                    <tr><td><strong>Aadhar No.:</strong></td><td>{{applicantOneDetails.aadhar}}</td></tr>
-                                                </tbody>
-                                            </v-simple-table>
-                                        </v-card>
-                                    </v-col>
-                                    <v-col v-if="applicantTwoDetails.name !== null">
-                                        <v-card outlined>
-                                            <v-card-subtitle>Applicant 3rd Details</v-card-subtitle>
-                                            <v-simple-table dense>
-                                                <tbody>
-                                                    <tr><td><strong>Name:</strong></td><td>{{applicantTwoDetails.name}}</td></tr>
-                                                    <tr><td><strong>Email:</strong></td><td>{{applicantTwoDetails.email}}</td></tr>
-                                                    <tr><td><strong>DOB:</strong></td><td>{{applicantTwoDetails.dob}}</td></tr>
-                                                    <tr><td><strong>PAN No.:</strong></td><td>{{applicantTwoDetails.pan}}</td></tr>
-                                                    <tr><td><strong>Profession:</strong></td><td>{{applicantTwoDetails.professsion}}</td></tr>
-                                                    <tr><td><strong>Aadhar No.:</strong></td><td>{{applicantTwoDetails.aadhar}}</td></tr>
-                                                </tbody>
-                                            </v-simple-table>
-                                        </v-card>
-                                    </v-col>
-                                    <v-col v-if="applicantThreeDetails.name !== null ">
-                                        <v-card outlined>
-                                            <v-card-subtitle>Applicant 4th Details</v-card-subtitle>
-                                            <v-simple-table dense>
-                                                <tbody>
-                                                    <tr><td><strong>Name:</strong></td><td>{{applicantThreeDetails.name}}</td></tr>
-                                                    <tr><td><strong>Email:</strong></td><td>{{applicantThreeDetails.email}}</td></tr>
-                                                    <tr><td><strong>DOB:</strong></td><td>{{applicantThreeDetails.dob}}</td></tr>
-                                                    <tr><td><strong>PAN No.:</strong></td><td>{{applicantThreeDetails.pan}}</td></tr>
-                                                    <tr><td><strong>Profession:</strong></td><td>{{applicantThreeDetails.professsion}}</td></tr>
-                                                    <tr><td><strong>Aadhar No.:</strong></td><td>{{applicantThreeDetails.aadhar}}</td></tr>
-                                                </tbody>
-                                            </v-simple-table>
-                                        </v-card>
-                                    </v-col>
-                                </v-row>
-                            </v-card-text> -->
                             <v-expansion-panels>
                                 <v-expansion-panel v-if="applicantOneDetails.name !== null">
                                     <v-expansion-panel-header>{{applicantOneDetails.name}}</v-expansion-panel-header>
