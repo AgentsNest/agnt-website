@@ -46,6 +46,7 @@
         </div>
 
         <v-card class="mt-4 pb-16 transparent content-card" elevation="0" height="75vh"> 
+
           <div v-if="showsearch">
             <v-row class="content-card">
                 <v-col md="3" v-for="website in results" :key="website.id">
@@ -82,7 +83,7 @@
                                             <v-card-title>{{website.title}}</v-card-title>
                                             <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                                            <v-row class="px-4" v-if="website.website_images">
+                                            <v-row class="" v-if="website.website_images">
                                                 <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="12">
                                                     <v-img
                                                         :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
@@ -162,6 +163,7 @@
                 </v-col>
             </v-row>
           </div>
+
           <div v-else>
             <v-row class="content-card">
               <v-col md="3" v-for="(website, index) in websites" :key="index">
@@ -193,7 +195,7 @@
                                           <v-card-title>{{website.title}}</v-card-title>
                                           <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                                          <v-row class="px-4" v-if="website.website_images">
+                                          <v-row class="" v-if="website.website_images">
                                               <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="12">
                                                   <v-img
                                                       :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
