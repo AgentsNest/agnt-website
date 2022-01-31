@@ -23,7 +23,7 @@
                   <v-card>
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
-                            height="280px"
+                            height="180px"
                             :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                             class="rounded-t"
                         ></v-img>

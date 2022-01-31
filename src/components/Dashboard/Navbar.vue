@@ -137,6 +137,7 @@
 
 <script>
 import Notification from '../Notification.vue'
+import User from '../../Apis/User'
 
 export default {
   components:{ Notification },
@@ -166,11 +167,11 @@ export default {
   methods:{
     logout(){
       localStorage.removeItem("token");
-      // User.logout().then(() => {
-      //   localStorage.removeItem("token");
-      //   this.isLoggedIn = false;
-      //   this.$router.push({name: 'Login'});
-      // })
+      User.logout().then(() => {
+        localStorage.removeItem("token");
+        this.isLoggedIn = false;
+        this.$router.push({name: 'Login'});
+      })
     }
   }
 }

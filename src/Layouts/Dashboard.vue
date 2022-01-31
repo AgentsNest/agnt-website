@@ -39,7 +39,8 @@ export default {
   /* background: #f3f6fd; */
   background: #f5f5f5;
   height: 100vh;
-  overflow-y: hidden;
+  width: 100vw;
+  overflow: hidden;
 }
 .shadow{
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
