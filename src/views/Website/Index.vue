@@ -74,7 +74,7 @@
                                 <v-toolbar dark color="primary">
                                     <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
                                     <v-spacer></v-spacer>
-                                    <v-btn icon dark @click="preview = false"><v-icon>mdi-close</v-icon></v-btn>
+                                    <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                                 </v-toolbar>
 
                                 <v-row class="">
@@ -186,7 +186,7 @@
                               <v-toolbar dark color="primary">
                                   <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
                                   <v-spacer></v-spacer>
-                                  <v-btn icon dark @click="preview = false"><v-icon>mdi-close</v-icon></v-btn>
+                                  <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                               </v-toolbar>
 
                               <v-row class="">
@@ -201,7 +201,7 @@
                                                       :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                                       :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                                       contain
-                                                      class="grey lighten-2 rounded-lg"
+                                                      class="white rounded-lg"
                                                       max-height="200px"
                                                   >
                                                       <template v-slot:placeholder>
