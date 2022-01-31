@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-card height="90vh" width="100vw" class="transparent" flat>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
             <template v-slot:action="{ attrs }">
@@ -15,15 +15,15 @@
             </v-toolbar>
         </v-card>
 
-        <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mt-3">
+        <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mt-3 mb-3">
 
-        <v-card class="transparent content-card" elevation="0" height="80vh">
-          <v-row class="mt-1">
+        <v-card class="transparent content-card" elevation="0" width="100vw" max-height="80vh" height="100%">
+          <v-row class="pb-16">
               <v-col md="4" cols="12" v-for="(website, index) in filterWebsite" :key="index">
                   <v-card>
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
-                            height="180px"
+                            height="280px"
                             :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                             class="rounded-t"
                         ></v-img>
@@ -134,19 +134,19 @@
                       <v-textarea outlined label="Default Message" v-model="selectedWebsiteMsg" height="100" class="mt-6"></v-textarea>
 
                       <v-divider></v-divider>
-                      <v-card-actions>
+                      <v-card-actions v-if="website">
                           <span class="grey--text text--darken-2">Share Via:</span>
                           <v-spacer></v-spacer>
                           <v-btn 
                             @click="shareNowViaWhatsapp(lead, website)"
                             fab x-small elevation="1" class="green" dark
-                            :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
+                            :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
                             target="_blank"
                           ><v-icon>mdi-whatsapp</v-icon></v-btn>
                           <v-btn 
                             @click="shareNowViaMsg(lead, website)"
                             fab x-small elevation="1" class="blue" dark
-                            :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
+                            :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
                             target="_blank"
                           ><v-icon>mdi-message-text-outline</v-icon></v-btn>
                           <!-- <v-btn 
@@ -173,7 +173,7 @@
         </v-navigation-drawer>
 
 
-    </div>
+    </v-card>
 </template>
 
 <script>

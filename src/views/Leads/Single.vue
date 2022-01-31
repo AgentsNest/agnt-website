@@ -198,13 +198,13 @@
                                     <v-btn 
                                         @click="shareNowViaWhatsapp(lead, website)"
                                         fab x-small elevation="1" class="green" dark
-                                        :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
+                                        :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
                                         target="_blank"
                                     ><v-icon>mdi-whatsapp</v-icon></v-btn>
                                     <v-btn 
                                         @click="shareNowViaMsg(lead, website)"
                                         fab x-small elevation="1" class="blue" dark
-                                        :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
+                                        :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
                                         target="_blank"
                                     ><v-icon>mdi-message-text-outline</v-icon></v-btn>
                                 </v-card-actions>
