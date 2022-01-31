@@ -57,7 +57,7 @@
                     </v-card-text>
                     <v-card-text class="text-center">
                         <div class="text-h6">Walkthrough</div>
-                        <LazyYoutube src="https://www.youtube.com/watch?v=TcMBFSGVi1c" />
+                        <LazyYoutube :src="website.walkthrough" />
                     </v-card-text>
                 </v-card>
             </v-col>
