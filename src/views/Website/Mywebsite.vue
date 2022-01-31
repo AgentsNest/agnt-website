@@ -140,14 +140,11 @@
                           <v-btn 
                             @click="shareNowViaWhatsapp(lead, website)"
                             fab x-small elevation="1" class="green" dark
-                            :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${tracker_id}/${website.share.url}`"
-                            target="_blank"
+                            id="shareToWebsite"
                           ><v-icon>mdi-whatsapp</v-icon></v-btn>
                           <v-btn 
                             @click="shareNowViaMsg(lead, website)"
                             fab x-small elevation="1" class="blue" dark
-                            :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${tracker_id}/${website.share.url}`"
-                            target="_blank"
                           ><v-icon>mdi-message-text-outline</v-icon></v-btn>
                           <!-- <v-btn 
                               fab x-small elevation="1" class="green" dark
@@ -323,9 +320,10 @@ export default {
 
           Tracker.new(form)
           .then(response => {
-              this.tracker_id = response.data.url
+              // this.tracker_id = response.data.url
+              this.tracker_id = response.data.id
               
-              // window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`, '_blank');
+              window.location.assign(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`, '_blank');
 
               console.log(response.data)
               if (response.data == 'Already Sent') {
@@ -362,9 +360,10 @@ export default {
 
           Tracker.new(form)
           .then(response => {
-              this.tracker_id = response.data.url
+              this.tracker_id = response.data.id
 
-              // window.open(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`);
+              window.location.assign(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`);
+              
 
               if (response.data == 'Already Sent') {
                   this.snackbarText = 'Already Sent Text Msg!'
