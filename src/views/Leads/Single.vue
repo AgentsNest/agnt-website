@@ -198,10 +198,14 @@
                                     <v-btn 
                                         @click="shareNowViaWhatsapp(lead, website)"
                                         fab x-small elevation="1" class="green" dark
+                                        :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
+                                        target="_blank"
                                     ><v-icon>mdi-whatsapp</v-icon></v-btn>
                                     <v-btn 
                                         @click="shareNowViaMsg(lead, website)"
                                         fab x-small elevation="1" class="blue" dark
+                                        :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`"
+                                        target="_blank"
                                     ><v-icon>mdi-message-text-outline</v-icon></v-btn>
                                 </v-card-actions>
                             </v-card>
@@ -575,7 +579,7 @@ export default {
             .then(response => {
                 this.tracker_id = response.data.url
                 
-                window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`, '_blank');
+                // window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`, '_blank');
 
                 this.addActivityWhatsapp();
 
@@ -613,7 +617,7 @@ export default {
             .then(response => {
                 this.tracker_id = response.data.url
 
-                window.open(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`);
+                // window.open(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`);
 
                 this.addActivityWhatsapp();
 
