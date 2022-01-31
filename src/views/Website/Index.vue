@@ -46,7 +46,7 @@
         </div>
 
         <v-card class="mt-4 pb-16 transparent content-card" elevation="0" height="75vh"> 
-
+          <!-- Default Website -->
           <div v-if="showsearch">
             <v-row class="content-card">
                 <v-col md="3" v-for="website in results" :key="website.id">
@@ -90,7 +90,7 @@
                                                         :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                                         contain
                                                         class="white rounded-lg"
-                                                        max-height="200px"
+                                                        
                                                     >
                                                         <template v-slot:placeholder>
                                                             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -163,7 +163,7 @@
                 </v-col>
             </v-row>
           </div>
-
+          <!-- Search website results -->
           <div v-else>
             <v-row class="content-card">
               <v-col md="3" v-for="(website, index) in websites" :key="index">
@@ -202,7 +202,7 @@
                                                       :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                                       contain
                                                       class="white rounded-lg"
-                                                      max-height="200px"
+                                                      
                                                   >
                                                       <template v-slot:placeholder>
                                                           <v-row class="fill-height ma-0" align="center" justify="center">

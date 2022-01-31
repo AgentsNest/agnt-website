@@ -323,14 +323,20 @@ export default {
               // this.tracker_id = response.data.url
               this.tracker_id = response.data.id
               
-              window.location.assign(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`, '_blank');
+              // window.location.href(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
 
-              console.log(response.data)
-              if (response.data == 'Already Sent') {
+              // console.log(response.data)
+
+              if (response.data.message == 'Already Sent') {
                   this.snackbarText = 'Already Sent!'
                   this.snackbar = true
+
+                  var tracker = response.data.tracker[0].id
+                  
+                  window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${tracker}/${website.share.url}`)
               } else {
                   // this.sendWhatsapp();
+                  window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
               }
               // this.websiteShareConfirmation = true
           })
@@ -362,14 +368,17 @@ export default {
           .then(response => {
               this.tracker_id = response.data.id
 
-              window.location.assign(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`);
+              // window.location.assign(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`);
               
-
-              if (response.data == 'Already Sent') {
-                  this.snackbarText = 'Already Sent Text Msg!'
+              if (response.data.message == 'Already Sent') {
+                  this.snackbarText = 'Already Sent!'
                   this.snackbar = true
+
+                  var tracker = response.data.tracker[0].id
+                  
+                  window.open(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`)
               } else {
-                  // this.sendTextMessage();
+                  window.open(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`);
               }
           })
           .catch(error => {
