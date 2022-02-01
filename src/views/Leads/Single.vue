@@ -155,14 +155,23 @@
         <!-- ******************************** 
                 Share Website Dialog 
         ********************************** -->
-            <v-bottom-sheet v-model="sheet">
+            <v-bottom-sheet v-model="sheet" class="white">
+                <v-card class="white" flat>
+                    <div class="pa-3 grey--text text--darken-2">Search Website</div>
+                    <div class="d-flex align-center">
+                        <input type="text" v-model="search" placeholder="Project Name..." class="search-input px-4">
+                        <v-btn fab depressed class="white rounded-lg" @click.prevent="searchWebsite()">
+                            <v-icon>mdi-magnify</v-icon>
+                        </v-btn>
+                    </div>
+                </v-card>
                 <v-list two-line>
                     <v-list-item v-for="website in websites" :key="website.id">
-                        <v-list-item-avatar tile>
+                        <!-- <v-list-item-avatar tile>
                             <v-img
                                 :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images.slice(0, 1)[0].url}`"
                             ></v-img>
-                        </v-list-item-avatar>
+                        </v-list-item-avatar> -->
 
                         <v-list-item-content>
                             <v-list-item-title>{{website.title}}</v-list-item-title>
@@ -198,14 +207,10 @@
                                     <v-btn 
                                         @click="shareNowViaWhatsapp(lead, website)"
                                         fab x-small elevation="1" class="green" dark
-                                        :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${tracker_id}/${website.share.url}`"
-                                        target="_blank"
                                     ><v-icon>mdi-whatsapp</v-icon></v-btn>
                                     <v-btn 
                                         @click="shareNowViaMsg(lead, website)"
                                         fab x-small elevation="1" class="blue" dark
-                                        :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${tracker_id}/${website.share.url}`"
-                                        target="_blank"
                                     ><v-icon>mdi-message-text-outline</v-icon></v-btn>
                                 </v-card-actions>
                             </v-card>
@@ -392,7 +397,7 @@ export default {
             input: '',
             snackbar: false,
             snackbarText: '',
-            sheet: false,
+            sheet: true,
             editMessageWindow: false,
             selectedWebsiteMsg: 'Here is the details for',
             editWebsiteWindow: {},
@@ -404,7 +409,8 @@ export default {
                 opened: false,
                 total_views: 0
             },
-            generatedLink: ''
+            generatedLink: '',
+            search: ''
 
         }
     },
@@ -534,9 +540,9 @@ export default {
         // Share Website
         shareWebsiteListDialog(){
             this.sheet = true;
-            Website.auth().then(response => {
-                this.websites = response.data.data;
-            });
+            // Website.myWebsiteToShare().then(response => {
+            //     this.websites = response.data.data;
+            // });
         },
         showSelectedWebsiteMessage(lead, website){
             this.selectedWebsiteMsg = 'Here is the details for';
@@ -577,19 +583,23 @@ export default {
 
             Tracker.new(form)
             .then(response => {
-                this.tracker_id = response.data.url
+                // this.tracker_id = response.data.url
+                this.tracker_id = response.data.id
                 
-                // window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`, '_blank');
-
-                this.addActivityWhatsapp();
+                // window.location.href(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
 
                 // console.log(response.data)
 
-                if (response.data == 'Already Sent') {
+                if (response.data.message == 'Already Sent') {
                     this.snackbarText = 'Already Sent!'
                     this.snackbar = true
+
+                    var tracker = response.data.tracker[0].id
+                    
+                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${tracker}/${website.share.url}`)
                 } else {
                     // this.sendWhatsapp();
+                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
                 }
                 // this.websiteShareConfirmation = true
             })
@@ -615,21 +625,32 @@ export default {
 
             Tracker.new(form)
             .then(response => {
-                this.tracker_id = response.data.url
+                this.tracker_id = response.data.id
 
-                // window.open(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${website.share.url}`);
-
-                this.addActivityWhatsapp();
-
-                if (response.data == 'Already Sent') {
-                    this.snackbarText = 'Already Sent Text Msg!'
+                // window.location.assign(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`);
+                
+                if (response.data.message == 'Already Sent') {
+                    this.snackbarText = 'Already Sent!'
                     this.snackbar = true
+
+                    var tracker = response.data.tracker[0].id
+                    
+                    window.open(`sms:${lead.contact}?&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${tracker}/${website.share.url}`)
                 } else {
-                    // this.sendTextMessage();
+                    window.open(`sms:${lead.contact}?&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`);
                 }
             })
             .catch(error => {
                 console.log(error);
+            })
+        },
+
+        searchWebsite(){
+            Website.searchMyWebsite(this.search)
+            .then((res) => {
+                this.websites = res.data;
+            }).catch((err) => {
+                console.log(err)
             })
         },
         
@@ -637,6 +658,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.search-input{
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 0.8em;
+  width: 88%;
+  outline: none;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
 </style>

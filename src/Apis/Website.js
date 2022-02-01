@@ -21,6 +21,13 @@ export default {
     return Api().get("/websites/by/user");
   },
 
+  myWebsiteToShare() {
+    return Api().get("/websites/to/share/from/leads");
+  },
+  searchMyWebsite(params) {
+    return Api().get("/my-website/search?q=" + params);
+  },
+
   clone(id) {
     return Api().get("/w/" + id + "/clone");
   },
