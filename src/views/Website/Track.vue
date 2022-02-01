@@ -25,12 +25,12 @@
                     <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
                     <v-row v-if="website.website_images">
-                        <v-col v-for="image in website.website_images" :key="image.id" class="px-6" cols="12" md="3">
+                        <v-col v-for="image in website.website_images" :key="image.id" class="px-1" cols="12" md="3">
                             <v-img
                                 :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                 :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                aspect-ratio="1"
-                                class="grey lighten-2 rounded-lg"
+                                contain
+                                class="white rounded-lg"
                             >
                                 <template v-slot:placeholder>
                                     <v-row class="fill-height ma-0" align="center" justify="center">

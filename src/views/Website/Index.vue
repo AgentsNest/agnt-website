@@ -84,7 +84,7 @@
                                             <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
                                             <v-row class="" v-if="website.website_images">
-                                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="12">
+                                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="12">
                                                     <v-img
                                                         :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                                         :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
@@ -196,7 +196,7 @@
                                           <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
                                           <v-row class="" v-if="website.website_images">
-                                              <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="12">
+                                              <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="12">
                                                   <v-img
                                                       :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                                       :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
