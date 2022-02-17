@@ -47,7 +47,6 @@
                         {{user.bio}}
                     </v-card-text>
 
-
                     <v-card-text class="text-center">
                         <h5>SHARED BY</h5>
                         <v-img max-width="150" :src="user.brand_logo" class="mx-auto my-3"></v-img>
@@ -100,6 +99,9 @@ export default {
         .then((res) => {
             this.user = res.data;
         })
+    },
+    methods:{
+        
     }
 }
 </script>

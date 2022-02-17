@@ -397,7 +397,7 @@ export default {
             input: '',
             snackbar: false,
             snackbarText: '',
-            sheet: true,
+            sheet: false,
             editMessageWindow: false,
             selectedWebsiteMsg: 'Here is the details for',
             editWebsiteWindow: {},

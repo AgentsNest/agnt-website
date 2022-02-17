@@ -13,19 +13,108 @@
             <v-col md="8" cols="12">
                 <v-card height="88vh" flat class="content-card transparent">
 
-                    <!-- Update Button -->
-                    <v-btn class="teal update-btn white--text text-capitalize" @click="saveDetails()">
-                        <v-icon left color="white">mdi-content-save</v-icon>
-                        Update
-                    </v-btn>
-
                     <v-card class="rounded-xl mb-5 pa-2" flat>
                         <v-card-actions>
                             <div class="caption grey--text font-weight-bold">https://agentsnest.com/me/<span class="teal--text">{{agent.uid}}</span> </div>
                             <v-spacer></v-spacer>
-                            <v-btn x-small fab elevation="1" class="mr-3 white" link :to="{name: 'vCard', params:{uid: agent.uid}}" target="_blank">
+
+                            <!-- <v-btn x-small fab elevation="1" class="mr-3 white" link :to="{name: 'vCard', params:{uid: agent.uid}}" target="_blank">
                                 <v-icon>mdi-eye</v-icon>
-                            </v-btn>
+                            </v-btn> -->
+                            <v-dialog
+                                v-model="dialog"
+                                fullscreen
+                                hide-overlay
+                                transition="dialog-bottom-transition"
+                            >
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn v-bind="attrs" v-on="on" class="mr-2 white" x-small fab elevation="1">
+                                        <v-icon>mdi-eye</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-card tile>
+                                    <v-toolbar dark class="dark" dense tile> 
+                                        <div>Preview</div>
+                                        <v-spacer></v-spacer>
+                                        <v-toolbar-items>
+                                            <v-btn dark icon @click="dialog = false">
+                                                <v-icon>mdi-close</v-icon>
+                                            </v-btn>
+                                        </v-toolbar-items>
+                                    </v-toolbar>
+
+
+                                        <v-row>
+                                            <v-col cols="12" md="6" offset-md="3">
+                                                <v-row class="pa-3">
+                                                    <v-col cols="4">
+                                                        <v-img
+                                                            :src="agent.image"
+                                                            :lazy-src="agent.image"
+                                                            class="rounded"
+                                                            aspect-ratio="1"
+                                                            cover
+                                                        ></v-img>
+                                                    </v-col>
+                                                    <v-col>
+                                                        <div class="title">{{agent.name}}</div>
+                                                        <div>RERA: {{agent.rera}}</div>
+                                                        <div>{{agent.brand_text}}</div>
+                                                        
+                                                        <div class="blue--text text--darken-3 font-weight-bold mt-3 mb-2">
+                                                            <a :href="`mailto:${agent.email}`">
+                                                                <v-icon color="blue darken-3" class="mr-2">mdi-email</v-icon>{{agent.email}}
+                                                            </a>
+                                                        </div>
+                                                        <div class="blue--text text--darken-3 font-weight-bold mb-4">
+                                                            <a :href="`tel:+${agent.contact}`">
+                                                                <v-icon color="blue darken-3" class="mr-2">mdi-phone</v-icon>{{agent.contact}}
+                                                            </a>
+                                                        </div>
+                                                        
+                                                        <div class="mt-4"><strong class="mr-2">Address:</strong>{{agent.address}}</div>
+                                                        <div>
+                                                            <span v-if="agent.city">{{agent.city}}</span>
+                                                            <span v-if="agent.state">, {{agent.state}}</span>
+                                                            <span v-if="agent.country">, {{agent.country}}</span>
+                                                        </div>
+                                                        
+                                                    </v-col>
+                                                </v-row>
+
+                                                <hr/>
+
+                                                <v-card-text>
+                                                    {{agent.bio}}
+                                                </v-card-text>
+
+                                                <v-card-text class="text-center">
+                                                    <h5>SHARED BY</h5>
+                                                    <v-img max-width="150" :src="agent.brand_logo" class="mx-auto my-3"></v-img>
+                                                    <h3>{{agent.brand_text}}</h3>
+                                                </v-card-text>
+
+                                                <v-card-actions class="justify-center my-4">
+                                                    <v-btn fab v-if="agent.facebook" :href="agent.facebook" target="_blank">
+                                                        <v-icon>mdi-facebook</v-icon>
+                                                    </v-btn>
+                                                    <v-btn fab v-if="agent.instagram" :href="agent.instagram" target="_blank">
+                                                        <v-icon>mdi-instagram</v-icon>
+                                                    </v-btn>
+                                                    <v-btn fab v-if="agent.twitter" :href="agent.twitter" target="_blank">
+                                                        <v-icon>mdi-twitter</v-icon>
+                                                    </v-btn>
+                                                    <v-btn fab v-if="agent.linkedin" :href="agent.linkedin" target="_blank">
+                                                        <v-icon>mdi-linkedin</v-icon>
+                                                    </v-btn>
+                                                </v-card-actions>
+
+                                            </v-col>
+                                        </v-row>
+
+                                </v-card>
+                            </v-dialog>
+
                             <v-menu offset-y>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn fab elevation="1" class="white" x-small v-bind="attrs" v-on="on">
@@ -54,6 +143,7 @@
                                 </v-list>
                             </v-menu>
                         </v-card-actions>
+
                     </v-card>
 
                     <!-- Agent Avatar -->
@@ -216,6 +306,12 @@
 
                 </v-card>
             </v-col>
+
+            <!-- Update Button -->
+            <v-btn class="teal update-btn white--text text-capitalize" @click="saveDetails()">
+                <v-icon left color="white">mdi-content-save</v-icon>
+                Update
+            </v-btn>
         </v-row>
     </div>
 </template>
@@ -251,7 +347,8 @@ export default {
             success: false,
             verified: true,
             avatarPreview: '',
-            token: ''
+            token: '',
+            dialog: false
         }
     },
     methods: {
@@ -307,10 +404,10 @@ export default {
 }
 #brandLogo{width: 100%;margin-top:2em}
 .update-btn{
-    position: fixed;
-    right: 10px;
+    position: absolute;
+    right: 2em;
     bottom: 20px;
-    z-index: 999;
+    z-index: 2;
 }
 .search-input{
   background-color: #fefefe;
