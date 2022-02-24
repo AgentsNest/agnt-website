@@ -22,8 +22,12 @@
                 <!-- Content -->
                 <v-tab-item>
                     <v-card height="80vh" class="overflow-y-auto">
-                        <v-btn class="addNewMsg white" fab @click="addMsgBox = !addMsgBox"><v-icon>mdi-plus</v-icon></v-btn>
-                        <div v-if="addMsgBox">
+                        <v-toolbar flat class="mb-1">
+                            <span>Total 234</span>
+                            <v-spacer></v-spacer>
+                            <v-btn class="white" small elevation="1" fab @click="addMsgBox = !addMsgBox"><v-icon>mdi-plus</v-icon></v-btn>
+                        </v-toolbar>
+                        <div v-if="addMsgBox" class="px-4">
                             <textarea rows="3" placeholder="Add message..." class="search-input" v-model="form.text"></textarea>
                             <v-btn block class="mt-2" large dark @click="newMessage">Create Message</v-btn>
                         </div>
@@ -38,6 +42,7 @@
                     </v-card>
                 </v-tab-item>
             </v-tabs>
+
             
         </v-card>
 
@@ -73,10 +78,10 @@ export default {
         },
         fetchData(){
             Other.allMessage().then(response => {
-                this.messages = response.data.data;
+                this.messages = response.data;
             });
             Other.myMessage().then(response => {
-                this.myMsg = response.data.data;
+                this.myMsg = response.data;
             });
         },
         newMessage(){
@@ -113,7 +118,7 @@ export default {
   border-radius: 12px;
   padding: 0.8em;
   width: 100%;
-  max-width: 400px;
+  /* max-width: 400px; */
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }
 .addNewMsg{

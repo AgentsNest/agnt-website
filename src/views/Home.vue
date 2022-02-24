@@ -1,7 +1,7 @@
 <template>
-    <v-card class="overflow-hidden">
+    <v-card class="overflow-hidden" tile>
             
-        <v-app-bar absolute color="white" elevate-on-scroll scroll-target="#scrolling-techniques-7" class="px-md-16">
+        <v-app-bar absolute color="#111828" dark elevate-on-scroll scroll-target="#scrolling-techniques-7" class="px-md-16" tile>
             <v-toolbar-title class="font-weight-bold headline">
                 agnt. 
                 <span class="caption">beta v.01</span>
@@ -10,40 +10,26 @@
             
             <v-spacer></v-spacer>
 
-            <!-- <v-btn text class="text-capitalize">Case Studies</v-btn>
-            <v-btn text class="text-capitalize">Pricing</v-btn>
-            <v-btn text class="text-capitalize">Integration</v-btn> -->
-            <v-btn text class="text-capitalize d-none d-md-flex d-md-none">Resources</v-btn>
+            <v-btn text class="text-capitalize d-none d-md-flex d-md-none">Home</v-btn>
             <v-btn text class="text-capitalize d-none d-md-flex d-md-none">About Us</v-btn>
-            <v-btn color="teal darken-2" dark elevation="0" class="text-capitalize" :to="{name: 'Login'}">Login</v-btn>
-            <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Join Now</v-btn>
+            <v-btn text elevation="0" class="text-capitalize" :to="{name: 'Login'}">Contact Us</v-btn>
+            <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Sign Up</v-btn>
+            <v-btn  elevation="0" class="text-capitalize d-none d-md-flex gradient rounded-xl px-8">Login</v-btn>
 
         </v-app-bar>
 
         <v-sheet id="scrolling-techniques-7" class="overflow-y-auto pt-12" min-height="100vh">
             <v-container>
                 <v-row class="py-16">
-                    <v-col cols="12" class="px-4 px-md-0">
-                        <div class="md-display-3 display-1 font-weight-bold">Grow your business faster with <span class="blue--text text--darken-3">AgentsNest</span></div>
-                        <div class="my-8">One solution for all you digital, market, and personal business needs.</div>
-                        <v-row>
-                            <v-col cols="12" class="font-weight-bold"><v-icon color="red" size="14" class="mr-2">mdi-circle</v-icon> Build your Brand identity</v-col>
-                            <v-col cols="12" class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Generate new leads each day</v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12" class="font-weight-bold"><v-icon color="yellow" size="14" class="mr-2">mdi-circle</v-icon> Keep a track of leads</v-col>
-                            <v-col cols="12"  class="font-weight-bold"><v-icon color="purple" size="14" class="mr-2">mdi-circle</v-icon> Manage your team</v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12" class="font-weight-bold"><v-icon color="orange" size="14" class="mr-2">mdi-circle</v-icon> Share properties in one click</v-col>
-                            <v-col cols="12" class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Never miss opportunities</v-col>
-                        </v-row>
-                        <v-alert text color="info" class="mt-8 rounded-xl">
-                            <div class="text-capitalize">Your Own Solution | Join the AgentsNest community today!</div>
-                        </v-alert>
+                    <v-col cols="12" class="px-4 px-md-0 text-center">
+                        <div class="text-center md-display-3 display-3">Grow your business <br/> faster with Agents Nest</div>
+                        <div class="text-center grey--text text--darken-2 my-8">One solution for all you digital, market, and personal business needs.</div>
+                        <v-btn class="amber accent-3 rounded-lg pa-7" dark large depressed>Save time and invent</v-btn>
+                        <div class="mt-3 grey--text text--darken-2">Towards a better future</div>
                     </v-col>
                     <v-col cols="12">
                         <v-img src="../assets/Screens/main.png" contain width="100%"></v-img>
+                        
                     </v-col>
                 </v-row>
 
@@ -388,6 +374,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.primary-bg{
+    background: #111828;
+}
 </style>
