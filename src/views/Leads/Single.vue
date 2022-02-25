@@ -552,10 +552,10 @@ export default {
         whatsappShareDialog(){
             this.whatsappShare = true;
             Other.allMessage().then(response => {
-                this.messages = response.data.data;
+                this.messages = response.data;
             });
             Other.myMessage().then(response => {
-                this.myMsg = response.data.data;
+                this.myMsg = response.data;
             });
         },
         showSelectedMessage(message){
