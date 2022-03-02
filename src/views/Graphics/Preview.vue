@@ -1,14 +1,15 @@
 <template>
 
     <div>
-        <div class="d-flex">
-            <v-spacer></v-spacer>
-            <v-btn @click="download"><v-icon>mdi-tray-arrow-down</v-icon></v-btn>
-        </div>
+
+        <v-toolbar flat class="transparent">
+            <v-btn fab small elevation="1" class="white"><v-icon>mdi-cog</v-icon></v-btn>
+            <v-btn fab small elevation="1" class="white mx-3" @click="download"><v-icon>mdi-tray-arrow-down</v-icon></v-btn>
+        </v-toolbar>
 
 
-        <v-card class="d-flex align-center mx-auto transparent" height="75vh" width="100vw" ref="canvasCard" flat>
-            <v-card ref="container" id="capture" class="mainCanvas">
+        <v-card class="d-flex align-center mx-auto transparent" height="75vh" width="100%" ref="canvasCard" flat>
+            <v-card ref="container" id="capture" class="mainCanvas" width="100%">
                 <v-stage ref="stage" :config="stageSize" id="theCanvas"> 
                     <v-layer ref="layer">
                         <v-image
@@ -18,18 +19,6 @@
                                 height: bgHeight
                             }"
                         />
-
-                        <v-image
-                            @dragstart="handleDragStart"
-                            @dragend="handleDragEnd"
-                            :config="{
-                                image: logo,
-                                draggable: true,
-                                width: logoWidth,
-                                height: logoHeight
-                            }"
-                        />
-
                         <v-text
                             @dragstart="handleDragStart"
                             @dragend="handleDragEnd"
@@ -61,9 +50,95 @@
                             }"
                         />
                     </v-layer>
+                    <!-- Basic Details -->
+                    <v-layer :config="{draggable: true,}">
+                        <v-image
+                            :config="{
+                                image: phoneIcon,
+                                x: bgWidth/26,
+                                y: bgHeight/1.35,
+                                width: 16,
+                                height: 16
+                            }"
+                        />
+                        <v-text
+                            ref="text"
+                            :config="{
+                                x: bgWidth/10,
+                                y: bgHeight/1.34,
+                                fontFamily: 'Calibri',
+                                fontSize: defaultSize,
+                                text: contact,
+                                fill: defaultColor,
+                                fill: isDragging ? 'black' : defaultColor
+                            }"
+                        />
+                    </v-layer>
+                    <!-- Email -->
+                    <v-layer :config="{draggable: true,}">
+                        <v-image
+                            :config="{
+                                image: emailIcon,
+                                x: bgWidth/26,
+                                y: bgHeight/1.24,
+                                width: 16,
+                                height: 16
+                            }"
+                        />
+                        <v-text
+                            ref="text"
+                            :config="{
+                                x: bgWidth/10,
+                                y: bgHeight/1.23,
+                                fontFamily: 'Calibri',
+                                fontSize: defaultSize,
+                                text: email,
+                                fill: defaultColor,
+                                fill: isDragging ? 'black' : defaultColor
+                            }"
+                        />
+                    </v-layer>
+                    <!-- Website -->
+                    <v-layer :config="{draggable: true,}">
+                        <v-image
+                            :config="{
+                                image: websiteIcon,
+                                x: bgWidth/26,
+                                y: bgHeight/1.14,
+                                width: 16,
+                                height: 16
+                            }"
+                        />
+                        <v-text
+                            ref="text"
+                            :config="{
+                                x: bgWidth/10,
+                                y: bgHeight/1.13,
+                                fontFamily: 'Calibri',
+                                fontSize: defaultSize,
+                                text: website,
+                                fill: defaultColor,
+                                fill: isDragging ? 'black' : defaultColor
+                            }"
+                        />
+                    </v-layer>
+                    
+                    <!-- Brand logo -->
+                    <v-layer>
+                        <v-image
+                            @dragstart="handleDragStart"
+                            @dragend="handleDragEnd"
+                            :config="{
+                                image: logo,
+                                draggable: true,
+                                width: logoWidth,
+                                height: logoHeight
+                            }"
+                        />
+                    </v-layer>
                 </v-stage>
 
-                <div class="details-box">
+                <!-- <div class="details-box">
                     <div class="flexbox">
                         <v-img src="../../assets/img/phone.png" width="15" class="mr-1"></v-img>
                         {{contact}}
@@ -76,9 +151,8 @@
                         <v-img src="../../assets/img/email.png" width="15" class="mr-1"></v-img>
                         {{email}}
                     </div>
-                </div>            
+                </div>             -->
             </v-card>
-
             
             <!-- RERA Controls -->
             <v-expand-transition>
@@ -186,12 +260,13 @@
                 <v-card class="text-center pa-4">
                     <v-btn x-large icon outlined color="green"><v-icon size="42px">mdi-check</v-icon></v-btn>
                     <div class="title">Downloaded!</div>
-                    <v-card-subtitle>Graphic saved in your phone</v-card-subtitle>
+                    <v-card-subtitle>Graphic saved successfully</v-card-subtitle>
                     <v-btn color="green darken-1" depressed rounded-xl dark @click="savedDialog = false">OK</v-btn>
                 </v-card>
             </v-dialog>
 
         </v-card>
+
 
     </div>
 
@@ -208,8 +283,8 @@ import html2canvas from "html2canvas";
 // var canvas = document.getElementById("theCanvas");
 // var parent = document.getElementById("parent");
 
-const width = 400;
-const height = 800;
+const width = window.innerWidth - 20;
+const height = window.innerHeight;
 
 
 
@@ -217,9 +292,14 @@ export default {
     data() {
         return {
             stageSize: {
-                width,
-                height,
+                width: width,
+                height: height
             },
+            defaultColor: "#000000",
+            defaultSize: 12,
+            phoneIcon: null,
+            websiteIcon: null,
+            emailIcon: null,
             isDragging: false,
             bgWidth: '',
             bgHeight: '',
@@ -296,17 +376,19 @@ export default {
         handleDragEnd() {
             this.isDragging = false;
         },
+        downloadURI(uri, name) {
+            let a = document.createElement("a");
+            a.download = name;
+            a.href = uri;
+            a.click();
+            a.remove();
+        },
         download(){
-            html2canvas(document.getElementById("capture"))
-            .then(function (canvas) {
-                var image = canvas.toDataURL("image/jpeg");
+            // console.log(this.$refs.stage.getNode().toDataURL());
 
-                let a = document.createElement("a");
-                a.href = canvas.toDataURL("image/png", 1.0);
-                a.download = "graphic.png";
-                a.click();
-                a.remove();
-            });
+            var dataURL = this.$refs.stage.getNode().toDataURL({pixelRation: 2});
+            this.downloadURI(dataURL, 'agnt.png');
+            this.savedDialog = true;
         },
         multiple(){
             this.downloadProgress = true;
@@ -360,11 +442,31 @@ export default {
             this.logoControls = false
             this.brandTextControls = false
             this.reraControls = false
+        },
+        loadIcon(){
+            const phone = new window.Image();
+            phone.src = require('@/assets/img/phone.png');
+            phone.onload = () => {
+                this.phoneIcon = phone;
+            }
+            // email
+            const email = new window.Image();
+            email.src = require('@/assets/img/email.png');
+            email.onload = () => {
+                this.emailIcon = email;
+            }
+            // website
+            const website = new window.Image();
+            website.src = require('@/assets/img/web.png');
+            website.onload = () => {
+                this.websiteIcon = website;
+            }
         }
     },
     mounted() {
         this.fetchData();
         this.fetchUser();
+        this.loadIcon();
     },
     watch:{
         logoWidth:function(val){

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-img
-            src="../../assets/img/login.jpg"
+            src="../../assets/img/login.png"
             gradient="to top right, rgba(40, 53, 147,.8), rgba(60, 171, 186,.9)"
             class="d-flex text-center align-center"
             height="100vh"
