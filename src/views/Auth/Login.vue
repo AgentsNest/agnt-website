@@ -1,12 +1,42 @@
 <template>
     <div>
-        <v-img
+        <v-card flat class="pa-4">
+            <v-img src="../../assets/img/login.png">
+                <template v-slot:placeholder>
+                    <v-row class="fill-height ma-0" align="center" justify="center">
+                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    </v-row>
+                </template>
+            </v-img>
+
+            <v-card-text>
+                <div class="title font-weight-bold">Realtor Login</div>
+                <div class="mb-5">Please enter the details below to continue.</div>
+
+                <v-text-field label="Email" type="email" append-icon="email" v-model="form.email"></v-text-field>
+                <v-text-field 
+                    label="Password"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword ? 'text' : 'password'"
+                    @click:append="showPassword = !showPassword"
+                    v-model="form.password"
+                ></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+                <v-btn block large class="amber accent-3" dark depressed @click="login">Login</v-btn>
+            </v-card-actions>
+            <v-btn block text class="grey--text text-capitalize">Forgot Password</v-btn>
+            <div class="text-center grey--text mt-4">
+                I'm new user.
+                <router-link :to="{name: 'Register'}">Sign Up</router-link>
+            </div>
+        </v-card>
+        <!-- <v-img
             src="../../assets/img/login.png"
             gradient="to top right, rgba(40, 53, 147,.8), rgba(60, 171, 186,.9)"
             class="d-flex text-center align-center"
             height="100vh"
         >
-            <!-- <v-icon color="#fff" size="12vw">mdi-map-marker</v-icon> -->
             <div class="logo-text">agnt.</div>
 
             <v-row>
@@ -51,7 +81,7 @@
                     </v-card>
                 </v-col>
             </v-row>
-        </v-img>
+        </v-img> -->
 
     </div>
 </template>

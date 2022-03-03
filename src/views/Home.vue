@@ -16,7 +16,7 @@
             <v-btn  elevation="0" class="text-capitalize d-none d-md-flex gradient rounded-xl px-8" :to="{name: 'Login'}" link>Login</v-btn>
 
             <div class="d-print-block d-md-none d-lg-none">
-                <v-btn icon><v-icon>mdi-dots-vertical</v-icon></v-btn>
+                <v-btn icon :to="{name: 'Login'}" link><v-icon>mdi-dots-vertical</v-icon></v-btn>
             </div>
 
         </v-app-bar>

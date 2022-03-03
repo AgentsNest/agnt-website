@@ -1,11 +1,11 @@
 <template>
 
-    <div>
+    <v-card flat height="100%" class="transparent" tile>
 
-        <v-toolbar flat class="transparent">
+        <!-- <v-toolbar flat class="transparent">
             <v-btn fab small elevation="1" class="white"><v-icon>mdi-cog</v-icon></v-btn>
             <v-btn fab small elevation="1" class="white mx-3" @click="download"><v-icon>mdi-tray-arrow-down</v-icon></v-btn>
-        </v-toolbar>
+        </v-toolbar> -->
 
 
         <v-card class="d-flex align-center mx-auto transparent" height="75vh" width="100%" ref="canvasCard" flat>
@@ -20,6 +20,7 @@
                             }"
                         />
                         <v-text
+                            v-if="showCompany"
                             @dragstart="handleDragStart"
                             @dragend="handleDragEnd"
                             ref="text"
@@ -31,10 +32,11 @@
                                 text: brandText,
                                 fill: brandTextColor,
                                 draggable: true,
-                                fill: isDragging ? 'black' : brandTextColor
+                                fill: isDragging ? 'red' : brandTextColor
                             }"
                         />
                         <v-text
+                            v-if="showRera"
                             @dragstart="handleDragStart"
                             @dragend="handleDragEnd"
                             ref="text"
@@ -46,12 +48,12 @@
                                 text: reraText,
                                 fill: reraTextColor,
                                 draggable: true,
-                                fill: isDragging ? 'black' : reraTextColor
+                                fill: isDragging ? 'red' : reraTextColor
                             }"
                         />
                     </v-layer>
-                    <!-- Basic Details -->
-                    <v-layer :config="{draggable: true,}">
+                    <!-- Phone Number -->
+                    <v-layer :config="{draggable: true,}" v-if="showPhone">
                         <v-image
                             :config="{
                                 image: phoneIcon,
@@ -70,12 +72,12 @@
                                 fontSize: defaultSize,
                                 text: contact,
                                 fill: defaultColor,
-                                fill: isDragging ? 'black' : defaultColor
+                                fill: isDragging ? 'red' : defaultColor
                             }"
                         />
                     </v-layer>
                     <!-- Email -->
-                    <v-layer :config="{draggable: true,}">
+                    <v-layer :config="{draggable: true,}" v-if="showEmail">
                         <v-image
                             :config="{
                                 image: emailIcon,
@@ -94,12 +96,12 @@
                                 fontSize: defaultSize,
                                 text: email,
                                 fill: defaultColor,
-                                fill: isDragging ? 'black' : defaultColor
+                                fill: isDragging ? 'red' : defaultColor
                             }"
                         />
                     </v-layer>
                     <!-- Website -->
-                    <v-layer :config="{draggable: true,}">
+                    <v-layer :config="{draggable: true,}" v-if="showWebsite">
                         <v-image
                             :config="{
                                 image: websiteIcon,
@@ -118,7 +120,7 @@
                                 fontSize: defaultSize,
                                 text: website,
                                 fill: defaultColor,
-                                fill: isDragging ? 'black' : defaultColor
+                                fill: isDragging ? 'red' : defaultColor
                             }"
                         />
                     </v-layer>
@@ -126,6 +128,7 @@
                     <!-- Brand logo -->
                     <v-layer>
                         <v-image
+                            v-if="showLogo"
                             @dragstart="handleDragStart"
                             @dragend="handleDragEnd"
                             :config="{
@@ -137,7 +140,6 @@
                         />
                     </v-layer>
                 </v-stage>
-
                 <!-- <div class="details-box">
                     <div class="flexbox">
                         <v-img src="../../assets/img/phone.png" width="15" class="mr-1"></v-img>
@@ -154,93 +156,120 @@
                 </div>             -->
             </v-card>
             
-            <!-- RERA Controls -->
-            <v-expand-transition>
-                <div class="rera-controls" v-if="reraControls">
-                    <v-card class="d-flex align-center px-4 py-2">
-                        <div>
+            <!-- Text Controls -->
+            <v-bottom-sheet v-model="textControls">
+                <div class="rera-controls">
+                    <v-card class="px-4 pt-2 pb-4" flat tile>
+                        <div class="font-weight-bold d-flex align-center">
+                            <span class="mr-3">Rera Number</span>
+                            <v-switch inset dense color="teal darken-2" v-model="showRera"></v-switch>
+                        </div>
+                        <div class="d-flex align-center">
                             <v-btn x-small fab tile elevation="1" class="white rounded-lg mr-2" @click="reraFontSize -= 2">
                                 <v-icon>mdi-minus</v-icon>
                             </v-btn>
                             <span class="body-2 mr-2">Size</span>
-                            <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="reraFontSize += 2">
+                            <v-btn x-small fab tile elevation="1" class="white rounded-lg mr-4" @click="reraFontSize += 2">
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>    
+                            <v-color-picker
+                                dot-size="25"
+                                hide-canvas
+                                hide-inputs
+                                hide-mode-switch
+                                hide-sliders
+                                show-swatches
+                                mode="hexa"
+                                swatches-max-height="75"
+                                width="70%"
+                                v-model="reraTextColor"
+                                class="ml-auto"
+                            ></v-color-picker>
+                        </div>
+                    </v-card>
+                    <v-card tile class="px-4 pt-2 pb-4">
+                        <div class="font-weight-bold d-flex align-center">
+                            <span class="mr-3">Company Name</span>
+                            <v-switch inset dense color="teal darken-2" v-model="showCompany"></v-switch>
+                        </div>
+                        <div class="d-flex align-center">
+                            <v-btn x-small fab elevation="1" class="white mr-2 rounded-lg" @click="brandFontSize -= 2">
+                                <v-icon>mdi-minus</v-icon>
+                            </v-btn>
+                            <span class="body-2 mr-2">Size</span>
+                            <v-btn x-small fab elevation="1" class="white mr-4 rounded-lg" @click="brandFontSize += 2">
                                 <v-icon>mdi-plus</v-icon>
                             </v-btn>
+                            <v-color-picker
+                                dot-size="25"
+                                hide-canvas
+                                hide-inputs
+                                hide-mode-switch
+                                hide-sliders
+                                show-swatches
+                                mode="hexa"
+                                swatches-max-height="75"
+                                width="70%"
+                                v-model="brandTextColor"
+                                class="ml-auto"
+                            ></v-color-picker>
                         </div>
-                        <v-color-picker
-                            dot-size="25"
-                            hide-canvas
-                            hide-inputs
-                            hide-mode-switch
-                            hide-sliders
-                            show-swatches
-                            mode="hexa"
-                            swatches-max-height="80"
-                            width="50%"
-                            v-model="reraTextColor"
-                            class="ml-auto"
-                        ></v-color-picker>
+                    </v-card>
+                    <v-card tile class="px-4 py-2">
+                        <div class="font-weight-bold d-flex align-center">
+                            <span class="mr-3">Basic Details Color</span>
+                        </div>
+                        <div class="d-flex align-center">
+                            <div>
+                                <v-switch inset label="Email" dense color="teal darken-2" v-model="showEmail"></v-switch>
+                                <v-switch inset label="Website" dense color="teal darken-2" v-model="showWebsite"></v-switch>
+                                <v-switch inset label="Contact" dense color="teal darken-2" v-model="showPhone"></v-switch>
+                            </div>
+                            <v-color-picker
+                                dot-size="25"
+                                hide-canvas
+                                hide-inputs
+                                hide-mode-switch
+                                hide-sliders
+                                show-swatches
+                                mode="hexa"
+                                swatches-max-height="170"
+                                width="70%"
+                                v-model="defaultColor"
+                                class="ml-auto"
+                            ></v-color-picker>
+                        </div>
                     </v-card>
                 </div>
-            </v-expand-transition>
+            </v-bottom-sheet>
 
-            <!-- Logo Controls -->
-            <v-expand-transition>
-                <div class="logo-controls" v-if="logoControls">
-                    <v-card class="pa-2 text-center">
-                        <v-btn x-small fab tile elevation="1" class="white rounded-lg mr-4" @click="logoWidth -= 50">
+            <!-- Image Controls -->
+            <v-bottom-sheet v-model="imageControls">
+                <div class="logo-controls">
+                    <v-card class="px-4" flat tile>
+                        <div class="font-weight-bold d-flex align-center">
+                            <span class="mr-3">Company Logo</span>
+                            <v-switch inset dense color="teal darken-2" v-model="showLogo"></v-switch>
+                        </div>
+                    </v-card>
+                    <v-card class="px-4 py-5 text-center" tile>
+                        <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="logoWidth -= 50">
                                 <v-icon>mdi-minus</v-icon>
                         </v-btn>
-                        <span class="body-2 mr-4">Logo Size</span>
+                        <span class="body-2 mx-6">Logo Size</span>
                         <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="logoWidth += 50">
                             <v-icon>mdi-plus</v-icon>
                         </v-btn>
                     </v-card>
-                </div>
-            </v-expand-transition>
-
-            <!-- BrandText Controls -->
-            <v-expand-transition>
-                <div class="brandText-controls" v-if="brandTextControls">
-                    <v-card class="d-flex align-center px-4 py-2">
-                        <v-btn x-small fab elevation="1" class="white mr-2 rounded-lg" @click="brandFontSize -= 2">
-                            <v-icon>mdi-minus</v-icon>
-                        </v-btn>
-                        <span class="body-2 mr-2">Text</span>
-                        <v-btn x-small fab elevation="1" class="white mr-4 rounded-lg" @click="brandFontSize += 2">
-                            <v-icon>mdi-plus</v-icon>
-                        </v-btn>
-                        
-                        <v-color-picker
-                            dot-size="25"
-                            hide-canvas
-                            hide-inputs
-                            hide-mode-switch
-                            hide-sliders
-                            show-swatches
-                            mode="hexa"
-                            swatches-max-height="75"
-                            width="70%"
-                            v-model="brandTextColor"
-                            class="ml-auto"
-                        ></v-color-picker>
-
-                    </v-card>
-                </div>
-            </v-expand-transition>
-
-            <!-- Main Bg Image controls -->
-            <v-expand-transition>
-                <div class="bgImage-controls" v-if="bgMainImageControl">
-                    <v-card class="pa-4 grey lighten-2 text-center">
+                    <!-- <v-card class="pa-4 grey lighten-2 text-center" tile>
                         <label for="bgImage">
                             <v-icon>mdi-file-replace-outline</v-icon>
-                            <span class="text-capitalize ml-2">Replace Image</span>
+                            <span class="text-capitalize ml-2">Replace Background Image</span>
                             <input type="file" hidden id="bgImage" @change="onFileChange">
                         </label>
-                    </v-card>
+                    </v-card> -->
                 </div>
-            </v-expand-transition>
+            </v-bottom-sheet>
 
             <div v-if="downloadProgress" class="loaderScreen">
             <div class="relative h-full">
@@ -267,8 +296,25 @@
 
         </v-card>
 
+        <v-bottom-navigation class="bottomNav" grow dark tile height="56px">
+            <v-btn value="recent" @click="imageControls = !imageControls">
+                <span>Image</span>
+                <v-icon>mdi-image</v-icon>
+            </v-btn>
 
-    </div>
+            <v-btn value="favorites" @click="textControls = !textControls">
+                <span>Text</span>
+                <v-icon>mdi-signature-text</v-icon>
+            </v-btn>
+
+            <v-btn value="nearby">
+                <span>Download</span>
+                <v-icon>mdi-download-circle</v-icon>
+            </v-btn>
+        </v-bottom-navigation>
+
+
+    </v-card>
 
 </template>
 
@@ -283,7 +329,7 @@ import html2canvas from "html2canvas";
 // var canvas = document.getElementById("theCanvas");
 // var parent = document.getElementById("parent");
 
-const width = window.innerWidth - 20;
+const width = window.innerWidth - 22;
 const height = window.innerHeight;
 
 
@@ -308,29 +354,26 @@ export default {
             logoWidth: 80,
             logoHeight: 40,
             brandText: "",
-            brandTextColor: "#ffffff",
+            brandTextColor: "#000000",
             brandFontSize: 20,
-            reraControls: false,
-            reraText: 'PBRERA-PTK60-REA0514',
-            reraTextColor: "#ffffff",
+            textControls: false,
+            reraText: '',
+            reraTextColor: "#000000",
             reraFontSize: 9,
-            brandTextControls: false,
-            logoControls: false,
+            imageControls: false,
             email: "",
             website: "",
             contact: "",
             loading: false,
-            bgMainImageControl: false,
             downloadProgress: false,
-            showControls: false,
-            savedDialog: false,
             customize: true,
-            controlsToggle:{
-                logoControl: false,
-                iconsControl: false,
-                frameControl: false,
-                bandTextControl: false,
-            },
+            savedDialog: false,
+            showEmail: true,
+            showPhone: true,
+            showWebsite: true,
+            showLogo: true,
+            showRera: true,
+            showCompany: true
         };
     },
     created() {},
@@ -384,11 +427,13 @@ export default {
             a.remove();
         },
         download(){
-            // console.log(this.$refs.stage.getNode().toDataURL());
+            // console.log(this.$refs.stage.getNode().toDataURL({ pixelRatio: 3 }));
 
-            var dataURL = this.$refs.stage.getNode().toDataURL({pixelRation: 2});
+            var dataURL = this.$refs.stage.getNode().toDataURL({ pixelRatio: 3 });
             this.downloadURI(dataURL, 'agnt.png');
             this.savedDialog = true;
+
+            // console.log(this.$refs.stage.getNode().toDataURL({devicePixelRatio: 2}));
         },
         multiple(){
             this.downloadProgress = true;
@@ -413,35 +458,14 @@ export default {
             this.loading = true
             setTimeout(() => (this.loading = false), 2000)
         },
-        onFileChange(){
-            // var vm = this;
-            // const file = e.target.files[0];
-            // var reader = new FileReader();
-            // reader.onload = function(e) {
-            //     vm.image = e.target.result
-            // };
-            // reader.readAsDataURL(file);   
-
-        },
-        showReraControls(){
-            this.reraControls = true
-            this.brandTextControls = false
-            this.logoControls = false
-        },
-        showBrandTextControls(){
-            this.brandTextControls = true
-            this.reraControls = false
-            this.logoControls = false
-        },
-        showLogoControls(){
-            this.logoControls = true
-            this.brandTextControls = false
-            this.reraControls = false
-        },
-        hideAllControls(){
-            this.logoControls = false
-            this.brandTextControls = false
-            this.reraControls = false
+        onFileChange(e){
+            var vm = this;
+            const file = e.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                vm.image = e.target.result
+            };
+            reader.readAsDataURL(file);   
         },
         loadIcon(){
             const phone = new window.Image();
@@ -481,6 +505,12 @@ export default {
 <style scoped>
 .mainCanvas{
     position: relative;
+}
+.bottomNav{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 .saveBtn{
     position: fixed;
