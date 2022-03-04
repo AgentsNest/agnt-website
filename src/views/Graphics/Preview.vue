@@ -328,6 +328,7 @@
 import Graphic from "../../Apis/Graphic";
 import User from "../../Apis/User";
 import html2canvas from "html2canvas";
+import { saveAs } from 'file-saver';
 
 // const width = window.innerWidth;
 // const height = window.innerHeight;
@@ -449,17 +450,19 @@ export default {
             // head.removeChild(a);
 
             if (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) { //iOS = Iphone, Ipad, etc.
-                var img = new Image();
-                img.crossOrigin = "Anonymous";
-                img.src = dataURL;
-                document.body.appendChild(img);
+                // var img = new Image();
+                // img.crossOrigin = "Anonymous";
+                // img.src = dataURL;
+                // document.body.appendChild(img);
 
-                a.href = img.src;
-                a.download = 'agnt.png';
-                a.click();
-                document.body.removeChild(img);
+                // a.href = img.src;
+                // a.download = 'agnt.png';
+                // a.click();
+                // document.body.removeChild(img);
                 // this.snackbar = true;
-                console.log("safari")
+                // console.log("safari")
+                var FileSaver = require('file-saver');
+                FileSaver.saveAs(dataURL, "image.jpg");
             } else {
                 a.target = "_blank";
                 a.href = dataURL.replace(/^data[:]image\/png[;]/i, "data:application/download;");
@@ -467,7 +470,7 @@ export default {
                 head.appendChild(a);
                 a.click();
                 head.removeChild(a);
-                // this.snackbar = true;
+                this.snackbar = true;
                 console.log("chrome")
             }
 
