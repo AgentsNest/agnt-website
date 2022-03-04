@@ -441,12 +441,15 @@ export default {
             img.src = dataURL;
             // this.downloadURI(img, 'agnt.png');
 
+            var head = document.head || document.documentElement.childNodes[0];
+
             var link = document.createElement('a');
             link.href = dataURL;
+            link.target = '_self'
             link.download = 'agnt.jpg';
-            document.head.appendChild(link);
+            head.appendChild(link);
             link.click();
-            document.head.removeChild(link);
+            head.removeChild(link);
             this.snackbar = true;
 
             // console.log(this.$refs.stage.getNode().toDataURL({devicePixelRatio: 2}));
