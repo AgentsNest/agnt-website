@@ -1,6 +1,12 @@
 <template>
 
     <v-card flat height="100%" class="transparent" tile>
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
+            Design saved successfully
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
 
         <!-- <v-toolbar flat class="transparent">
             <v-btn fab small elevation="1" class="white"><v-icon>mdi-cog</v-icon></v-btn>
@@ -307,7 +313,7 @@
                 <v-icon>mdi-signature-text</v-icon>
             </v-btn>
 
-            <v-btn value="nearby">
+            <v-btn value="nearby" @click="download">
                 <span>Download</span>
                 <v-icon>mdi-download-circle</v-icon>
             </v-btn>
@@ -373,7 +379,8 @@ export default {
             showWebsite: true,
             showLogo: true,
             showRera: true,
-            showCompany: true
+            showCompany: true,
+            snackbar: false
         };
     },
     created() {},
@@ -429,9 +436,18 @@ export default {
         download(){
             // console.log(this.$refs.stage.getNode().toDataURL({ pixelRatio: 3 }));
 
-            var dataURL = this.$refs.stage.getNode().toDataURL({ pixelRatio: 3 });
-            this.downloadURI(dataURL, 'agnt.png');
-            this.savedDialog = true;
+            var dataURL = this.$refs.stage.getNode().toDataURL({ pixelRatio: 2 });
+            var img = new Image;
+            img.src = dataURL;
+            // this.downloadURI(img, 'agnt.png');
+
+            var link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'agnt.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            this.snackbar = true;
 
             // console.log(this.$refs.stage.getNode().toDataURL({devicePixelRatio: 2}));
         },
