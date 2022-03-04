@@ -454,7 +454,7 @@ export default {
             a.download = 'agnt.png'
             if (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) { //iOS = Iphone, Ipad, etc.
                 a.target = "_blank";
-                a.href = dataURL.replace(/^data[:]image\/png[;]/i, "data:application/download;");
+                a.href = dataURL;
                 head.appendChild(a);
                 a.click();
                 head.removeChild(a);
