@@ -444,9 +444,9 @@ export default {
             var link = document.createElement('a');
             link.href = dataURL;
             link.download = 'agnt.jpg';
-            document.body.appendChild(link);
+            document.head.appendChild(link);
             link.click();
-            document.body.removeChild(link);
+            document.head.removeChild(link);
             this.snackbar = true;
 
             // console.log(this.$refs.stage.getNode().toDataURL({devicePixelRatio: 2}));
