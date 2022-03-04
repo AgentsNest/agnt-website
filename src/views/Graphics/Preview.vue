@@ -437,9 +437,6 @@ export default {
             // console.log(this.$refs.stage.getNode().toDataURL({ pixelRatio: 3 }));
 
             var dataURL = this.$refs.stage.getNode().toDataURL({ pixelRatio: 2 });
-            var img = new Image;
-            img.src = dataURL;
-            // this.downloadURI(img, 'agnt.png');
 
             var head = document.getElementsByTagName('head')[0];
 
@@ -451,18 +448,22 @@ export default {
             // a.click();
             // head.removeChild(a);
 
-            a.download = 'agnt.png'
             if (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) { //iOS = Iphone, Ipad, etc.
-                a.target = "_blank";
-                a.href = dataURL;
-                head.appendChild(a);
+                var img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = dataURL;
+                document.body.appendChild(img);
+
+                a.href = img.src;
+                a.download = 'agnt.png';
                 a.click();
-                head.removeChild(a);
+                document.body.removeChild(img);
                 // this.snackbar = true;
                 console.log("safari")
             } else {
                 a.target = "_blank";
                 a.href = dataURL.replace(/^data[:]image\/png[;]/i, "data:application/download;");
+                a.download = 'agnt.png'
                 head.appendChild(a);
                 a.click();
                 head.removeChild(a);
