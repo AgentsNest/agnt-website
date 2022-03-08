@@ -1,36 +1,42 @@
 <template>
-    <div>
-        <v-card flat class="pa-4">
-            <v-img src="../../assets/img/login.png">
-                <template v-slot:placeholder>
-                    <v-row class="fill-height ma-0" align="center" justify="center">
-                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                    </v-row>
-                </template>
-            </v-img>
+    <div class="main-div">
+        <v-row>
+            <v-col cols="12" md="6">
+                <v-img src="../../assets/img/login.png" class="mt-md-16">
+                    <template v-slot:placeholder>
+                        <v-row class="fill-height ma-0" align="center" justify="center">
+                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                        </v-row>
+                    </template>
+                </v-img>
+            </v-col>
+            <v-col cols="12" md="6">
+                <v-card flat class="pa-4 transparent flex flex-col pa-md-16 mt-md-12 align-center" height="100%">
+                    <v-card-text>
+                        <div class="title font-weight-bold">Realtor Login</div>
+                        <div class="mb-5">Please enter the details below to continue.</div>
 
-            <v-card-text>
-                <div class="title font-weight-bold">Realtor Login</div>
-                <div class="mb-5">Please enter the details below to continue.</div>
-
-                <v-text-field label="Email" type="email" append-icon="email" v-model="form.email"></v-text-field>
-                <v-text-field 
-                    label="Password"
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="showPassword ? 'text' : 'password'"
-                    @click:append="showPassword = !showPassword"
-                    v-model="form.password"
-                ></v-text-field>
-            </v-card-text>
-            <v-card-actions>
-                <v-btn block large class="amber accent-3" dark depressed @click="login">Login</v-btn>
-            </v-card-actions>
-            <v-btn block text class="grey--text text-capitalize">Forgot Password</v-btn>
-            <div class="text-center grey--text mt-4">
-                I'm new user.
-                <router-link :to="{name: 'Register'}">Sign Up</router-link>
-            </div>
-        </v-card>
+                        <v-text-field label="Email" type="email" append-icon="email" v-model="form.email"></v-text-field>
+                        <v-text-field 
+                            label="Password"
+                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="showPassword ? 'text' : 'password'"
+                            @click:append="showPassword = !showPassword"
+                            v-model="form.password"
+                        ></v-text-field>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn block large class="amber accent-3" dark depressed @click="login">Login</v-btn>
+                    </v-card-actions>
+                    <v-btn block text class="grey--text text-capitalize">Forgot Password</v-btn>
+                    <div class="text-center grey--text mt-4">
+                        I'm new user.
+                        <router-link :to="{name: 'Register'}">Sign Up</router-link>
+                    </div>
+                </v-card>
+            </v-col>
+        </v-row>
+        
         <!-- <v-img
             src="../../assets/img/login.png"
             gradient="to top right, rgba(40, 53, 147,.8), rgba(60, 171, 186,.9)"
@@ -118,6 +124,10 @@ export default {
 </script>
 
 <style>
+.main-div{
+    background: #FAFCFF;
+    height: 100vh;
+}
 .logo-text{
   color: #fff;
   font-weight: bold;
