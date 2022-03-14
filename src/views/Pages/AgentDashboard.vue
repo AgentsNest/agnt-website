@@ -1,6 +1,6 @@
 <template>
     <v-card flat height="88vh" class="overflow-y-auto transparent">
-      
+      <Navbar/>
       <v-row>
           <v-col cols="12">
               <v-card class="rounded-lg pa-2 pa-md-3" elevation="0">
@@ -190,8 +190,12 @@
 <script>
 import Lead from '../../Apis/Lead'
 import Client from '../../Apis/Client'
+import Navbar from '../../components/Dashboard/Navbar.vue'
 
 export default {
+  components:{
+    Navbar
+  },
   data: () => ({
     deadLead: '',
     coldLead: '',

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-4">
       <v-toolbar class="transparent d-none d-md-block" flat>
 
         <div class="text-h5 font-weight-bold">agnt.</div>

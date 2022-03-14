@@ -26,15 +26,15 @@
             <v-card class="py-12" color="#eff8fc" flat tile>
                 <v-container>
                     <v-row class="">
-                        <v-col cols="12" class="px-3 px-md-0 text-center">
-                            <div class="text-center display-sm-1 display-3 mt-md-12 font-weight-medium">Grow your business</div>
-                            <div class="text-center display-sm-1 display-3 mt-6 font-weight-medium">faster with Agents Nest</div>
+                        <v-col cols="12" md="6">
+                            <v-img src="../assets/img/hero.png" lazy-src="../assets/img/hero.png" contain width="100%" height="100%" class="mx-auto"></v-img>
+                        </v-col>
+                        <v-col cols="12" md="6" class="px-md-0 text-center">
+                            <div class="text-center display-2 mt-md-12 font-weight-medium d-none d-md-block">Grow your business</div>
+                            <div class="text-center display-2 mt-4 font-weight-medium d-none d-md-block">faster with agentsnest</div>
                             <div class="text-center grey--text text--darken-2 my-8">One solution for all you digital, market, and personal business needs.</div>
                             <v-btn class="amber accent-3 rounded-lg pa-7" dark large depressed>Save time and invent</v-btn>
-                            <div class="mt-3 grey--text text--darken-2">Towards a better future</div>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-img src="../assets/img/hero.png" lazy-src="../assets/img/hero.png" contain width="100%" max-width="1000px" class="mx-auto"></v-img>
+                            <div class="mt-3 grey--text text--darken-2 mb-5">Towards a better future</div>
                         </v-col>
                     </v-row>
 

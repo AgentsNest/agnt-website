@@ -1,8 +1,7 @@
 <template>
   <section class="main-card">
     <v-container fluid>
-        <Navbar />
-        <v-row class="mt-2">
+        <v-row>
           <v-col md="2" class="d-none d-md-block">
             <Sidelink />
           </v-col>
@@ -16,12 +15,10 @@
 </template>
 
 <script>
-import Navbar from "../components/Dashboard/Navbar.vue";
 import Sidelink from '../components/Dashboard/Sidelink'
 
 export default {
   components: {
-    Navbar,
     Sidelink
   },
   computed:{
