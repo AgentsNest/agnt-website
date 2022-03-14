@@ -2,23 +2,14 @@
     <div>
         <v-card flat tile class="overflow-y-auto">
 
-            <div
-                class="align-center d-flex pt-6 pb-12"
-                style="
-                    background: #1a232e;
-                    background: -webkit-linear-gradient(to right, #1a232e, #272e35);
-                    background: linear-gradient(to right, #1a232e, #272e35);
-                "
-            >
-                <v-img
-                    :src="user.image"
-                    :lazy-src="user.image"
-                    class="rounded-xl mx-auto"
-                    aspect-ratio="1"
-                    max-width="180"
-                    width="100%"
-                ></v-img>
-            </div>
+            <v-img
+                :src="user.image"
+                :lazy-src="user.image"
+                class=""
+                aspect-ratio="1"
+                width="100%"
+                max-height="400"
+            ></v-img>
 
             <v-card class="rounded-t-xl mt-n6" flat>
                 <v-card-actions>
