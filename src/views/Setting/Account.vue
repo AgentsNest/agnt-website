@@ -40,73 +40,89 @@
                                         </v-toolbar-items>
                                     </v-toolbar>
 
-                                    <v-row>
-                                        <v-col cols="12" md="6" offset-md="3">
-                                            <v-row class="pa-3">
-                                                <v-col cols="4">
-                                                    <v-img
-                                                        :src="agent.image"
-                                                        :lazy-src="agent.image"
-                                                        class="rounded"
-                                                        aspect-ratio="1"
-                                                        cover
-                                                    ></v-img>
-                                                </v-col>
-                                                <v-col>
+                                    <v-card flat tile class="overflow-y-auto">
+                                        <v-img
+                                            :src="agent.image"
+                                            :lazy-src="agent.image"
+                                            class=""
+                                            aspect-ratio="1"
+                                            width="100%"
+                                            max-height="400"
+                                        ></v-img>
+
+                                        <v-card class="rounded-t-xl mt-n6" flat>
+                                            <v-card-actions>
+                                                <div class="pa-4">
                                                     <div class="title">{{agent.name}}</div>
-                                                    <div>RERA: {{agent.rera}}</div>
-                                                    <div>{{agent.brand_text}}</div>
-                                                    
-                                                    <div class="blue--text text--darken-3 font-weight-bold mt-3 mb-2">
-                                                        <a :href="`mailto:${agent.email}`">
-                                                            <v-icon color="blue darken-3" class="mr-2">mdi-email</v-icon>{{agent.email}}
-                                                        </a>
-                                                    </div>
-                                                    <div class="blue--text text--darken-3 font-weight-bold mb-4">
-                                                        <a :href="`tel:+${agent.contact}`">
-                                                            <v-icon color="blue darken-3" class="mr-2">mdi-phone</v-icon>{{agent.contact}}
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <div class="mt-4"><strong class="mr-2">Address:</strong>{{agent.address}}</div>
-                                                    <div>
-                                                        <span v-if="agent.city">{{agent.city}}</span>
-                                                        <span v-if="agent.state">, {{agent.state}}</span>
-                                                        <span v-if="agent.country">, {{agent.country}}</span>
-                                                    </div>
-                                                    
-                                                </v-col>
-                                            </v-row>
+                                                    <div class="caption">RERA: {{agent.rera}}</div>
+                                                    <div class="caption">{{agent.brand_text}}</div>
+                                                </div>
+                                                <v-spacer></v-spacer>
+                                                <v-img max-width="100" :src="agent.brand_logo"></v-img>
+                                            </v-card-actions>
 
-                                            <hr/>
+                                            <v-divider></v-divider>
+                                            <div class="px-6 my-2 grey--text">Business Details</div>
+                                            <v-divider></v-divider>
 
-                                            <v-card-text>
-                                                {{agent.bio}}
-                                            </v-card-text>
+                                            <div class="py-3 px-6">
+                                                <div class="d-flex mt-3">
+                                                    <v-icon color="black" size="20">mdi-bag-checked</v-icon>
+                                                    <div class="ml-2 body-2">{{agent.brand_text}}</div>
+                                                </div>
+                                                <div class="d-flex my-4">
+                                                    <v-icon color="black" size="20">mdi-phone</v-icon>
+                                                    <div class="ml-2 body-2">{{agent.contact}}</div>
+                                                </div>
+                                                <div class="d-flex my-4">
+                                                    <v-icon color="black" size="20">mdi-card-account-details-outline</v-icon>
+                                                    <div class="ml-2 body-2">{{agent.rera}}</div>
+                                                </div>
+                                                <div class="d-flex my-4">
+                                                    <v-icon color="black" size="20">mdi-email-outline</v-icon>
+                                                    <div class="ml-2 body-2">{{agent.email}}</div>
+                                                </div>
+                                                <div class="d-flex my-4">
+                                                    <v-icon color="black" size="20">mdi-web</v-icon>
+                                                    <div class="ml-2 body-2">{{agent.website}}</div>
+                                                </div>
+                                                <div class="d-flex my-4">
+                                                    <v-icon color="black" size="22">mdi-map-marker-radius-outline</v-icon>
+                                                    <div class="ml-2 body-2">{{agent.address}}</div>
+                                                </div>
+                                            </div>
+                                            <!-- About Text -->
+                                            <div class="pa-3">
+                                                <v-card-text class="blue lighten-5 rounded-lg">{{agent.bio}}</v-card-text>
+                                            </div>
 
-                                            <v-card-text class="text-center">
-                                                <h5>SHARED BY</h5>
-                                                <v-img max-width="150" :src="agent.brand_logo" class="mx-auto my-3"></v-img>
-                                                <h3>{{agent.brand_text}}</h3>
-                                            </v-card-text>
+                                            <v-card-actions>
+                                                <v-btn block x-large dark class="amber accent-3 text-capitalize" depressed link :href="`https://wa.me/${agent.contact}`">Send Message</v-btn>
+                                            </v-card-actions>
 
+                                            <!-- Social Links -->
                                             <v-card-actions class="justify-center my-4">
-                                                <v-btn fab v-if="agent.facebook" :href="agent.facebook" target="_blank">
+                                                <v-btn class="mr-3" small fab v-if="agent.facebook" :href="agent.facebook" target="_blank">
                                                     <v-icon>mdi-facebook</v-icon>
                                                 </v-btn>
-                                                <v-btn fab v-if="agent.instagram" :href="agent.instagram" target="_blank">
+                                                <v-btn class="mr-3" small fab v-if="agent.instagram" :href="agent.instagram" target="_blank">
                                                     <v-icon>mdi-instagram</v-icon>
                                                 </v-btn>
-                                                <v-btn fab v-if="agent.twitter" :href="agent.twitter" target="_blank">
+                                                <v-btn class="mr-3" small fab v-if="agent.twitter" :href="agent.twitter" target="_blank">
                                                     <v-icon>mdi-twitter</v-icon>
                                                 </v-btn>
-                                                <v-btn fab v-if="agent.linkedin" :href="agent.linkedin" target="_blank">
+                                                <v-btn small fab v-if="agent.linkedin" :href="agent.linkedin" target="_blank">
                                                     <v-icon>mdi-linkedin</v-icon>
                                                 </v-btn>
                                             </v-card-actions>
 
-                                        </v-col>
-                                    </v-row>
+                                            <v-divider></v-divider>
+                                            <v-card-text class="text-center">
+                                                <v-icon color="yellow darken-3">mdi-lightning-bolt</v-icon> Powered By <strong>agnt.</strong>        
+                                            </v-card-text>
+
+                                        </v-card>
+                                    </v-card>
 
                                 </v-card>
                             </v-dialog>
