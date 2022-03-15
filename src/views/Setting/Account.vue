@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Navbar/>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Profile Updated
             <template v-slot:action="{ attrs }">
@@ -13,7 +14,7 @@
             <v-col md="8" cols="12">
                 <v-card height="88vh" flat class="content-card transparent">
 
-                    <v-card class="rounded-xl mb-5 pa-2" flat>
+                    <v-card class="rounded-xl mb-5 px-2 py-1" flat>
                         <v-card-actions>
                             <div class="caption grey--text font-weight-bold">https://agentsnest.com/me/<span class="teal--text">{{agent.uid}}</span> </div>
                             <v-spacer></v-spacer>
@@ -316,6 +317,25 @@
                         </v-card-text>
                     </v-card>
 
+                    <v-card flat>
+                        <v-toolbar>
+                            <v-icon class="mr-2">mdi-qrcode-scan</v-icon>
+                            <span>Your QRCode</span>
+                        </v-toolbar>
+                        <v-card-text class="mx-auto">
+                            <VueCard 
+                                v-if="agent"
+                                orgPost="00000" 
+                                :orgCity="agent.city" 
+                                orgCountry="India" 
+                                :orgName="agent.brand_text" 
+                                :firstName="agent.name" 
+                                lastName="Doe" 
+                                :workPhone="agent.contact"  
+                            />
+                        </v-card-text>
+                    </v-card>
+
                 </v-card>
             </v-col>
 
@@ -331,9 +351,11 @@
 <script>
 import Sidebar from '../../components/Account/Sidebar.vue'
 import User from '../../Apis/User'
+import VueCard from 'vue-vcard'
+import Navbar from '../../components/Dashboard/Navbar.vue'
 
 export default {
-    components:{ Sidebar },
+    components:{ Sidebar, VueCard, Navbar },
     data(){
         return{
             // agent:{
@@ -360,7 +382,7 @@ export default {
             verified: true,
             avatarPreview: '',
             token: '',
-            dialog: false
+            dialog: false,
         }
     },
     methods: {
@@ -402,7 +424,7 @@ export default {
         }
     },
     computed:{
-        agent(){ return this.$store.state.auth; },
+        agent(){ return this.$store.state.auth; }
     },
     mounted(){
         this.token = localStorage.getItem('token');
