@@ -139,7 +139,7 @@ export default {
 
             var vcard = myVCard.toString();
 
-            var file = new File([vcard], this.user.name, {type: "text/plain;charset=utf-8"});
+            var file = new File([vcard], this.user.name + '.vcf', {type: "text/plain;charset=utf-8"});
             FileSaver.saveAs(file);
         }
     }
