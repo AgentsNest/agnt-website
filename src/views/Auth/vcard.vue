@@ -129,8 +129,7 @@ export default {
             .addName(firstname, additional, prefix, suffix)
             // Add work data
             .addCompany(this.user.brand_text)
-            .addJobtitle('Web Developer')
-            .addRole('Realtor')
+            .addJobtitle('Realtor')
             .addEmail(this.user.email)
             .addPhoneNumber(this.user.contact, 'PREF;WORK')
             .addPhoto(this.user.image, 'JPEG')
@@ -139,7 +138,7 @@ export default {
 
             var vcard = myVCard.toString();
 
-            var file = new File([vcard], this.user.name + '.vcf', {type: "text/plain;charset=utf-8"});
+            var file = new File([vcard], this.user.name + '.vcf', {type: "text/vcard;charset=utf-8"});
             FileSaver.saveAs(file);
         }
     }
