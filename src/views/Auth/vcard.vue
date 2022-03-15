@@ -16,7 +16,7 @@
                     <div class="pa-4">
                         <div class="title">{{user.name}}</div>
                         <div class="caption">RERA: {{user.rera}}</div>
-                        <div class="caption">{{user.brand_text}}</div>
+                        <!-- <div class="caption">{{user.brand_text}}</div> -->
                     </div>
                     <v-spacer></v-spacer>
                     <v-img max-width="100" :src="user.brand_logo"></v-img>
@@ -57,9 +57,16 @@
                     <v-card-text class="blue lighten-5 rounded-lg">{{user.bio}}</v-card-text>
                 </div>
 
-                <v-card-actions>
-                    <v-btn block x-large dark class="amber accent-3 text-capitalize" depressed link :href="`https://wa.me/${user.contact}`">Send Message</v-btn>
-                </v-card-actions>
+                <v-card-text>
+                    <v-btn block large dark class="amber accent-4 text-capitalize" depressed link :href="`https://wa.me/${user.contact}`">
+                        <v-icon left>mdi-share</v-icon>
+                        Send Message
+                    </v-btn>
+                    <v-btn block large dark class="grey darken-3 text-capitalize mt-3" depressed @click="saveContact">
+                        <v-icon left>mdi-content-save</v-icon>
+                        Add to Contact
+                    </v-btn>
+                </v-card-text>
 
                 <!-- Social Links -->
                 <v-card-actions class="justify-center my-4">
@@ -91,6 +98,8 @@
 
 <script>
 import User from '../../Apis/User'
+import VCard from 'vcard-creator'
+import FileSaver from 'file-saver'
 
 export default {
     data(){
@@ -105,7 +114,34 @@ export default {
         })
     },
     methods:{
-        
+        saveContact(){
+            const myVCard = new VCard()
+
+            // Some variables
+            const lastname = 'Desloovere'
+            const firstname = this.user.name
+            const additional = ''
+            const prefix = ''
+            const suffix = ''
+
+            myVCard
+            // Add personal data
+            .addName(firstname, additional, prefix, suffix)
+            // Add work data
+            .addCompany(this.user.brand_text)
+            .addJobtitle('Web Developer')
+            .addRole('Realtor')
+            .addEmail(this.user.email)
+            .addPhoneNumber(this.user.contact, 'PREF;WORK')
+            .addPhoto(this.user.image, 'JPEG')
+
+            console.log(myVCard.toString());
+
+            var vcard = myVCard.toString();
+
+            var file = new File([vcard], this.user.name, {type: "text/plain;charset=utf-8"});
+            FileSaver.saveAs(file);
+        }
     }
 }
 </script>
