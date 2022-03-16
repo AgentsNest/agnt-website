@@ -2,10 +2,10 @@
   <section class="main-card">
     <v-container fluid>
         <v-row>
-          <v-col md="2" class="d-none d-md-block">
+          <v-col md="2" class="d-none d-md-block" cols="12">
             <Sidelink />
           </v-col>
-          <v-col md="10">
+          <v-col md="10" cols="12">
             <!-- <slot /> -->
             <router-view/>
           </v-col>

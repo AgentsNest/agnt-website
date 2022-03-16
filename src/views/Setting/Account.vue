@@ -8,10 +8,10 @@
             </template>
         </v-snackbar>
         <v-row>
-            <v-col md="4" class="d-none d-md-block">
+            <!-- <v-col md="4" class="d-none d-md-block">
                 <Sidebar />
-            </v-col>
-            <v-col md="8" cols="12">
+            </v-col> -->
+            <v-col cols="12">
                 <v-card height="88vh" flat class="content-card transparent">
 
                     <v-card class="rounded-xl mb-5 px-2 py-1" flat>
@@ -355,7 +355,7 @@ import VueCard from 'vue-vcard'
 import Navbar from '../../components/Dashboard/Navbar.vue'
 
 export default {
-    components:{ Sidebar, VueCard, Navbar },
+    components:{ VueCard, Navbar },
     data(){
         return{
             // agent:{

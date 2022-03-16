@@ -1,5 +1,7 @@
 <template>
-    <v-card height="90vh" width="100vw" class="transparent" flat>
+    <v-card height="100vh" width="100vw" class="transparent" flat>
+        <Navbar/>
+
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
             <template v-slot:action="{ attrs }">
@@ -178,8 +180,10 @@ import Website from '../../Apis/Website'
 import Lead from '../../Apis/Lead'
 import Tracker from '../../Apis/Tracker'
 import User from '../../Apis/User'
+import Navbar from '../../components/Dashboard/Navbar.vue'
 
 export default {
+    components: { Navbar },
     data () {
       return {
         loading: false,

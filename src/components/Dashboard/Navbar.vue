@@ -9,7 +9,7 @@
         <v-spacer></v-spacer>
 
         <v-btn outlined text link :to="{name: 'Team'}" class="text-capitalize mr-4">Teams</v-btn>
-        <v-btn outlined text link :to="{name: 'Followups'}" class="text-capitalize">Followups</v-btn>
+        <!-- <v-btn outlined text link :to="{name: 'Followups'}" class="text-capitalize">Followups</v-btn> -->
 
         <v-spacer></v-spacer>
 
@@ -29,9 +29,9 @@
 
         <!-- <v-btn text class="text-capitalize">Vimal Bharti</v-btn> -->
 
-        <v-btn class="white mr-3" elevation="1" fab small :to="{name: 'AgentAccount'}">
+        <!-- <v-btn class="white mr-3" elevation="1" fab small :to="{name: 'AgentAccount'}">
           <v-icon>mdi-cog</v-icon>
-        </v-btn>
+        </v-btn> -->
 
         <v-menu
           v-model="menu"
@@ -40,8 +40,9 @@
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
-              <v-btn fab small v-bind="attrs" v-on="on">
-                <v-avatar size="42"><v-img :src="agent.image"></v-img></v-avatar>
+              <v-btn v-bind="attrs" v-on="on" class="pr-1 rounded-xl text-capitalize ml-4 white" elevation="1">
+                <span class="caption mr-2">Vimal Bharti</span>
+                <v-avatar size="32"><v-img :src="agent.image"></v-img></v-avatar>
               </v-btn>
           </template>
 
@@ -63,7 +64,7 @@
             <v-divider></v-divider>
 
             <v-list>
-              <v-list-item link>
+              <v-list-item link :to="{name: 'AgentAccount'}">
                 <v-list-item-icon>
                   <v-icon>mdi-account</v-icon>
                 </v-list-item-icon>
@@ -149,14 +150,14 @@ export default {
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard-outline', link: 'Dashboard' },
         { title: 'Leads', icon: 'mdi-format-list-bulleted-square', link: 'mLeads' },
-        { title: 'Followups', icon: 'mdi-calendar-clock-outline', link: 'Followups' },
+        // { title: 'Followups', icon: 'mdi-calendar-clock-outline', link: 'Followups' },
         { title: 'Graphics', icon: 'mdi-image-size-select-large', link: 'mGraphic' },
-        { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
-        { title: 'Social Ads', icon: 'mdi-advertisements', link: 'Smm' },
+        // { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
+        // { title: 'Social Ads', icon: 'mdi-advertisements', link: 'Smm' },
         { title: 'Projects', icon: 'mdi-office-building-marker', link: 'MyWebsite' },
-        { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
+        // { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
         { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
-        { title: 'Sub-Channel', icon: 'mdi-account-multiple', link: 'Team' },
+        { title: 'Teams', icon: 'mdi-account-multiple', link: 'Team' },
       ],
       whateverActivatesThisLink: false,
     }

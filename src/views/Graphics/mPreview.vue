@@ -8,11 +8,7 @@
             </template>
         </v-snackbar>
 
-        <!-- <v-toolbar flat class="transparent">
-            <v-btn fab small elevation="1" class="white"><v-icon>mdi-cog</v-icon></v-btn>
-            <v-btn fab small elevation="1" class="white mx-3" @click="download"><v-icon>mdi-tray-arrow-down</v-icon></v-btn>
-        </v-toolbar> -->
-
+        <Navbar/>
 
         <v-card class="d-flex align-center mx-auto transparent" height="75vh" width="100%" ref="canvasCard" flat>
             <v-card ref="container" id="capture" class="mainCanvas" width="100%">
@@ -165,85 +161,129 @@
             <!-- Text Controls -->
             <v-bottom-sheet v-model="textControls">
                 <div class="rera-controls">
-                    <v-card class="px-4 pt-2 pb-4" flat tile>
-                        <div class="font-weight-bold d-flex align-center">
-                            <span class="mr-3">Rera Number</span>
-                            <v-switch inset dense color="teal darken-2" v-model="showRera"></v-switch>
+                    <!-- Text Controls -->
+                    <v-card flat tile>
+                        <div class="font-weight-bold d-flex align-center px-5">
+                            <v-switch dense color="teal darken-2" v-model="showRera"></v-switch>
+                            <span class="">Rera Number</span>
                         </div>
-                        <div class="d-flex align-center">
-                            <v-btn x-small fab tile elevation="1" class="white rounded-lg mr-2" @click="reraFontSize -= 2">
+                        <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
+                            <span>Size</span>
+                            <v-spacer></v-spacer>
+                            <v-btn x-small fab tile elevation="1" class="white rounded" @click="reraFontSize -= 2">
                                 <v-icon>mdi-minus</v-icon>
                             </v-btn>
-                            <span class="body-2 mr-2">Size</span>
-                            <v-btn x-small fab tile elevation="1" class="white rounded-lg mr-4" @click="reraFontSize += 2">
+                            <v-btn x-small fab tile elevation="1" class="white rounded" @click="reraFontSize += 2">
                                 <v-icon>mdi-plus</v-icon>
-                            </v-btn>    
-                            <v-color-picker
-                                dot-size="25"
-                                hide-canvas
-                                hide-inputs
-                                hide-mode-switch
-                                hide-sliders
-                                show-swatches
-                                mode="hexa"
-                                swatches-max-height="75"
-                                width="70%"
-                                v-model="reraTextColor"
-                                class="ml-auto"
-                            ></v-color-picker>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-menu :close-on-content-click="false">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                </template>
+                                <v-card flat>
+                                    <v-color-picker
+                                        v-model="reraTextColor"
+                                        class=""
+                                        hide-inputs
+                                        canvas-height="80px"
+                                    ></v-color-picker>
+                                </v-card>
+                            </v-menu>  
                         </div>
                     </v-card>
-                    <v-card tile class="px-4 pt-2 pb-4">
-                        <div class="font-weight-bold d-flex align-center">
-                            <span class="mr-3">Company Name</span>
-                            <v-switch inset dense color="teal darken-2" v-model="showCompany"></v-switch>
+                    <!-- Company Controls -->
+                    <v-card tile flat>
+                        <div class="font-weight-bold d-flex align-center px-5">
+                            <v-switch dense color="teal darken-2" v-model="showCompany"></v-switch>
+                            <span class="">Company Name</span>
                         </div>
-                        <div class="d-flex align-center">
-                            <v-btn x-small fab elevation="1" class="white mr-2 rounded-lg" @click="brandFontSize -= 2">
+                        <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
+                            <span>Size</span>
+                            <v-spacer></v-spacer>
+                            <v-btn x-small fab tile elevation="1" class="white rounded" @click="brandFontSize -= 2">
                                 <v-icon>mdi-minus</v-icon>
                             </v-btn>
-                            <span class="body-2 mr-2">Size</span>
-                            <v-btn x-small fab elevation="1" class="white mr-4 rounded-lg" @click="brandFontSize += 2">
+                            <v-btn x-small fab tile elevation="1" class="white rounded" @click="brandFontSize += 2">
                                 <v-icon>mdi-plus</v-icon>
                             </v-btn>
-                            <v-color-picker
-                                dot-size="25"
-                                hide-canvas
-                                hide-inputs
-                                hide-mode-switch
-                                hide-sliders
-                                show-swatches
-                                mode="hexa"
-                                swatches-max-height="75"
-                                width="70%"
-                                v-model="brandTextColor"
-                                class="ml-auto"
-                            ></v-color-picker>
+                            <v-spacer></v-spacer>
+                            <v-menu :close-on-content-click="false">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                </template>
+                                <v-card flat>
+                                    <v-color-picker
+                                        v-model="brandTextColor"
+                                        class=""
+                                        hide-inputs
+                                        canvas-height="80px"
+                                    ></v-color-picker>
+                                </v-card>
+                            </v-menu>     
                         </div>
                     </v-card>
-                    <v-card tile class="px-4 py-2">
-                        <div class="font-weight-bold d-flex align-center">
-                            <span class="mr-3">Basic Details Color</span>
+                    <!-- Email -->
+                    <v-card flat tile>
+                        <div class="font-weight-bold d-flex align-center px-5">
+                            <v-switch dense color="teal darken-2" v-model="showEmail"></v-switch>
+                            <span class="">Email</span>
+                            <v-spacer></v-spacer>
+                            <v-menu :close-on-content-click="false">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                </template>
+                                <v-card flat>
+                                    <v-color-picker
+                                        v-model="emailColor"
+                                        class=""
+                                        hide-inputs
+                                        canvas-height="80px"
+                                    ></v-color-picker>
+                                </v-card>
+                            </v-menu>   
                         </div>
-                        <div class="d-flex align-center">
-                            <div>
-                                <v-switch inset label="Email" dense color="teal darken-2" v-model="showEmail"></v-switch>
-                                <v-switch inset label="Website" dense color="teal darken-2" v-model="showWebsite"></v-switch>
-                                <v-switch inset label="Contact" dense color="teal darken-2" v-model="showPhone"></v-switch>
-                            </div>
-                            <v-color-picker
-                                dot-size="25"
-                                hide-canvas
-                                hide-inputs
-                                hide-mode-switch
-                                hide-sliders
-                                show-swatches
-                                mode="hexa"
-                                swatches-max-height="170"
-                                width="70%"
-                                v-model="defaultColor"
-                                class="ml-auto"
-                            ></v-color-picker>
+                    </v-card>
+                    <!-- Website -->
+                    <v-card flat tile>
+                        <div class="font-weight-bold d-flex align-center px-5">
+                            <v-switch dense color="teal darken-2" v-model="showWebsite"></v-switch>
+                            <span class="">Website</span>
+                            <v-spacer></v-spacer>
+                            <v-menu :close-on-content-click="false">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                </template>
+                                <v-card flat>
+                                    <v-color-picker
+                                        v-model="websiteColor"
+                                        class=""
+                                        hide-inputs
+                                        canvas-height="80px"
+                                    ></v-color-picker>
+                                </v-card>
+                            </v-menu>   
+                        </div>
+                    </v-card>
+                    <!-- Phone Number -->
+                    <v-card flat tile>
+                        <div class="font-weight-bold d-flex align-center px-5">
+                            <v-switch dense color="teal darken-2" v-model="showPhone"></v-switch>
+                            <span class="">Contact</span>
+                            <v-spacer></v-spacer>
+                            <v-menu :close-on-content-click="false">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                </template>
+                                <v-card flat>
+                                    <v-color-picker
+                                        v-model="contactColor"
+                                        class=""
+                                        hide-inputs
+                                        canvas-height="80px"
+                                    ></v-color-picker>
+                                </v-card>
+                            </v-menu>   
                         </div>
                     </v-card>
                 </div>
@@ -258,7 +298,7 @@
                             <v-switch inset dense color="teal darken-2" v-model="showLogo"></v-switch>
                         </div>
                     </v-card>
-                    <v-card class="px-4 py-5 text-center" tile>
+                    <v-card class="px-4 py-5 text-center blue-grey lighten-5" tile>
                         <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="logoWidth -= 50">
                                 <v-icon>mdi-minus</v-icon>
                         </v-btn>
@@ -329,6 +369,7 @@ import Graphic from "../../Apis/Graphic";
 import User from "../../Apis/User";
 import html2canvas from "html2canvas";
 import { saveAs, FileSaver } from 'file-saver';
+import Navbar from "../../components/Dashboard/Navbar.vue";
 
 // const width = window.innerWidth;
 // const height = window.innerHeight;
@@ -342,6 +383,7 @@ const height = window.innerHeight;
 
 
 export default {
+    components:{ Navbar },
     data() {
         return {
             stageSize: {
@@ -363,7 +405,7 @@ export default {
             brandText: "",
             brandTextColor: "#000000",
             brandFontSize: 20,
-            textControls: false,
+            textControls: true,
             reraText: '',
             reraTextColor: "#000000",
             reraFontSize: 9,
@@ -375,12 +417,12 @@ export default {
             downloadProgress: false,
             customize: true,
             savedDialog: false,
-            showEmail: true,
-            showPhone: true,
-            showWebsite: true,
+            showEmail: false,
+            showPhone: false,
+            showWebsite: false,
             showLogo: true,
-            showRera: true,
-            showCompany: true,
+            showRera: false,
+            showCompany: false,
             snackbar: false
         };
     },
@@ -506,19 +548,19 @@ export default {
         },
         loadIcon(){
             const phone = new window.Image();
-            phone.src = require('@/assets/img/phone.png');
+            phone.src = require('@/assets/img/phone.svg');
             phone.onload = () => {
                 this.phoneIcon = phone;
             }
             // email
             const email = new window.Image();
-            email.src = require('@/assets/img/email.png');
+            email.src = require('@/assets/img/email.svg');
             email.onload = () => {
                 this.emailIcon = email;
             }
             // website
             const website = new window.Image();
-            website.src = require('@/assets/img/web.png');
+            website.src = require('@/assets/img/web.svg');
             website.onload = () => {
                 this.websiteIcon = website;
             }

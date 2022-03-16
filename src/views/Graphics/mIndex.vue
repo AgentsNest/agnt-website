@@ -1,6 +1,7 @@
 <template>
 
-    <v-card class="rounded-lg pa-3 shadow content-card" height="88vh" elevation="0">
+    <v-card class="rounded-lg shadow content-card" height="100vh" elevation="0">
+      <Navbar />
 
       <v-row>
         <!-- Image gallery columns 4 -->
@@ -16,13 +17,12 @@
             </v-col>
           </v-row>
           <v-row v-else>
-            <v-col cols="6" v-for="(graphic, index) in graphics" :key="index">
-                <router-link :to="{name: 'previewGraphic', params: {id: graphic.id} }">
+            <v-col cols="12" v-for="(graphic, index) in graphics" :key="index" class="pa-4">
+                <router-link :to="{name: 'previewMgraphic', params: {id: graphic.id} }">
                     <v-img
                         :src="graphic.thumb"
                         :lazy-src="graphic.thumb"
                         aspect-ratio="1.4"
-                        height="140px"
                         class="grey lighten-2 rounded-lg pointer"
                     >
                     <template v-slot:placeholder>
@@ -51,9 +51,10 @@ import Graphic from '../../Apis/Graphic'
 import InfiniteLoading from 'vue-infinite-loading';
 import User from '../../Apis/User'
 import html2canvas from "html2canvas";
+import Navbar from '../../components/Dashboard/Navbar.vue'
 
 export default {
-  components: { InfiniteLoading },
+  components: { InfiniteLoading, Navbar },
   data() {
     return {
       graphics: [],

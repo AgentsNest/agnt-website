@@ -3,7 +3,7 @@
       class="white rounded-xl shadow"
       permanent
       flat
-      height="88vh"
+      height="100vh"
     >
 
       <!-- <v-list class="px-3">
@@ -57,7 +57,7 @@ import User from '../../Apis/User'
           { title: 'Graphics', icon: 'mdi-image-size-select-large', link: 'Graphic' },
           // { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
           // { title: 'Social Ads', icon: 'mdi-advertisements', link: 'Smm' },
-          { title: 'Websites', icon: 'mdi-web', link: 'MyWebsite' },
+          { title: 'Projects', icon: 'mdi-home-city-outline', link: 'MyWebsite' },
           { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
           { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
         ],

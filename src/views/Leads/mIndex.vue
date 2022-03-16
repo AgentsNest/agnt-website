@@ -7,24 +7,26 @@
             </template>
         </v-snackbar>
 
-        <v-card class="shadow content-card" width="100%" flat>
+        <Navbar/>
+
+        <v-card class="shadow content-card" width="100%" flat height="100vh">
 
             <v-toolbar>
                 <div class="font-weight-bold">Total Leads ({{totalLeads}})</div>
                 <v-spacer></v-spacer>
-                <v-btn icon @click="searchInput = !searchInput"><v-icon>mdi-magnify</v-icon></v-btn>
+                <!-- <v-btn icon @click="searchInput = !searchInput"><v-icon>mdi-magnify</v-icon></v-btn> -->
             </v-toolbar>
-            <div class="px-4">
+            <div class="mt-1 px-4 d-flex align-center mb-3" v-if="searchInput">
                 <v-text-field
-                    v-model="search" label="Search" single-line hide-details v-if="searchInput"
+                    v-model="search" label="Search by name.." single-line hide-details
+                    width="80%"
                 ></v-text-field>
+                <v-btn icon><v-icon>mdi-magnify</v-icon></v-btn>
             </div>
 
             <!-- checkbox actions -->
-            <v-toolbar>
-            <!-- <v-toolbar v-if="multipleActionToolbar"> -->
+            <!-- <v-toolbar class="">
                 <div class="d-flex align-center">
-                    <!-- <v-checkbox v-model="selectAll" class="mr-2"></v-checkbox> -->
                     <input type="checkbox" v-model="selectAll" class="mr-2">Select all
                     <div v-if="selectedLeads.length" class="caption">Selected ({{selectedLeads.length}})</div>
                 </div>
@@ -51,13 +53,12 @@
                             Delete
                         </v-btn>
                     </v-list>
-                </v-menu>
-                
-            </v-toolbar>
+                </v-menu>   
+            </v-toolbar> -->
             
 
-            <v-card height="80vh" class="overflow-y-auto pb-8" flat>
-                <v-card v-for="lead in filterLead" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
+            <v-card height="88vh" class="overflow-y-auto pb-8" flat>
+                <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
                     <v-card-actions class="pa-3">
                         <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
                         <div>
@@ -85,34 +86,9 @@
                         </router-link>
                     </v-card-actions>
                 </v-card>               
-                <div v-if="leads.length" v-observe-visibility="handleToScrollPagination"></div>
-                <!-- <v-list three-line>
-                    
-                    <v-list-item v-for="lead in filterLead" :key="lead.id" class="">
-                        <v-checkbox class="mr-3" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"
-                        ></v-checkbox>
-                        <v-list-item-content v-hold="onTap">
-                            <v-list-item-title>{{ lead.name }}</v-list-item-title>
-                            <v-list-item-subtitle>
-                                {{ lead.contact }}
-                            </v-list-item-subtitle>
-                            <v-list-item-subtitle v-if="lead.activities">
-                                <div v-for="task in lead.activities.slice(0, 1)" :key="task.id">
-                                    {{task.action}}
-                                    {{task.notes}}
-                                    {{task.message}}
-                                    {{task.call}}
-                                    {{task.whatsapp}}
-                                </div>
-                            </v-list-item-subtitle>
-                        </v-list-item-content>
-                        <v-list-item-action>
-                            <v-btn @click="detailsSidebar(lead.id)" icon>
-                                <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
-                            </v-btn>
-                        </v-list-item-action>
-                    </v-list-item>
-                </v-list> -->
+                
+                <v-btn block @click="loadMoreDesktop" v-if="loadMoreBtn" class="my-3 rounded-lg text-capitalize">load more</v-btn>
+
             </v-card>
 
 
@@ -482,9 +458,12 @@ import Website from '../../Apis/Website'
 import Tracker from '../../Apis/Tracker'
 import Other from '../../Apis/Other'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import Navbar from '../../components/Dashboard/Navbar.vue'
+// import InfiniteLoading from 'vue-infinite-loading';
 
 
 export default {
+    components:{ Navbar },
     data () {
       return {
         search: '',
@@ -569,7 +548,8 @@ export default {
         actionBtn: false,
         searchInput: false,
         selectedWebsiteMsg: '',
-        multipleActionToolbar: false
+        multipleActionToolbar: false,
+        loadMoreBtn: true
       }
     },
     methods:{
@@ -922,14 +902,16 @@ export default {
         },
         loadMoreDesktop($state){
             if (this.page == this.last_page) {
-                $state.complete();
+                // $state.complete();
+                console.log('data ends');
+                this.loadMoreBtn = false
             } else {
                 this.page = this.page + 1;
                 Lead.auth(this.page).then(response => {
                     response.data.data.forEach(data => {
                         this.leads.push(data);
                     });
-                    $state.loaded();
+                    // $state.loaded();
                 });
             }
         },

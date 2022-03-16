@@ -76,6 +76,15 @@ const routes = [
           ),
       },
       {
+        path: "/graphic/:id",
+        name: "previewGraphic",
+        meta: { authOnly: true },
+        component: () =>
+          import(
+            /* webpackChunkName: "previewGraphic" */ "../views/Graphics/DesktopPreview.vue"
+          ),
+      },
+      {
         path: "/m-graphics",
         name: "mGraphic",
         component: () =>
@@ -84,12 +93,12 @@ const routes = [
           ),
       },
       {
-        path: "/graphic/:id",
-        name: "previewGraphic",
+        path: "/m/graphic/:id",
+        name: "previewMgraphic",
         meta: { authOnly: true },
         component: () =>
           import(
-            /* webpackChunkName: "previewGraphic" */ "../views/Graphics/Preview.vue"
+            /* webpackChunkName: "previewGraphic" */ "../views/Graphics/mPreview.vue"
           ),
       },
 

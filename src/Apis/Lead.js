@@ -16,7 +16,7 @@ export default {
   },
 
   auth(page) {
-    return Api().get("/leads/by/user?page=" + page);
+    return Api().get(`/leads/by/user?page=${page}`);
   },
 
   authHotLead(page) {

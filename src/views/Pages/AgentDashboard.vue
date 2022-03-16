@@ -1,5 +1,5 @@
 <template>
-    <v-card flat height="88vh" class="overflow-y-auto transparent">
+    <v-card flat height="100vh" class="overflow-y-auto transparent">
       <Navbar/>
       <v-row>
           <v-col cols="12">

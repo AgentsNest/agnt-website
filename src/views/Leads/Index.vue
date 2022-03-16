@@ -8,7 +8,7 @@
         </v-snackbar>
 
         <!-- Desktop Screen -->
-        <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-md-5 shadow content-card" height="100vh" elevation="0">
             <v-toolbar flat>
                 <div class="font-weight-bold text-h6">Total Leads ({{total_leads}})</div>
                 <v-spacer></v-spacer>
@@ -69,59 +69,59 @@
                     </v-btn>
                 </v-toolbar> -->
 
-            <v-container>
-                <v-row>
-                    <v-col cols="4" class="d-flex">
-                        <v-autocomplete
-                            v-model="group_id"
-                            :items="groups"
-                            item-text="title"
-                            item-value="id"
-                            small-chips
-                            outlined
-                            dense
-                            label="Group"
-                        ></v-autocomplete>
-                        <v-btn fab tile small elevation="0" dark class="gradient rounded ml-2" @click="addLeadToGroup">
-                            <v-icon>mdi-check</v-icon>
-                        </v-btn>
-                    </v-col>
-                    <v-col cols="4" class="d-flex">
-                        <v-autocomplete
-                            v-model="team_id"
-                            :items="teams"
-                            item-text="name"
-                            item-value="id"
-                            small-chips
-                            outlined
-                            dense
-                            label="Team"
-                        ></v-autocomplete>
-                        <v-btn fab tile small elevation="0" dark class="gradient rounded ml-2" @click="assignToTeam">
-                            <v-icon>mdi-check</v-icon>
-                        </v-btn>
-                    </v-col>
-                    <v-col cols="4" class="d-flex">
-                        <v-autocomplete
-                            v-model="status_name"
-                            :items="leadStatus"
-                            item-text="title"
-                            item-value="title"
-                            small-chips
-                            outlined
-                            dense
-                            label="Lead Status"
-                        ></v-autocomplete>
-                        <v-btn fab tile small elevation="0" dark class="gradient rounded-lg ml-2" @click="changeLeadStatus">
-                            <v-icon>mdi-check</v-icon>
-                        </v-btn>
-                    </v-col>
-                </v-row>
+                <v-container>
+                    <v-row>
+                        <v-col cols="4" class="d-flex">
+                            <v-autocomplete
+                                v-model="group_id"
+                                :items="groups"
+                                item-text="title"
+                                item-value="id"
+                                small-chips
+                                outlined
+                                dense
+                                label="Group"
+                            ></v-autocomplete>
+                            <v-btn fab tile small elevation="0" dark class="gradient rounded ml-2" @click="addLeadToGroup">
+                                <v-icon>mdi-check</v-icon>
+                            </v-btn>
+                        </v-col>
+                        <v-col cols="4" class="d-flex">
+                            <v-autocomplete
+                                v-model="team_id"
+                                :items="teams"
+                                item-text="name"
+                                item-value="id"
+                                small-chips
+                                outlined
+                                dense
+                                label="Team"
+                            ></v-autocomplete>
+                            <v-btn fab tile small elevation="0" dark class="gradient rounded ml-2" @click="assignToTeam">
+                                <v-icon>mdi-check</v-icon>
+                            </v-btn>
+                        </v-col>
+                        <v-col cols="4" class="d-flex">
+                            <v-autocomplete
+                                v-model="status_name"
+                                :items="leadStatus"
+                                item-text="title"
+                                item-value="title"
+                                small-chips
+                                outlined
+                                dense
+                                label="Lead Status"
+                            ></v-autocomplete>
+                            <v-btn fab tile small elevation="0" dark class="gradient rounded-lg ml-2" @click="changeLeadStatus">
+                                <v-icon>mdi-check</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
                 </v-container>
 
                 <v-simple-table
                     fixed-header
-                    height="65vh"
+                    height="100%"
                 >
                     <template v-slot:default>
                     <thead>
@@ -400,7 +400,7 @@
                         </v-dialog>
 
 
-                    <v-expansion-panels>
+                    <!-- <v-expansion-panels>
                         <v-expansion-panel>
                             <v-expansion-panel-header>Followups</v-expansion-panel-header>
                             <v-expansion-panel-content>
@@ -415,7 +415,7 @@
                                 </v-btn>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
-                    </v-expansion-panels>
+                    </v-expansion-panels> -->
 
                     <v-card height="300" class="mt-3 overflow-y-auto" flat>
                         <div class="px-6 pt-3">Activities <span v-if="lead.activities" class="ml-2">({{lead.activities.length}})</span></div>
@@ -473,12 +473,12 @@ import User from '../../Apis/User'
 import Website from '../../Apis/Website'
 import Tracker from '../../Apis/Tracker'
 import Other from '../../Apis/Other'
-import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+// import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 
 
 export default {
-    components:{ VueCtkDateTimePicker },
+    components:{  },
     data () {
       return {
         search: '',
