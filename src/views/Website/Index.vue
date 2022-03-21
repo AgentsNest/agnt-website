@@ -162,7 +162,7 @@
                                 <v-btn v-bind="attrs" v-on="on" dark color="#111828" class="text-capitalize flex-grow-1 rounded-lg">Preview</v-btn>
                             </template>
                             <v-card tile>
-                                <v-toolbar dark color="primary">
+                                <v-toolbar dark color="#111828">
                                     <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
                                     <v-spacer></v-spacer>
                                     <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
@@ -174,23 +174,24 @@
                                             <v-card-title>{{website.title}}</v-card-title>
                                             <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                                            <v-row class="" v-if="website.website_images">
-                                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="12">
-                                                    <v-img
-                                                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                        contain
-                                                        class="white rounded-lg"
-                                                        
-                                                    >
-                                                        <template v-slot:placeholder>
-                                                            <v-row class="fill-height ma-0" align="center" justify="center">
-                                                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                                            </v-row>
-                                                        </template>
-                                                    </v-img>
-                                                </v-col>
-                                            </v-row>
+                                            <v-container>
+                                              <v-row class="" v-if="website.website_images">
+                                                  <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="6" md="4">
+                                                      <v-img
+                                                          :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                          :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                          aspect-ratio="1.7"
+                                                          class="white rounded-lg"
+                                                      >
+                                                          <template v-slot:placeholder>
+                                                              <v-row class="fill-height ma-0" align="center" justify="center">
+                                                                  <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                                              </v-row>
+                                                          </template>
+                                                      </v-img>
+                                                  </v-col>
+                                              </v-row>
+                                            </v-container>
 
                                             <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
                                                 <div class="font-weight-bold">PREPARED BY:</div>
@@ -372,5 +373,11 @@ export default {
   padding: 0.6em 0.8em;
   width: 100%; 
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.gallery-img{
+    object-fit: cover;
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 6px;
 }
 </style>

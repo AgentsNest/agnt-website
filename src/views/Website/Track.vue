@@ -24,22 +24,25 @@
                     <v-card-title>{{website.title}}</v-card-title>
                     <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                    <v-row v-if="website.website_images">
-                        <v-col v-for="image in website.website_images" :key="image.id" class="px-1" cols="12" md="3">
-                            <v-img
-                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                contain
-                                class="white rounded-lg"
-                            >
-                                <template v-slot:placeholder>
-                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                    </v-row>
-                                </template>
-                            </v-img>
-                        </v-col>
-                    </v-row>
+                    <v-container>
+                        <v-row v-if="website.website_images">
+                            <v-col v-for="image in website.website_images" :key="image.id" class="px-1" cols="4" md="3">
+                                <!-- <v-img
+                                    :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                    :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                    aspect-ratio="1.4"
+                                    class="white rounded-lg"
+                                >
+                                    <template v-slot:placeholder>
+                                        <v-row class="fill-height ma-0" align="center" justify="center">
+                                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                        </v-row>
+                                    </template>
+                                </v-img> -->
+                                <img :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`" :alt="website.title" class="gallery-img" v-img:group>
+                            </v-col>
+                        </v-row>
+                    </v-container>
 
                     <!-- <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
                         <div class="font-weight-bold">PREPARED BY:</div>
@@ -212,4 +215,10 @@ export default {
 
 <style>
 .cardd{overflow-y: scroll;}
+.gallery-img{
+    object-fit: cover;
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 6px;
+}
 </style>

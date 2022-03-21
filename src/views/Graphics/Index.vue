@@ -1,8 +1,9 @@
 <template>
 <div>
     <Navbar/>
+    
     <v-card class="rounded shadow content-card" height="100%" elevation="0">
-      <v-toolbar class="gradient-bg" dark dense>
+      <v-toolbar class="" dense flat>
         <v-icon class="mr-2">mdi-image</v-icon>
         Choose Graphic
       </v-toolbar>

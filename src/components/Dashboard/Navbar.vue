@@ -1,42 +1,15 @@
 <template>
-    <div class="mb-4">
-      <v-toolbar class="transparent d-none d-md-block" flat>
-
-        <div class="text-h5 font-weight-bold">agnt.</div>
-
-        <input type="text" placeholder="Search..." class="search-input">
-
-        <v-spacer></v-spacer>
-
-        <v-btn outlined text link :to="{name: 'Team'}" class="text-capitalize mr-4">Teams</v-btn>
-        <!-- <v-btn outlined text link :to="{name: 'Followups'}" class="text-capitalize">Followups</v-btn> -->
+    <div class="">
+      <v-toolbar class="transparent d-none d-md-block mt-3" flat>
 
         <v-spacer></v-spacer>
 
         <Notification />
 
-        <!-- <v-badge avatar bordered overlap>
-          <template v-slot:badge>
-            <v-avatar color="red">
-              <span>7</span>
-            </v-avatar>
-          </template>
-
-          <v-avatar size="40">
-            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
-          </v-avatar>
-        </v-badge> -->
-
-        <!-- <v-btn text class="text-capitalize">Vimal Bharti</v-btn> -->
-
-        <!-- <v-btn class="white mr-3" elevation="1" fab small :to="{name: 'AgentAccount'}">
-          <v-icon>mdi-cog</v-icon>
-        </v-btn> -->
-
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
-          :nudge-width="200"
+          :nudge-width="150"
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
@@ -46,24 +19,23 @@
               </v-btn>
           </template>
 
-          <v-card>
-            <v-list>
+          <v-card class="rounded-lg">
+            <v-list dense>
               <v-list-item>
-                <v-list-item-avatar color="red">
-                  <span class="white--text text-h6" v-if="agent.name">{{agent.name[0]}}</span>
+                <v-list-item-avatar color="red" size="32">
+                  <span class="white--text body-2" v-if="agent.name">{{agent.name[0]}}</span>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
                   <v-list-item-title>{{agent.name}}</v-list-item-title>
                   <v-list-item-subtitle>{{agent.email}}</v-list-item-subtitle>
                 </v-list-item-content>
-
               </v-list-item>
             </v-list>
 
             <v-divider></v-divider>
 
-            <v-list>
+            <v-list dense>
               <v-list-item link :to="{name: 'AgentAccount'}">
                 <v-list-item-icon>
                   <v-icon>mdi-account</v-icon>
@@ -72,6 +44,7 @@
                   <v-list-item-title>My Account</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+              <v-divider></v-divider>
               <v-list-item @click="logout">
                 <v-list-item-icon>
                   <v-icon>mdi-logout</v-icon>

@@ -1,27 +1,14 @@
 <template>
     <v-card
-      class="white rounded-xl shadow"
+      class="shadow py-5"
+      color="#111828"
       permanent
+      tile
       flat
       height="100vh"
     >
 
-      <!-- <v-list class="px-3">
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-          :to="{name: item.link}"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list> -->
+    <v-img src="../../assets/img/agnt.png" width="120" class="mx-auto"></v-img>
 
     <ul class="nav-links">
       <router-link :to="{name: item.link}" v-for="item in items" :key="item.title" 
@@ -29,7 +16,7 @@
         :event="whateverActivatesThisLink ? 'click' : ''"
       >
         <li>
-          <v-icon>{{item.icon}}</v-icon>
+          <v-icon color="grey lighten-3">{{item.icon}}</v-icon>
           <span class="ml-2">{{item.title}}</span>
         </li>
       </router-link>
@@ -60,6 +47,7 @@ import User from '../../Apis/User'
           { title: 'Projects', icon: 'mdi-home-city-outline', link: 'MyWebsite' },
           { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
           { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
+          { title: 'Teams', icon: 'mdi-account-group-outline', link: 'Team' },
         ],
         whateverActivatesThisLink: true,
         agent: ''
@@ -98,17 +86,18 @@ ul li {
 
 ul li {
   text-decoration: none;
-  color: #898c90;
+  color: #dcdcdc;
   font-size: 0.9rem;
   display: flex;
   align-items: center;
 }
 a i{
-  color: #898c90;
+  color: #dcdcdc;
 }
 
 ul li:hover {
-  background-color: #f5f9ff;
+  background-image: linear-gradient(to right, #283593, #3cabba);
+  color: #fff;
 }
 
 .active li,

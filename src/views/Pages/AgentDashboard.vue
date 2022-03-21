@@ -1,188 +1,160 @@
 <template>
-    <v-card flat height="100vh" class="overflow-y-auto transparent">
+    <v-card flat height="100vh" width="100%" class="transparent overflow-y-auto">
       <Navbar/>
-      <v-row>
-          <v-col cols="12">
-              <v-card class="rounded-lg pa-2 pa-md-3" elevation="0">
+
+      <v-container>
+        <v-row>
+            <v-col cols="12" md="8">
+              <v-card class="rounded-lg alllead px-4 py-2" flat>
                   <v-card-actions>
                       <div class="title text-right">Total Leads</div>
                       <v-spacer></v-spacer>
-                      <div class="font-weight-bold display-1">
+                      <div class="font-weight-bold title">
                         <span>{{totalLead}}</span>
                       </div>
                   </v-card-actions>
               </v-card>
-          </v-col>
-          <v-col md="3" cols="6">
-              <v-card class="rounded-lg pa-2 pa-md-3" flat>
-                  <v-card-actions class="">
-                    <v-icon size="42" color="red">mdi-fire-circle</v-icon>
-                    <v-spacer></v-spacer>
-                    <div>
-                      <div class="text-right">Hot Lead</div>
-                      <div class="font-weight-bold headline md-display-1">
-                        <span v-if="totalLead > 0">{{hotLeadPercentage}}%</span>
-                        <span v-else>0</span>
-                      </div>
-                    </div>
-                  </v-card-actions>
-                  <v-card-actions>
-                    <v-progress-linear rounded v-model="hotLeadPercentage" color="red" striped height="8"></v-progress-linear>
-                  </v-card-actions>
+              <v-card class="my-6" flat>
+                <v-row>
+                  <v-col cols="6">
+                    <v-card class="rounded-lg pa-2 pa-md-3 hotLead" flat>
+                      <v-card-actions class="">
+                        <v-icon size="42" color="red">mdi-fire-circle</v-icon>
+                        <v-spacer></v-spacer>
+                        <div>
+                          <div class="text-right">Hot Lead</div>
+                          <div class="font-weight-bold headline md-display-1">
+                            <span v-if="totalLead > 0">{{hotLeadPercentage}}%</span>
+                            <span v-else>0</span>
+                          </div>
+                        </div>
+                      </v-card-actions>
+                      <v-card-actions>
+                        <v-progress-linear rounded v-model="hotLeadPercentage" color="red" striped height="8"></v-progress-linear>
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-card class="rounded-lg pa-2 pa-md-3 warmlead" flat>
+                      <v-card-actions class="">
+                        <v-icon size="42" color="orange">mdi-account-group-outline</v-icon>
+                        <v-spacer></v-spacer>
+                        <div>
+                          <div class="text-right">Warm Lead</div>
+                          <div class="font-weight-bold headline md-display-1">
+                            <span v-if="totalLead > 0">{{warmLeadPercentage}}%</span>
+                            <span v-else>0</span>
+                          </div>
+                        </div>
+                      </v-card-actions>
+                      <v-card-actions>
+                        <v-progress-linear rounded v-model="warmLeadPercentage" color="orange" striped height="8"></v-progress-linear>
+                      </v-card-actions>
+                  </v-card>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-card class="rounded-lg pa-2 pa-md-3 coldlead" flat>
+                      <v-card-actions class="">
+                        <v-icon size="42" color="blue">mdi-snowflake-alert</v-icon>
+                        <v-spacer></v-spacer>
+                        <div>
+                          <div class="text-right">Cold Lead</div>
+                          <div class="font-weight-bold headline md-display-1">
+                            <span v-if="totalLead > 0">{{coldLeadPercentage}}%</span>
+                            <span v-else>0</span>
+                          </div>
+                        </div>
+                      </v-card-actions>
+                      <v-card-actions>
+                        <v-progress-linear rounded v-model="coldLeadPercentage" color="blue" striped height="8"></v-progress-linear>
+                      </v-card-actions>
+                  </v-card>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-card class="rounded-lg pa-2 pa-md-3 deadlead" flat>
+                      <v-card-actions class="">
+                        <v-icon size="42" color="grey">mdi-emoticon-sad-outline</v-icon>
+                        <v-spacer></v-spacer>
+                        <div>
+                          <div class="text-right">Dead Lead</div>
+                          <div class="font-weight-bold headline md-display-1">
+                            <span v-if="totalLead > 0">{{deadLeadPercentage}}%</span>
+                            <span v-else>0</span>
+                          </div>
+                        </div>
+                      </v-card-actions>
+                      <v-card-actions>
+                        <v-progress-linear rounded v-model="deadLeadPercentage" color="grey" striped height="8"></v-progress-linear>
+                      </v-card-actions>
+                  </v-card>
+                  </v-col>
+                </v-row>
               </v-card>
-          </v-col>
-          <v-col md="3" cols="6">
-              <v-card class="rounded-lg pa-2 pa-md-3" flat>
-                  <v-card-actions class="">
-                    <v-icon size="42" color="orange">mdi-account-group-outline</v-icon>
-                    <v-spacer></v-spacer>
-                    <div>
-                      <div class="text-right">Warm Lead</div>
-                      <div class="font-weight-bold headline md-display-1">
-                        <span v-if="totalLead > 0">{{warmLeadPercentage}}%</span>
-                        <span v-else>0</span>
-                      </div>
-                    </div>
-                  </v-card-actions>
-                  <v-card-actions>
-                    <v-progress-linear rounded v-model="warmLeadPercentage" color="orange" striped height="8"></v-progress-linear>
-                  </v-card-actions>
+              <!-- Latest Projects -->
+              <v-card>
+                <v-toolbar flat class="font-weight-bold">
+                  Latest Projects
+                  <v-spacer></v-spacer>
+                  <v-btn class="text-capitalize cyan darken-1" depressed dark>Explore</v-btn>
+                </v-toolbar>
+                <v-card-text class="py-0">
+                  <v-row>
+                    <v-col cols="6" md="4" v-for="website in websites" :key="website.id">
+                      <v-img
+                          aspect-ratio="1.4"
+                          :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                          :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                          class="rounded-lg shadow-xl my-2 d-flex align-end"
+                          gradient="to top right, rgba(0,0,0,.9), rgba(0,0,0,.5), rgba(0,0,0,.1)"
+                      >
+                        <div class="white--text font-weight-bold px-3 py-2">{{website.title}}</div>
+                      </v-img>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
               </v-card>
-          </v-col>
-          <v-col md="3" cols="6">
-              <v-card class="rounded-lg pa-2 pa-md-3" flat>
-                  <v-card-actions class="">
-                    <v-icon size="42" color="blue">mdi-snowflake-alert</v-icon>
-                    <v-spacer></v-spacer>
-                    <div>
-                      <div class="text-right">Cold Lead</div>
-                      <div class="font-weight-bold headline md-display-1">
-                        <span v-if="totalLead > 0">{{coldLeadPercentage}}%</span>
-                        <span v-else>0</span>
-                      </div>
-                    </div>
-                  </v-card-actions>
-                  <v-card-actions>
-                    <v-progress-linear rounded v-model="coldLeadPercentage" color="blue" striped height="8"></v-progress-linear>
-                  </v-card-actions>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-card class="pa-2 mt-8">
+                <v-card class="vcard-box d-flex px-4 py-8">
+                  <div class="">Share your Profile with <br/> just a <span class="font-weight-bold">TAP!</span></div>
+                  <img src="../../assets/img/vcard-icon.png"/>
+                </v-card>
+                <v-card flat class="px-4 py-5">
+                  <div class="d-flex align-center">
+                    <div class="caption pr-5">A new Gen Virtual Card to share your contact information with your clients.</div>
+                    <v-btn class="text-capitalize amber accent-3" depressed small>Get Yours</v-btn>
+                  </div>
+                </v-card>
               </v-card>
-          </v-col>
-          <v-col md="3" cols="6">
-              <v-card class="rounded-lg pa-2 pa-md-3" flat>
-                  <v-card-actions class="">
-                    <v-icon size="42" color="grey">mdi-emoticon-sad-outline</v-icon>
-                    <v-spacer></v-spacer>
-                    <div>
-                      <div class="text-right">Dead Lead</div>
-                      <div class="font-weight-bold headline md-display-1">
-                        <span v-if="totalLead > 0">{{deadLeadPercentage}}%</span>
-                        <span v-else>0</span>
-                      </div>
-                    </div>
-                  </v-card-actions>
-                  <v-card-actions>
-                    <v-progress-linear rounded v-model="deadLeadPercentage" color="grey" striped height="8"></v-progress-linear>
-                  </v-card-actions>
-              </v-card>
-          </v-col>
-      </v-row>
-
-      <!--=========== Existing Clients ============-->          
-      <v-card class="rounded-lg pa-2 mt-5" flat>
-        <v-card-actions>
-          <v-btn fab depressed color="teal lighten-5"><v-icon color="teal">mdi-shield-account</v-icon></v-btn>
-          <v-spacer></v-spacer>
-          <div class="title">Existing Clients</div>
-          <v-spacer></v-spacer>
-          <div class="title">{{clients.length}}</div>
-        </v-card-actions>
-      </v-card>
-
-      <v-row class="d-none d-md-block">
-        <v-col md="8" cols="12">
-          <v-card class="overflow-y-auto rounded-lg pa-2" flat>
-
-  <!-- Agents Followups -->
-            <v-card-actions>
-              <div>Followups</div>
-              <v-spacer></v-spacer>
-              <v-btn fab small elevation="1" class="white"><v-icon>mdi-plus</v-icon></v-btn>
-            </v-card-actions>
-
-            <v-data-table
-              :headers="headers"
-              :items="events"
-              :items-per-page="5"
-              class="elevation-1"
-            >
-              <template v-slot:item.date_string="{ item }">
-                {{ item.date_string | fromNow() }}
-              </template>
-            </v-data-table>
-
-          </v-card>
-        </v-col>
-
-    <!--=======================
-          Right Sidebar
-    ========================  -->
-        <v-col cols="12" md="4" class="d-none d-md-block">
-          <v-card flat class="rounded-lg pa-3 mb-4">
-              <v-card-actions>
-                <v-icon size="38" color="teal">mdi-fire</v-icon>
-                <v-spacer></v-spacer>
-                <div>
-                  <div class="">{{agent.trial_until}}</div>
-                  <div class="font-weight-bold display-1">trials end at</div>
+              <!-- Latest Graphics -->
+              <v-card class="mt-6" flat>
+                <div class="mb-4 font-weight-bold d-flex align-center">
+                  Latest Graphics
+                  <v-spacer></v-spacer>
+                  <v-btn small class="text-capitalize cyan darken-1" dark>Explore</v-btn>
                 </div>
-              </v-card-actions>
-          </v-card>
-        
-    <!--====================
-        Recent Activities 
-    =====================-->
-          <v-card flat class="rounded-lg mb-4">
-            <v-card-subtitle>Recent Activities</v-card-subtitle>
-
-            <v-card flat height="100%" class="overflow-y-auto">
-              <v-card-text class="pa-0">
-                <v-timeline align-top dense class="overflow-y-auto pr-5" style="height:37vh">
-                  <v-timeline-item color="pink" small v-for="activity in activities" :key="activity.id">
-                    <v-row class="">
-                      <v-col cols="7" v-if="activity.action">
-                        {{activity.action}}
-                        <div class="caption grey--text">{{activity.lead.name}}</div>
-                      </v-col>
-                      <v-col cols="7" v-if="activity.notes">
-                        {{activity.notes}}
-                        <div class="caption grey--text">{{activity.lead.name}}</div>
-                      </v-col>
-                      <v-col cols="7" v-if="activity.call">
-                        {{activity.call}}
-                        <div class="caption grey--text">{{activity.lead.name}}</div>
-                      </v-col>
-                      <v-col cols="7" v-if="activity.message">
-                        {{activity.message}}
-                        <div class="caption grey--text">{{activity.lead.name}}</div>
-                      </v-col>
-                      <v-col cols="7" v-if="activity.whatsapp">
-                        {{activity.whatsapp}}
-                        <div class="caption grey--text">{{activity.lead.name}}</div>
-                      </v-col>
-                      <v-col class="text-right" cols="5">{{activity.created_at | formatDate}}</v-col>
-                    </v-row>
-                  </v-timeline-item>
-                </v-timeline>
-                <!-- <v-card-actions>
-                  <v-btn block depressed class="text-capitalize grey--text text--darken-2">Load more</v-btn>
-                </v-card-actions> -->
-              </v-card-text>
-            </v-card>
-
-          </v-card>
-
-        </v-col>
-      </v-row>
+                <v-row class="">
+                  <v-col cols="6" v-for="graphic in graphics" :key="graphic.id">
+                    <v-img
+                      :src="graphic.thumb"
+                      :lazy-src="graphic.thumb"
+                      aspect-ratio="1"
+                      class="grey lighten-2 rounded-lg pointer"
+                      @click="detailsSidebar(graphic.id)"
+                    >
+                      <template v-slot:placeholder>
+                        <v-row class="fill-height ma-0" align="center" justify="center">
+                          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                        </v-row>
+                      </template>
+                  </v-img>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+        </v-row>
+      </v-container>
 
     </v-card>
 </template>
@@ -191,12 +163,16 @@
 import Lead from '../../Apis/Lead'
 import Client from '../../Apis/Client'
 import Navbar from '../../components/Dashboard/Navbar.vue'
+import Website from '../../Apis/Website'
+import Graphic from '../../Apis/Graphic'
 
 export default {
   components:{
     Navbar
   },
   data: () => ({
+    websites:[],
+    graphics: [],
     deadLead: '',
     coldLead: '',
     hotLead: '',
@@ -224,6 +200,16 @@ export default {
         this.newLead = res.data.newLeads
         this.totalLead = res.data.allLeads
       })
+    },
+    fetchProjects(){
+      Website.all().then(response => {
+          this.websites = response.data.data;
+      });
+    },
+    fetchGraphics() {
+      Graphic.all(this.page).then((response) => {
+        this.graphics = response.data.data;
+      });
     },
     fetchActivity(){
       Lead.allActivityByUser()
@@ -268,10 +254,41 @@ export default {
     this.fetchActivity();
     this.fetchClients();
     this.fetchFollowups();
+    this.fetchProjects();
+    this.fetchGraphics();
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.hotLead{
+  background: rgb(254,249,249);
+background: linear-gradient(90deg, rgba(254,249,249,1) 0%, rgba(252,225,225,1) 100%);
+}
+.warmlead{
+  background: rgb(255,253,248);
+background: linear-gradient(90deg, rgba(255,253,248,1) 0%, rgba(252,246,225,1) 100%);
+}
+.coldlead{
+  background: rgb(249,251,254);
+background: linear-gradient(90deg, rgba(249,251,254,1) 0%, rgba(225,228,252,1) 100%);
+}
+.deadlead{
+  background: rgb(251,251,251);
+background: linear-gradient(90deg, rgba(251,251,251,1) 0%, rgba(224,224,224,1) 100%);
+}
+.alllead{
+background: rgb(255,252,245);
+background: linear-gradient(90deg, rgba(255,252,245,1) 0%, rgba(254,255,237,1) 100%);
+}
+.vcard-box{
+  background: rgb(129,189,242);
+  background: linear-gradient(90deg, rgba(129,189,242,1) 0%, rgba(201,233,255,1) 100%);
+  position: relative;
+}
+.vcard-box img{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 </style>

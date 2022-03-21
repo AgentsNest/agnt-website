@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="rounded-xl pa-md-5 pa-2 shadow content-card" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-md-5 pa-2 shadow content-card" height="100vh" elevation="0">
 
             <v-toolbar flat>
                 <v-btn icon class="" @click="$router.go(-1)">
@@ -13,78 +13,73 @@
                 </v-list-item>
             </v-toolbar>
 
-            <v-card-title class="flex justify-space-between align-center d-none d-md-block" v-if="website">
+            <v-card-title class="flex justify-space-between align-center" v-if="website">
                 <div>{{website.title}}</div>
             </v-card-title>
 
             <!-- Properties -->
-            <v-container>
-                <v-row>
-                    <v-col md="6">
-                        <v-carousel v-model="projectGallery" height="220" hide-delimiters>
-                            <v-carousel-item v-for="(image, i) in website.website_images" :key="i">
-                                <v-img
-                                    :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                    :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                    contain
-                                    max-height="220"
-                                ></v-img>
-                            </v-carousel-item>
-                        </v-carousel>
-                    </v-col>
-                    <v-col md="6">
-                        <v-simple-table>
-                            <thead><tr class="grey lighten-3"><th>Sharing History</th><th></th></tr></thead>
-                            <tbody>
-                                <tr class="grey--text text--darken-3">
-                                    <td>Total Shared</td>
-                                    <td>
-                                        {{total}}
-                                        <v-btn icon @click="leadListSidebar = !leadListSidebar"><v-icon>mdi-chevron-right</v-icon></v-btn>
-                                    </td>
-                                </tr>
-                                <tr class="grey--text text--darken-3">
-                                    <td>Opened</td>
-                                    <td>
-                                        {{opened}}
-                                        <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
-                                    </td>
-                                </tr>
-                                <tr class="grey--text text--darken-3">
-                                    <td>Unopened</td>
-                                    <td>
-                                        {{unopened}}
-                                        <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </v-simple-table>
-                        <v-btn class="text-capitalize" outlined block @click="dialog = true">Preview</v-btn>
+            <v-row class="px-4">
+                <v-col md="6">
+                    <v-img
+                        v-if="website"
+                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
+                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
+                        aspect-ratio="1.9"
+                        class="rounded-lg"
+                    ></v-img>
+                </v-col>
+                <v-col md="6">
+                    <v-simple-table>
+                        <thead><tr class="grey lighten-3"><th>Sharing History</th><th></th></tr></thead>
+                        <tbody>
+                            <tr class="grey--text text--darken-3">
+                                <td>Total Shared</td>
+                                <td>
+                                    {{total}}
+                                    <v-btn icon @click="leadListSidebar = !leadListSidebar"><v-icon>mdi-chevron-right</v-icon></v-btn>
+                                </td>
+                            </tr>
+                            <tr class="grey--text text--darken-3">
+                                <td>Opened</td>
+                                <td>
+                                    {{opened}}
+                                    <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
+                                </td>
+                            </tr>
+                            <tr class="grey--text text--darken-3">
+                                <td>Unopened</td>
+                                <td>
+                                    {{unopened}}
+                                    <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-simple-table>
+                    <v-btn class="text-capitalize" outlined block @click="dialog = true">Preview</v-btn>
 
-                        <!-- all leads dialog by category -->
-                        <v-navigation-drawer v-model="leadListSidebar" tile absolute temporary right width="30vw">
-                            <v-card flat tile>
-                                <v-list>
-                                    <v-list-item v-for="lead in leads" :key="lead.id">
-                                        <v-list-item-content>
-                                            <v-list-item-title v-text="lead.name"></v-list-item-title>
-                                            <v-list-item-subtitle></v-list-item-subtitle>
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </v-list>
+                    <!-- all leads dialog by category -->
+                    <v-navigation-drawer v-model="leadListSidebar" tile absolute temporary right width="30vw">
+                        <v-card flat tile>
+                            <v-list>
+                                <v-list-item v-for="lead in leads" :key="lead.id">
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="lead.name"></v-list-item-title>
+                                        <v-list-item-subtitle></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
 
-                            </v-card>
-                        </v-navigation-drawer>
-                    </v-col>
-                </v-row>
+                        </v-card>
+                    </v-navigation-drawer>
+                </v-col>
+            </v-row>
 
-            </v-container>
         </v-card>
 
         <!-- Website Preview -->
         <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
             <v-card tile>
-                <v-toolbar dark color="primary">
+                <v-toolbar dark color="#111828">
                     <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-btn icon dark @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
@@ -109,11 +104,11 @@
                             <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
                             <v-row class="px-4">
-                                <v-col v-for="image in website.website_images" :key="image.id" class="px-1 d-flex child-flex" cols="3">
+                                <v-col v-for="image in website.website_images" :key="image.id" class="px-1 d-flex child-flex" cols="6" md="3">
                                     <v-img
                                         :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                         :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                        contain
+                                        aspect-ratio="1"
                                         class="white rounded-lg"
                                     >
                                         <template v-slot:placeholder>

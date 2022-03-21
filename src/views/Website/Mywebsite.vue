@@ -1,6 +1,5 @@
 <template>
     <v-card height="100vh" width="100vw" class="transparent" flat>
-        <Navbar/>
 
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
@@ -8,94 +7,90 @@
                 <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
             </template>
         </v-snackbar>
+        
+        <Navbar/>
 
         <v-card class="rounded-xl shadow" elevation="0">
             <v-toolbar flat>
-                <v-btn width="50%" class="rounded-l-xl text-capitalize dark" dark depressed :to="{name: 'MyWebsite'}">My Projects</v-btn>
+                <v-btn width="50%" class="rounded-l-xl text-capitalize dark" dark depressed>My Projects</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn width="50%" class="rounded-r-xl text-capitalize" depressed :to="{name: 'Website'}">All Projects</v-btn>
+                <v-btn width="50%" class="rounded-r-xl text-capitalize grey--text" depressed :to="{name: 'Website'}">All Projects</v-btn>
             </v-toolbar>
         </v-card>
 
-        <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mt-3 mb-3">
+        <v-card class="mt-4 py-2 rounded-xl white" elevation="0"> 
+          
+          <div class="d-flex align-center ma-3">
+            <v-btn fab small elevation="0" class="grey rounded-lg" dark @click.prevent="clearSearch()">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mx-2">
+            <v-btn fab small elevation="1" class="white rounded-lg" @click.prevent="searchWebsite()">
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </div>
 
-        <v-card class="transparent content-card" elevation="0" width="100vw" max-height="80vh" height="100%">
-          <v-row class="pb-16">
-              <v-col md="4" cols="12" v-for="(website, index) in filterWebsite" :key="index">
-                  <v-card>
+          <v-divider></v-divider>
+
+          <v-card flat class="py-5 px-3 overflow-y-auto" height="100%">
+            <!-- Search Results Website -->
+            <div v-if="showsearch">
+              <v-row class="">
+                  <v-col md="4" v-for="website in results" :key="website.id">
+                    <v-card class="transparent" flat>
+                      <div class="title">{{website.title}}</div>
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
-                            height="180px"
+                            aspect-ratio="1.7"
                             :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                            class="rounded-t"
+                            :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                            class="rounded-lg shadow-xl my-2"
                         ></v-img>
                       </router-link>
-
-                      <v-card-text class="pa-0">
-                        <v-card-title>{{website.title}}</v-card-title>
-                        <v-card-subtitle>Total Shared: {{website.trackers.length}}</v-card-subtitle>
-                      </v-card-text>
-
-                      <div class="pa-0">
-                        <v-btn width="50%" @click="dialog = !dialog" class="text-capitalize">
-                          <v-icon left>mdi-pencil</v-icon>
-                          Edit
-                        </v-btn>
-                        <v-btn width="50%" class="grey darken-3 text-capitalize" @click="shareSidebarOpen(website)" dark>
-                          <v-icon left color="white">mdi-share-variant</v-icon>
-                          Share
-                        </v-btn>
+                      <div class="d-flex">
+                          <v-btn dark color="#111828" class="text-capitalize flex-grow-1 rounded-lg" @click="shareSidebarOpen(website)">
+                            <v-icon left>mdi-share-variant</v-icon>
+                            Share
+                          </v-btn>
+                          <v-btn  class="ml-2 amber accent-3 text-capitalize rounded-lg">
+                            <v-icon size="18" color="#111828" left>mdi-pencil-outline</v-icon>
+                            Edit
+                          </v-btn>
                       </div>
-                  </v-card>
-              </v-col>
-          </v-row>
-        </v-card>
-
-        <!-- Single Website Preview Dialog -->
-        <v-dialog v-model="dialog">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">Click Me</v-btn>
-          </template>
-
-          <v-card>
-            <v-toolbar dense class="" flat>
-                <v-toolbar-title>Image Gallery</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon>
-                    <label for="gallery" class="cursor-pointer flex items-center gap-2">
-                        <v-icon size="38">mdi-plus-circle</v-icon>
-                        <input type="file" multiple hidden ref="files" id="gallery" @change="updateImageList">
-                    </label>
-                </v-btn>
-            </v-toolbar>
-
-            <v-card-text>
-                <v-row>
-                    <v-col 
-                        v-for="(preview, index) in previewImage" :key="index" 
-                        class="d-flex child-flex" cols="4"
-                    >
+                    </v-card>
+                  </v-col>
+              </v-row>
+            </div>
+            <!-- Default Websites -->
+            <div v-else>
+              <v-row class="">
+                <v-col md="4" v-for="(website, index) in websites" :key="index">
+                    <v-card class="transparent" flat>
+                      <div class="title">{{website.title}}</div>
+                      <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
-                            :src="preview.src"
-                            id="image-preview"
-                            aspect-ratio="1"
-                            class="rounded-lg align-end pa-1"
-                        >
-                            <v-btn class="dark" x-small icon @click="setFeatured(preview)"><v-icon color="yellow">mdi-star</v-icon></v-btn>
-                            <v-btn class="dark ml-2" x-small icon @click="clearImage(index)"><v-icon color="red">mdi-delete</v-icon></v-btn>
-                        </v-img>
-                    </v-col>
-                </v-row>
-            </v-card-text>
-
-            <v-divider></v-divider>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn small color="grey darken-2" dark>Update</v-btn>
-            </v-card-actions>
+                            aspect-ratio="2"
+                            :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                            :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                            class="rounded-lg shadow-xl my-2"
+                        ></v-img>
+                      </router-link>
+                      <div class="d-flex">
+                          <v-btn dark color="#111828" class="text-capitalize flex-grow-1 rounded-lg" @click="shareSidebarOpen(website)">
+                            <v-icon left>mdi-share-variant</v-icon>
+                            Share
+                          </v-btn>
+                          <v-btn  class="ml-2 amber accent-3 text-capitalize rounded-lg">
+                            <v-icon size="18" color="#111828" left>mdi-pencil-outline</v-icon>
+                            Edit
+                          </v-btn>
+                      </div>
+                    </v-card>
+                </v-col>
+              </v-row>
+            </div>
           </v-card>
-        </v-dialog>
+        </v-card>
       
         <!-- All Leads Dialog -->
         <v-navigation-drawer v-model="allLeadSidebar" tile absolute temporary right width="75vw">
@@ -189,6 +184,8 @@ export default {
         loading: false,
         items: [],
         search: '',
+        showsearch: false,
+        results: [],
         select: null,
         states: [
           'Alabama',
@@ -348,9 +345,6 @@ export default {
               console.log(error);
           })
       },
-      // sendWhatsapp(){
-      //     window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
-      // },
       /* ===================================
       -- -- Share website via message --- --
       =====================================*/
@@ -389,9 +383,21 @@ export default {
               console.log(error);
           })
       },
-      // sendTextMessage(){
-      //     window.open(`sms:/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
-      // },
+      searchWebsite(){
+        Website.search(this.search)
+        .then((res) => {
+          // console.log(res.data)
+          this.showsearch = true
+          this.results = res.data;
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+      clearSearch(){
+        this.results = ''
+        this.search = ''
+        this.showsearch = false
+      }
     },
     computed:{
       selectAll:{
@@ -437,9 +443,8 @@ export default {
 .search-input{
   background-color: #fff;
   border-radius: 12px;
-  padding: 0.8em;
-  width: 100%;
-  max-width: 400px;
+  padding: 0.6em 0.8em;
+  width: 100%; 
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }
 </style>

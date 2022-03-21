@@ -17,7 +17,7 @@
             </v-col>
           </v-row>
           <v-row v-else>
-            <v-col cols="12" v-for="(graphic, index) in graphics" :key="index" class="pa-4">
+            <v-col cols="6" v-for="(graphic, index) in graphics" :key="index" class="pa-4">
                 <router-link :to="{name: 'previewMgraphic', params: {id: graphic.id} }">
                     <v-img
                         :src="graphic.thumb"
