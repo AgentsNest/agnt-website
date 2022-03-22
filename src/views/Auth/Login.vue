@@ -100,8 +100,8 @@ export default {
         return {
             showPassword: false,
             form:{
-                email: "vimal@gmail.com",
-                password: "password",
+                email: "",
+                password: "",
                 device_name: 'mobile'
             },
             errors:''

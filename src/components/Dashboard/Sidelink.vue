@@ -1,6 +1,6 @@
 <template>
     <v-card
-      class="shadow py-5"
+      class="shadow py-5 sidelink"
       color="#111828"
       permanent
       tile
@@ -22,13 +22,12 @@
       </router-link>
     </ul>
 
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn block>
-            Logout
-          </v-btn>
-        </div>
-      </template>
+    <v-card-actions>
+      <v-btn class="text-capitalize logout-btn" block text dark @click="logout">
+        <v-icon color="amber accent-3" left>mdi-logout</v-icon>
+        Logout
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -63,10 +62,22 @@ import User from '../../Apis/User'
         }
       })
     },
+    methods:{
+      logout(){
+        localStorage.removeItem("token");
+        User.logout().then(() => {
+          localStorage.removeItem("token");
+          this.isLoggedIn = false;
+          this.$router.push({name: 'Login'});
+        })
+      }
+    }
   }
 </script>
 
 <style scoped>
+.sidelink{position: relative;}
+.logout-btn{position: absolute;bottom: 0;left: 0;right: 0;}
 ul {
   padding: 1em;
   margin: 0;

@@ -1,6 +1,6 @@
 <template>
     <div class="">
-      <v-toolbar class="transparent d-none d-md-block mt-3" flat>
+      <!-- <v-toolbar class="transparent d-none d-md-block mt-3" flat tile>
 
         <v-spacer></v-spacer>
 
@@ -58,54 +58,58 @@
           </v-card>
         </v-menu>
 
-      </v-toolbar>
+      </v-toolbar> -->
 
       <!-- Mobile Navbar -->
 
-      <v-toolbar class="rounded-xl d-md-none" flat>
-        <v-btn icon @click.stop="mSidebar = !mSidebar"><v-icon>mdi-menu</v-icon></v-btn>
+      <div class="d-md-none">
+        <div dark class="d-flex navbg align-center pt-3 px-4 pb-8">
+          <div class="text-lowercase font-weight-bold title white--text">agnt.</div>
           <v-spacer></v-spacer>
-        <v-btn text class="text-lowercase font-weight-bold title">agnt.</v-btn>
-          <v-spacer></v-spacer>
-        <!-- <v-avatar color="red">{{agent.name[0]}}</v-avatar> -->
-        <Notification />
-      </v-toolbar>
-      
-      <v-navigation-drawer v-model="mSidebar" absolute>
-          <v-img :src="agent.brand_logo" max-width="35vw" class="mx-auto mt-8 mb-3"></v-img>
-          <v-list-item>
-            <v-list-item-content class="text-center">
-              <v-list-item-title>
-                {{agent.name}}
-                <v-btn icon small depressed :to="{name: 'AgentAccount'}"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-              </v-list-item-title>
-              <v-list-item-subtitle>{{agent.email}}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-divider></v-divider>
-
-          <v-list dense>
-            <v-list-item
-              v-for="item in items"
-              :key="item.title"
-              link
-              class="py-1"
-              :to="{name: item.link}"
-              :disabled="whateverActivatesThisLink" 
-            >
-              <v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <Notification />
+          <v-btn icon @click.stop="mSidebar = !mSidebar"><v-icon color="white">mdi-align-horizontal-right</v-icon></v-btn>
+        </div>
+        <v-card class="cyan darken-1 px-4 pt-5 pb-10 mt-n6 rounded-t-xl" flat>
+          <v-icon color="amber accent-3" left>mdi-view-dashboard</v-icon>
+          <span class="white--text font-weight-bold">Dashboard</span>
+        </v-card>
+        
+        <v-navigation-drawer v-model="mSidebar" absolute>
+            <v-img :src="agent.brand_logo" max-width="35vw" class="mx-auto mt-8 mb-3"></v-img>
+            <v-list-item>
+              <v-list-item-content class="text-center">
+                <v-list-item-title>
+                  {{agent.name}}
+                  <v-btn icon small depressed :to="{name: 'AgentAccount'}"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
+                </v-list-item-title>
+                <v-list-item-subtitle>{{agent.email}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-          </v-list>
-          <template v-slot:append>
-            <div class="pa-2">
-              <v-btn block @click="logout">Logout</v-btn>
-            </div>
-          </template>
+
+            <v-divider></v-divider>
+
+            <v-list dense>
+              <v-list-item
+                v-for="item in items"
+                :key="item.title"
+                link
+                class="py-1"
+                :to="{name: item.link}"
+                :disabled="whateverActivatesThisLink" 
+              >
+                <v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+            <template v-slot:append>
+              <div class="pa-2">
+                <v-btn block @click="logout">Logout</v-btn>
+              </div>
+            </template>
         </v-navigation-drawer>
+      </div>
     </div>
 </template>
 
@@ -152,6 +156,9 @@ export default {
 </script>
 
 <style scoped>
+.navbg{
+  background: #111828;
+}
 .search-input{
   background-color: #fff;
   border-radius: 12px;

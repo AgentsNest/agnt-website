@@ -52,11 +52,11 @@
         >
             <template v-slot:activator="{ on, attrs }">
                 <v-badge 
-                    class="mr-2" dense bordered overlap color="error" 
+                    class="mr-3" dense overlap color="error" 
                     :content="unreadnotifications.length > 0 ? unreadnotifications.length : '0' " 
                 >
-                    <v-btn icon small color="grey darken-3" v-bind="attrs" v-on="on">
-                        <v-icon size="22" color="dark">mdi-bell</v-icon>
+                    <v-btn icon small color="white" v-bind="attrs" v-on="on">
+                        <v-icon size="20" color="dark">mdi-bell</v-icon>
                     </v-btn>
                 </v-badge>
             </template>

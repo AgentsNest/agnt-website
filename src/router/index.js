@@ -59,6 +59,16 @@ const routes = [
           ),
       },
 
+      // v-card
+      {
+        path: "/get-card",
+        name: "GetCard",
+        component: () =>
+          import(
+            /* webpackChunkName: "get-vcard" */ "../views/Pages/getCard.vue"
+          ),
+      },
+
       /*
       * = ===================================== **
       * = ===================================== **

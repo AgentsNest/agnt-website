@@ -4,7 +4,9 @@ export default {
   all(page) {
     return Api().get(`/graphics?page=${page}`);
   },
-
+  graphicsfordashboard() {
+    return Api().get("/graphicsfordashboard");
+  },
   downloadCount(graphic, form) {
     return Api().patch("/graphic/" + graphic, form);
   },
