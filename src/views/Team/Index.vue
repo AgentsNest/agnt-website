@@ -8,22 +8,23 @@
             </template>
         </v-snackbar>
 
-        <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
+        <Navbar/>
 
-            <v-toolbar flat class="d-none d-md-flex">
-                <!-- <v-btn icon class="mr-4" @click="$router.go(-1)">
-                    <v-icon size="28" color="grey darken-3">mdi-arrow-left</v-icon>
-                </v-btn>
-                <v-spacer></v-spacer> -->
-                <div class="text-uppercase font-weight-bold">My Team</div>
-                <input type="text" placeholder="Search by Name..." class="search-input d-none d-md-block">
-            </v-toolbar>
+        <v-card class="cyan darken-1 pl-4 pr-6 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none d-flex align-center" flat>
+            <v-btn class="text-capitalize dark" text dark>
+              <v-icon class="mr-2">mdi-account-group</v-icon>
+              My Team ({{teams.length}})
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn small outlined text class="text-capitalize" dark @click="dialog = !dialog">
+              <v-icon left>mdi-plus</v-icon>
+              Add New
+            </v-btn>
+        </v-card>
+
+        <v-card flat width="100%" class="white rounded-t-xl pb-5 overflow-y-auto mt-n7 mt-md-0 fill-height">
 
             <v-card-text>
-              <div class="d-flex justify-space-between mb-5 align-center">
-                <div class="font-weight-bold subtitle-1">My Team ({{teams.length}})</div>
-                <v-btn x-small elevation="1" fab class="white" @click="dialog = !dialog"><v-icon>mdi-plus</v-icon></v-btn>
-              </div>
 
               <v-row>
                 <v-col md="8" cols="12">
@@ -109,8 +110,10 @@
 
 <script>
 import User from '../../Apis/User';
+import Navbar from "../../components/Dashboard/Navbar";
 
 export default {
+  components:{Navbar},
     data: () => ({
         team:{
           name: '',

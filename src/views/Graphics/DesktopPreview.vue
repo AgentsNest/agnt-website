@@ -1,6 +1,6 @@
 <template>
 
-    <v-card flat height="100vh" class="transparent" tile>
+    <v-card flat height="100vh" class="transparent pt-5" tile>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Design saved successfully
             <template v-slot:action="{ attrs }">

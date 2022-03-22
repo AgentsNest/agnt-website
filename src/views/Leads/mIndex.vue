@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-card flat height="100vh" class="transparent">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{ snackbarText }}
             <template v-slot:action="{ attrs }">
@@ -9,12 +9,17 @@
 
         <Navbar/>
 
-        <v-card class="shadow content-card" width="100%" flat height="100vh">
+        <v-card class="cyan darken-1 px-4 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none" flat>
+            <v-icon color="amber accent-3" left>mdi-format-list-bulleted-square</v-icon>
+            <span class="white--text font-weight-bold">Clients ({{totalLeads}})</span>
+        </v-card>
 
-            <v-toolbar>
+         <v-card flat width="100%" class="white rounded-t-xl pb-10 overflow-y-auto mt-n7 mt-md-0 fill-height">
+
+            <!-- <v-toolbar flat dense>
                 <div class="font-weight-bold">Total Leads ({{totalLeads}})</div>
                 <v-spacer></v-spacer>
-                <!-- <v-btn icon @click="searchInput = !searchInput"><v-icon>mdi-magnify</v-icon></v-btn> -->
+                <v-btn icon @click="searchInput = !searchInput"><v-icon>mdi-magnify</v-icon></v-btn>
             </v-toolbar>
             <div class="mt-1 px-4 d-flex align-center mb-3" v-if="searchInput">
                 <v-text-field
@@ -22,7 +27,7 @@
                     width="80%"
                 ></v-text-field>
                 <v-btn icon><v-icon>mdi-magnify</v-icon></v-btn>
-            </div>
+            </div> -->
 
             <!-- checkbox actions -->
             <!-- <v-toolbar class="">
@@ -57,7 +62,7 @@
             </v-toolbar> -->
             
 
-            <v-card height="88vh" class="overflow-y-auto pb-8" flat>
+            <v-card height="88vh" class="overflow-y-auto" flat>
                 <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
                     <v-card-actions class="pa-3">
                         <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
@@ -448,7 +453,7 @@
             
         </v-card>
 
-    </div>
+    </v-card>
 </template>
 
 <script>
@@ -981,7 +986,7 @@ select{
 }
 .speed-dail{
     position: absolute;
-    bottom: 6em;
+    bottom: 12em;
     right: 15px;
 }
 </style>

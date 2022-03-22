@@ -8,12 +8,12 @@
         </v-snackbar>
 
         <!-- Desktop Screen -->
-        <v-card class="rounded-xl pa-md-5 shadow content-card" height="100vh" elevation="0">
+        <v-card class="rounded-xl pa-md-5 shadow content-card" height="100vh" width="100%" elevation="0">
             <v-toolbar flat>
-                <div class="font-weight-bold text-h6">Total Leads ({{total_leads}})</div>
+                <div class="font-weight-bold text-h6">Clients</div>
                 <v-spacer></v-spacer>
 
-                <v-text-field
+                <!-- <v-text-field
                     v-model="search"
                     append-icon="mdi-magnify"
                     label="Search"
@@ -21,7 +21,7 @@
                     hide-details
                     outlined
                     dense
-                ></v-text-field>
+                ></v-text-field> -->
 
                 <v-spacer></v-spacer>
                 <v-menu offset-y>
@@ -144,10 +144,22 @@
                             class="blue-grey--text text--darken-2 cursor-pointer"
                         >
                             <td><v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox></td>
-                            <td @click="detailsSidebar(lead.id)">{{ lead.name }}</td>
-                            <td @click="detailsSidebar(lead.id)">{{ lead.contact }}</td>
-                            <td @click="detailsSidebar(lead.id)">{{ lead.created_at | formatDate }}</td>
-                            <td @click="detailsSidebar(lead.id)">{{ lead.status }}</td>
+                            <td>
+                                <router-link :to="{name: 'singleLead', params: {id:lead.id}}" class="grey--text text--darken-3">
+                                    {{ lead.name }}
+                                </router-link>
+                            </td>
+                            <td>
+                                <router-link :to="{name: 'singleLead', params: {id:lead.id}}" class="grey--text text--darken-3">
+                                {{ lead.contact }}
+                                </router-link>
+                            </td>
+                            <td>
+                                <router-link :to="{name: 'singleLead', params: {id:lead.id}}" class="grey--text text--darken-3">
+                                {{ lead.created_at | formatDate }}
+                                </router-link>
+                            </td>
+                            <td>{{ lead.status }}</td>
                             <td>{{ lead.lead_source }}</td>
                             <!-- <td @click="detailsSidebar(lead.id)" v-if="lead.activities">
                                 <span v-if="lead.activities[0].notes !== null">{{ lead.activities[0].notes }}</span>
@@ -171,6 +183,7 @@
                     </tbody>
                     </template>
                 </v-simple-table>
+                <v-btn block @click="loadMoreDesktop" v-if="loadMoreBtn" class="my-3 rounded-lg text-capitalize">load more</v-btn>
 
                 <!--
                     ===========================
@@ -237,7 +250,7 @@
             Single Lead Sidebar
         ======================================
         ====================================== -->
-            <v-navigation-drawer v-model="drawer" tile absolute temporary right width="40vw">
+            <v-navigation-drawer v-model="drawer" tile absolute temporary right class="navigation-bar" width="40vw">
                 <v-card flat tile class="grey lighten-4">
 
                     <v-toolbar elevation="2" class="">
@@ -548,6 +561,7 @@ export default {
             {id: 5, title: 'Dead'}
         ],
         whateverActivatesThisLink: true,
+        loadMoreBtn: true
       }
     },
     methods:{
@@ -742,7 +756,9 @@ export default {
             })
         },
         deleteLeadDialogBox(lead){
-            console.log(lead)
+            // console.log(lead)
+            Lead.delete(lead)
+            this.fetchData();
         },
         editedLeadDialogBox(lead){
             this.editLead = true
@@ -859,6 +875,7 @@ export default {
 </script>
 
 <style scoped>
+.navigation-bar{display: none;}
 .content-card{
   overflow-y: scroll;
 }

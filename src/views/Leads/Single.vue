@@ -6,9 +6,9 @@
                 <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
             </template>
         </v-snackbar>
-        <v-card class="rounded-xl" v-if="lead">
+        <v-card class="rounded-xl pa-md-16 fill-height" v-if="lead" flat>
             <v-toolbar elevation="0">
-                <v-btn icon :to="{name: 'mLeads'}"><v-icon>mdi-arrow-left</v-icon></v-btn>
+                <v-btn icon @click="$router.go(-1)"><v-icon>mdi-arrow-left</v-icon></v-btn>
                 <v-spacer></v-spacer>
 
                 <v-menu offset-y>
@@ -296,7 +296,7 @@
         ********************************** -->
             <div class="px-6 pt-3">Activities <span v-if="lead.activities" class="ml-2">({{lead.activities.length}})</span></div>
 
-            <v-card flat class="px-4 mt-3 overflow-y-auto" height="200">
+            <v-card flat class="px-4 mt-3 overflow-y-auto" height="30vh">
                 <!-- <v-timeline dense clipped >
                     <v-timeline-item fill-dot class="white--text mb-3 text-left" color="grey lighten-3" >
                         <v-text-field

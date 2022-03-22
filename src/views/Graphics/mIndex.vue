@@ -3,43 +3,52 @@
     <v-card class="rounded-lg shadow content-card" height="100vh" elevation="0">
       <Navbar />
 
-      <v-row>
-        <!-- Image gallery columns 4 -->
-        <v-col class="all-images-card">
-        
-          <v-row v-if="skelton">
-            <v-col cols="6" v-for="n in 12" :key="n">
-              <v-skeleton-loader
-                class="mx-auto rounded-lg"
-                height="140px"
-                type="image"
-              ></v-skeleton-loader>
+      <v-card class="cyan darken-1 px-4 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none" flat>
+        <v-icon color="amber accent-3" left>mdi-image-size-select-large</v-icon>
+        <span class="white--text font-weight-bold">Choose Graphics</span>
+      </v-card>
+
+      <v-card flat width="100%" class="white rounded-t-xl pb-10 overflow-y-auto mt-n7 mt-md-0 fill-height">
+        <v-container>
+          <v-row>
+            <v-col class="all-images-card">
+
+              <v-row v-if="skelton">
+                <v-col cols="6" v-for="n in 12" :key="n">
+                  <v-skeleton-loader
+                    class="mx-auto rounded-lg"
+                    height="140px"
+                    type="image"
+                  ></v-skeleton-loader>
+                </v-col>
+              </v-row>
+              <v-row v-else>
+                <v-col cols="6" v-for="(graphic, index) in graphics" :key="index" class="pa-4">
+                    <router-link :to="{name: 'previewMgraphic', params: {id: graphic.id} }">
+                        <v-img
+                            :src="graphic.thumb"
+                            :lazy-src="graphic.thumb"
+                            aspect-ratio="1.4"
+                            cover
+                            class="grey lighten-2 rounded-lg pointer"
+                        >
+                        <template v-slot:placeholder>
+                            <v-row class="fill-height ma-0" align="center" justify="center">
+                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                            </v-row>
+                        </template>
+                        </v-img>
+                    </router-link>
+                </v-col>
+              </v-row>
+              <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
+                <span slot="no-more"></span>
+              </infinite-loading>
             </v-col>
+            
           </v-row>
-          <v-row v-else>
-            <v-col cols="6" v-for="(graphic, index) in graphics" :key="index" class="pa-4">
-                <router-link :to="{name: 'previewMgraphic', params: {id: graphic.id} }">
-                    <v-img
-                        :src="graphic.thumb"
-                        :lazy-src="graphic.thumb"
-                        aspect-ratio="1.4"
-                        class="grey lighten-2 rounded-lg pointer"
-                    >
-                    <template v-slot:placeholder>
-                        <v-row class="fill-height ma-0" align="center" justify="center">
-                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                        </v-row>
-                    </template>
-                    </v-img>
-                </router-link>
-            </v-col>
-          </v-row>
-          <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
-            <span slot="no-more"></span>
-          </infinite-loading>
-        </v-col>
-        
-      </v-row>
+        </v-container>
+      </v-card>
       
     </v-card>
 

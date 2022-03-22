@@ -9,6 +9,12 @@
         </v-snackbar>
 
         <Navbar/>
+        <v-card class="cyan darken-1 px-4 pt-3 pb-3 mt-n6 rounded-t-xl d-md-none" flat>
+            <v-btn @click="$router.go(-1)" text class="text-capitalize" small>
+                <v-icon color="amber accent-3" left>mdi-keyboard-backspace</v-icon>
+                <span class="white--text font-weight-bold">Back</span>
+            </v-btn>
+        </v-card>
 
         <v-card class="d-flex align-center mx-auto transparent" height="75vh" width="100%" ref="canvasCard" flat>
             <v-card ref="container" id="capture" class="mainCanvas" width="100%">
@@ -405,7 +411,7 @@ export default {
             brandText: "",
             brandTextColor: "#000000",
             brandFontSize: 20,
-            textControls: true,
+            textControls: false,
             reraText: '',
             reraTextColor: "#000000",
             reraFontSize: 9,

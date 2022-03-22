@@ -69,26 +69,13 @@
           <Notification />
           <v-btn icon @click.stop="mSidebar = !mSidebar"><v-icon color="white">mdi-align-horizontal-right</v-icon></v-btn>
         </div>
-        <v-card class="cyan darken-1 px-4 pt-5 pb-10 mt-n6 rounded-t-xl" flat>
-          <v-icon color="amber accent-3" left>mdi-view-dashboard</v-icon>
-          <span class="white--text font-weight-bold">Dashboard</span>
-        </v-card>
         
-        <v-navigation-drawer v-model="mSidebar" absolute>
-            <v-img :src="agent.brand_logo" max-width="35vw" class="mx-auto mt-8 mb-3"></v-img>
-            <v-list-item>
-              <v-list-item-content class="text-center">
-                <v-list-item-title>
-                  {{agent.name}}
-                  <v-btn icon small depressed :to="{name: 'AgentAccount'}"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                </v-list-item-title>
-                <v-list-item-subtitle>{{agent.email}}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+        <v-navigation-drawer v-model="mSidebar" absolute color="#111828">
+            <v-img :src="agent.brand_logo" lazy-src="../../assets/img/bg-grey.svg" aspect-ratio="2" contain class="mx-auto mt-8 mb-3"></v-img>
 
-            <v-divider></v-divider>
+            <v-divider class="" color="#666"></v-divider>
 
-            <v-list dense>
+            <v-list dense dark>
               <v-list-item
                 v-for="item in items"
                 :key="item.title"
@@ -103,11 +90,34 @@
                 </v-list-item-content>
               </v-list-item>
             </v-list>
-            <template v-slot:append>
-              <div class="pa-2">
-                <v-btn block @click="logout">Logout</v-btn>
+
+            <v-divider class="" color="#666"></v-divider>
+
+            <v-list dark dense>
+              <v-list-item link :to="{name: 'AgentAccount'}">
+                <v-list-item-icon><v-icon>mdi-account-box-outline</v-icon></v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Account</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+               <v-list-item @click="logout">
+                <v-list-item-icon><v-icon>mdi-logout</v-icon></v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Logout</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+
+            <v-divider class="" color="#666"></v-divider>
+
+            <div class="d-flex align-center pa-4 mt-2">
+              <v-avatar size="36"><v-img :src="agent.image"></v-img></v-avatar>
+              <div class="ml-3">
+                <div class="font-weight-bold caption white--text">{{agent.name}}</div>
+                <div class="caption grey--text">{{agent.email}}</div>
               </div>
-            </template>
+            </div>
+
         </v-navigation-drawer>
       </div>
     </div>

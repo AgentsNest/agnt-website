@@ -3,10 +3,6 @@
     <Navbar/>
     
     <v-card class="rounded shadow content-card" height="100%" elevation="0">
-      <v-toolbar class="" dense flat>
-        <v-icon class="mr-2">mdi-image</v-icon>
-        Choose Graphic
-      </v-toolbar>
       <v-row class="pa-5">
         <!-- Image gallery columns 4 -->
         <v-col cols="12" class="all-images-card">

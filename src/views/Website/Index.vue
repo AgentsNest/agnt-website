@@ -9,22 +9,33 @@
 
         <Navbar/>
 
-        <v-card class="rounded-xl shadow" elevation="0">
+        <v-card class="cyan darken-1 px-4 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none d-flex" flat>
+            <v-btn class="rounded-xl text-capitalize dark" outlined dark :to="{name: 'MyWebsite'}">
+              My Projects
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn class="text-capitalize dark" text dark>
+              <v-icon class="mr-2">mdi-office-building-outline</v-icon>
+              All Projects
+            </v-btn>
+        </v-card>
+
+        <!-- <v-card class="rounded-xl shadow" elevation="0">
             <v-toolbar flat>
                 <v-btn width="50%" class="rounded-l-xl text-capitalize grey--text" depressed :to="{name: 'MyWebsite'}">My Projects</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn width="50%" class="rounded-r-xl text-capitalize dark" dark depressed>All Projects</v-btn>
             </v-toolbar>
-        </v-card>
+        </v-card> -->
 
-        <v-card class="mt-4 py-2 rounded-xl white" elevation="0"> 
+        <v-card flat width="100%" class="white rounded-t-xl pb-5 overflow-y-auto mt-n7 mt-md-0 fill-height">
           
           <div class="d-flex align-center ma-3">
-            <v-btn fab small elevation="0" class="grey rounded-lg" dark @click.prevent="clearSearch()">
+            <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
               <v-icon>mdi-close</v-icon>
             </v-btn>
             <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mx-2">
-            <v-btn fab small elevation="1" class="white rounded-lg" @click.prevent="searchWebsite()">
+            <v-btn icon class="white rounded-lg" @click.prevent="searchWebsite()">
               <v-icon>mdi-magnify</v-icon>
             </v-btn>
           </div>

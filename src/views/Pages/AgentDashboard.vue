@@ -1,8 +1,13 @@
 <template>
-    <section>
+    <v-card flat height="100vh">
       <Navbar/>
+
+      <v-card class="cyan darken-1 px-4 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none" flat>
+        <v-icon color="amber accent-3" left>mdi-view-dashboard</v-icon>
+        <span class="white--text font-weight-bold">Dashboard</span>
+      </v-card>
       
-      <v-card flat height="90vh" width="100%" class="white rounded-t-xl py-6 overflow-y-auto mt-n6">
+      <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 overflow-y-auto mt-n7 mt-md-0 fill-height">
 
         <v-container>
           <v-row>
@@ -116,7 +121,11 @@
 
                 </v-card>
               </v-col>
+              <!-- ===============================
+                Right Sidebar
+               =============================== -->
               <v-col cols="12" md="4">
+                
                 <!-- v-card -->
                 <v-card class="pa-2 mt-12">
                   <v-card class="vcard-box d-flex px-4 py-8">
@@ -130,8 +139,49 @@
                     </div>
                   </v-card>
                 </v-card>
+                <!-- user Profile -->
+                <v-card class="mt-6 d-none d-md-block rounded-lg" flat>
+                  <div class="shadow">
+                    <div class="d-flex align-center pa-3">
+                      <v-avatar size="42"><v-img :src="agent.image"></v-img></v-avatar>
+                      <div class="mx-2">
+                        <span v-if="isMorning()">Good Morning,</span>
+                        <span v-else>Good Afternoon,</span>
+                      </div>
+                      <div class="font-weight-bold">{{agent.name}}!</div>
+                    </div>
+                    <!-- Notification -->
+                    <div class="notification-box">
+                      <div class="d-flex px-3 py-1 bg-gradient align-center">
+                          <div class="subtitle-2">Notifications ({{unreadnotifications.length}})</div>
+                          <v-spacer></v-spacer>
+                          <v-btn @click="markAsRead()" text small>
+                              <v-icon left color="white">mdi-checkbox-marked-circle</v-icon>
+                              <span class="white--text">Clear</span>
+                          </v-btn>
+                      </div>
+                      <v-card class="overflow-y-auto" flat height="225">
+                          <div class="box" v-for="notification in unreadnotifications" :key="notification.id">
+                              <div class="px-3 py-2">
+                                  <div class="body-2">
+                                      <span class="font-weight-medium grey--text text--darken-3">{{notification.data.Project}}</span> 
+                                      <span class="grey--text text--darken-2 mx-1">Opened By</span> 
+                                      <span class="font-weight-medium grey--text text--darken-3">{{notification.data.description}}</span>
+                                  </div>
+                                  <!-- <div class="body-2 grey--text text--darken-2">Duration: {{notification.data.duration}}</div> -->
+                                  <div class="caption grey--text text--darken-3">
+                                    <v-icon size="14" color="pink">mdi-alarm-check</v-icon>
+                                    {{notification.created_at | fromNow}}
+                                  </div>
+                              </div>
+                            <v-divider></v-divider>
+                          </div>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-card>
                 <!-- Latest Graphics -->
-                <v-card class="mt-6" flat>
+                <v-card class="mt-6 pb-16 pb-md-0" flat>
                   <div class="mb-4 font-weight-bold d-flex align-center">
                     Latest Graphics
                     <v-spacer></v-spacer>
@@ -165,7 +215,7 @@
         </v-container>
       </v-card>
 
-    </section>
+    </v-card>
 </template>
 
 <script>
@@ -177,7 +227,7 @@ import Graphic from '../../Apis/Graphic'
 
 export default {
   components:{
-    Navbar
+    Navbar,
   },
   data: () => ({
     websites:[],
@@ -196,7 +246,6 @@ export default {
     activities: [],
     clients: '',
     events: [],
-    agent: ''
   }),
   methods:{
     fetchData(){
@@ -239,9 +288,21 @@ export default {
         this.events = response.data.events.data;
         // console.log(response.data)
       });
+    },
+    isMorning () {
+      return new Date().getHours() < 12 ? true : false
+    },
+    markAsRead(){   
+      Notification.markAsRead().then(response => {
+          this.notificationList = false;
+          this.snackbar = true
+          this.$store.dispatch('unReadNotification');
+      })
     }
   },
   computed:{
+    agent(){ return this.$store.state.auth; },
+    unreadnotifications(){return this.$store.state.unreadnotifications},
     hotLeadPercentage(){
       return (this.hotLead / this.totalLead * 100).toFixed(2)
     },
@@ -295,9 +356,19 @@ background: linear-gradient(90deg, rgba(255,252,245,1) 0%, rgba(254,255,237,1) 1
   background: linear-gradient(90deg, rgba(129,189,242,1) 0%, rgba(201,233,255,1) 100%);
   position: relative;
 }
+.bg-gradient{
+  background-image: linear-gradient(to right, #283593, #3cabba);
+  color: #fff;
+}
 .vcard-box img{
   position: absolute;
   bottom: 0;
   right: -15px;
 }
+.shadow{
+  box-shadow: 0 2px 6px 0 rgba(136, 148, 171, 0.2),0 24px 20px -24px rgba(71, 82, 107, 0.1);
+  border-radius: 12px;
+}
+.color-one{color: #283593;}
+.color-two{color: #3cabba;}
 </style>
