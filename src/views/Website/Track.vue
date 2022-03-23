@@ -24,35 +24,36 @@
                     <v-card-title>{{website.title}}</v-card-title>
                     <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                    <v-container>
+                    <!-- <v-container>
                         <v-row v-if="website.website_images">
                             <v-col v-for="image in website.website_images" :key="image.id" class="px-1" cols="4" md="3">
-                                <!-- <v-img
-                                    :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                    :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                    aspect-ratio="1.4"
-                                    class="white rounded-lg"
-                                >
-                                    <template v-slot:placeholder>
-                                        <v-row class="fill-height ma-0" align="center" justify="center">
-                                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                        </v-row>
-                                    </template>
-                                </v-img> -->
-                                <img :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`" :alt="website.title" class="gallery-img" v-img:group>
+                                <img :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`" :alt="website.title" class="gallery-img">
                             </v-col>
                         </v-row>
-                    </v-container>
-
-                    <!-- <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
-                        <div class="font-weight-bold">PREPARED BY:</div>
-                        <v-spacer></v-spacer>
-                        <img :src="agent.image" style="width: 80px;height: 80px;border-radius:100%;" v-if="agent">
-                        <div class="ml-2">
-                            <div>{{agent.name}}</div>
-                            <div>{{agent.contact}}</div>
+                    </v-container> -->
+                    <div class="gallery-container" v-if="website.website_images">
+                         <div class="images image-container" v-viewer>
+                            <img
+                                v-for="image in website.website_images" :key="image.id" 
+                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                :alt="website.title" 
+                                class="gallery-img"
+                            />
                         </div>
-                    </v-card> -->
+                    </div>
+
+                    <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
+                        <div class="font-weight-bold body-2">PREPARED BY:</div>
+                        <v-spacer></v-spacer>
+                        <!-- <img :src="agent.image" style="width: 80px;height: 80px;border-radius:100%;" v-if="agent"> -->
+                        <v-avatar v-if="agent" size="52">
+                            <img :src="agent.image" lazy-src="../../assets/img/bg-grey.svg">
+                        </v-avatar>
+                        <div class="ml-2">
+                            <div class="body-2 font-weight-bold">{{agent.name}}</div>
+                            <div class="caption">{{agent.contact}}</div>
+                        </div>
+                    </v-card>
 
                     <v-card-text>
                         <div class="text-h6">Map</div>
@@ -130,7 +131,7 @@ export default {
             agent_id : '',
             lead_id : '',
             website_id: '',
-            lead_name: ''
+            lead_name: '',
         }
     },
     created(){
@@ -220,5 +221,14 @@ export default {
     width: 100%;
     aspect-ratio: 4/3;
     border-radius: 6px;
+    display: block;
+}
+.image-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(8, 24vw);
+    grid-gap: 6px;
+    padding-left: 6px;
+    padding-right: 6px;
 }
 </style>

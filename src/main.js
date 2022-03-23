@@ -11,6 +11,9 @@ import InfiniteLoading from "vue-infinite-loading";
 import Vuelidate from "vuelidate";
 import VueObserveVisibility from "vue-observe-visibility";
 
+import "viewerjs/dist/viewer.css";
+import Viewer from "v-viewer";
+
 import PdfCanvas from "vue-pdf-canvas/lib/pdfjs/index.common.js";
 Vue.use(PdfCanvas);
 
@@ -22,6 +25,7 @@ Vue.use(TapAndHold, {
 
 import "./registerServiceWorker";
 
+Vue.use(Viewer);
 Vue.use(VueImg);
 Vue.use(VueKonva);
 Vue.use(InfiniteLoading);
@@ -29,6 +33,7 @@ Vue.use(Vuelidate);
 Vue.use(VueObserveVisibility);
 
 Vue.config.productionTip = false;
+
 
 Vue.filter("formatDate", function(value) {
   if (value) {
