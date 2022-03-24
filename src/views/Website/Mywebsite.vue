@@ -10,22 +10,25 @@
         
         <Navbar/>
 
-        <v-card class="cyan darken-1 px-4 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none d-flex" flat>
-            <v-btn class="text-capitalize dark" text dark>
-              <v-icon class="mr-2">mdi-office-building-outline</v-icon>
+        <v-card class="bg-gradient px-4 pt-1 pb-8 mt-n6 mt-md-0 d-md-none rounded-t-xl d-flex align-center" flat>
+            <v-btn class="text-capitalize dark body-2" text dark>
+              <v-icon left class="mr-2">mdi-office-building-outline</v-icon>
               My Projects
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn class="rounded-xl text-capitalize" outlined dark :to="{name: 'Website'}">All Projects</v-btn>
+            <v-btn class="rounded-xl text-capitalize" small outlined dark :to="{name: 'Website'}">All Projects</v-btn>
         </v-card>
 
-        <!-- <v-card class="rounded-xl shadow" elevation="0">
-            <v-toolbar flat>
-                <v-btn width="50%" class="rounded-l-xl text-capitalize dark" dark depressed>My Projects</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn width="50%" class="rounded-r-xl text-capitalize grey--text" depressed :to="{name: 'Website'}">All Projects</v-btn>
-            </v-toolbar>
-        </v-card> -->
+        <v-card class="my-8 d-none d-md-flex" elevation="0">
+            <div class="mr-5">
+              <v-btn class="rounded-l-lg mr-1" large dark tile><v-icon>mdi-view-dashboard</v-icon></v-btn>
+              <v-btn dark tile class="rounded-r-lg text-capitalize" large>My Projects</v-btn>
+            </div>
+            <div class="shadow rounded-lg">
+              <v-btn dark large><v-icon>mdi-tablet-dashboard</v-icon></v-btn>
+              <v-btn class="text-capitalize" text :to="{name: 'Website'}" link>All Projects</v-btn>
+            </div>
+        </v-card>
 
         <v-card flat width="100%" class="white rounded-t-xl pb-5 overflow-y-auto mt-n7 mt-md-0 fill-height">
           
@@ -48,22 +51,20 @@
                   <v-col md="4" v-for="website in results" :key="website.id">
                     <v-card class="transparent" flat>
                       <div class="title">{{website.title}}</div>
-                      <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
-                        <v-img
-                            aspect-ratio="1.7"
-                            :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                            :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                            class="rounded-lg shadow-xl my-2"
-                        ></v-img>
-                      </router-link>
+                      <v-img
+                          aspect-ratio="1.7"
+                          :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                          :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                          class="rounded-lg shadow-xl my-2"
+                      ></v-img>
                       <div class="d-flex">
                           <v-btn dark color="#111828" class="text-capitalize flex-grow-1 rounded-lg" @click="shareSidebarOpen(website)">
                             <v-icon left>mdi-share-variant</v-icon>
                             Share
                           </v-btn>
-                          <v-btn  class="ml-2 amber accent-3 text-capitalize rounded-lg">
-                            <v-icon size="18" color="#111828" left>mdi-pencil-outline</v-icon>
-                            Edit
+                          <v-btn  class="ml-2 amber accent-3 text-capitalize rounded-lg" :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
+                            <v-icon size="18" color="#111828" left>mdi-eye</v-icon>
+                            Details
                           </v-btn>
                       </div>
                     </v-card>
@@ -76,22 +77,21 @@
                 <v-col md="4" v-for="(website, index) in websites" :key="index">
                     <v-card class="transparent" flat>
                       <div class="title">{{website.title}}</div>
-                      <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
-                        <v-img
-                            aspect-ratio="2"
-                            :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                            :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                            class="rounded-lg shadow-xl my-2"
-                        ></v-img>
-                      </router-link>
+                      <v-img
+                          aspect-ratio="2"
+                          :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                          :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                          class="rounded-lg shadow-xl my-2"
+                      ></v-img>
                       <div class="d-flex">
-                          <v-btn dark color="#111828" class="text-capitalize flex-grow-1 rounded-lg" @click="shareSidebarOpen(website)">
-                            <v-icon left>mdi-share-variant</v-icon>
-                            Share
+                          <v-btn dark class="rounded-lg" @click="deleteWebsite(website.id)"><v-icon size="20">mdi-trash-can</v-icon></v-btn>
+                          <v-btn  class="mx-1 amber accent-3 text-capitalize flex-grow-1 rounded-lg" :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
+                            <v-icon size="20" color="#111828" left>mdi-eye</v-icon>
+                            Details
                           </v-btn>
-                          <v-btn  class="ml-2 amber accent-3 text-capitalize rounded-lg">
-                            <v-icon size="18" color="#111828" left>mdi-pencil-outline</v-icon>
-                            Edit
+                          <v-btn dark color="#111828" class="text-capitalize rounded-lg" @click="shareSidebarOpen(website)">
+                            <v-icon size="20">mdi-share-variant</v-icon>
+                            <!-- Share -->
                           </v-btn>
                       </div>
                     </v-card>
@@ -406,6 +406,12 @@ export default {
         this.results = ''
         this.search = ''
         this.showsearch = false
+      },
+      deleteWebsite(id){
+        Website.deleteMyWebsite(id)
+        .then(() => {
+          this.fetchData();    
+        });
       }
     },
     computed:{
@@ -449,11 +455,18 @@ export default {
 .content-card{
   overflow-y: scroll;
 }
+.bg-gradient{
+  background-image: linear-gradient(to right, #283593, #3cabba);
+}
 .search-input{
-  background-color: #fff;
   border-radius: 12px;
   padding: 0.6em 0.8em;
   width: 100%; 
+  background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.shadow{
+  background-color: #fff;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.4),0 24px 20px -24px rgba(71,82,107,.2);
 }
 </style>

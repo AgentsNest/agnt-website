@@ -51,6 +51,17 @@ export default {
     return Api().post("/new-website", form);
   },
 
+  deleteMyWebsite(params) {
+    return Api().delete("/delete-my-website/" + params);
+  },
+
+  addNewImages(form) {
+    return Api().post("/addPriceListInGallery", form);
+  },
+  deletePriceListImage(params) {
+    return Api().delete("/delete-pricelist-image/" + params);
+  },
+
   share(form) {
     return Api().post("/share_client", form);
   },

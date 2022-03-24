@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VueKonva from "vue-konva";
-import VueImg from "v-img";
 import moment from "moment";
 import converter from "number-to-words";
 import InfiniteLoading from "vue-infinite-loading";
@@ -26,7 +25,6 @@ Vue.use(TapAndHold, {
 import "./registerServiceWorker";
 
 Vue.use(Viewer);
-Vue.use(VueImg);
 Vue.use(VueKonva);
 Vue.use(InfiniteLoading);
 Vue.use(Vuelidate);

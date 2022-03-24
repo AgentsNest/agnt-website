@@ -21,12 +21,81 @@
             <v-row class="px-4">
                 <v-col md="6">
                     <v-img
-                        v-if="website"
+                        v-if="website.website_images"
                         :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
-                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
+                        lazy-src="../../assets/img/bg-grey.svg"
                         aspect-ratio="1.9"
                         class="rounded-lg"
                     ></v-img>
+                    
+
+                    <v-expansion-panels>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Add Price List</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-card flat>
+                                    <!-- <v-alert text dense color="grey darken-3" border="left">
+                                        <v-row class="center py-1" align="center">
+                                            <v-col class="grow body-2 grey--text text--darken-3">Image Gallery ({{previewImage.length}})</v-col>
+                                            <v-col class="shrink">
+                                                <v-btn outlined x-small class="grey darken-2" dark>
+                                                    <label for="gallery">
+                                                        Upload
+                                                        <input 
+                                                            type="file" 
+                                                            id="gallery" 
+                                                            hidden multiple 
+                                                            ref="files" 
+                                                            @change="updateImageList"
+                                                            accept="image/png, image/jpeg, image/bmp"
+                                                            :maxlength="maxLength"
+                                                        >
+                                                    </label>
+                                                </v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-alert> -->
+
+                                    <v-row class="px-2">
+                                        <v-col cols="4" v-for="(preview, index) in previewImage" :key="index">
+                                            <v-img :src="preview.src" class="align-top rounded-lg" aspect-ratio="1.4">
+                                                <v-btn class="blue-grey darken-4" dark fab x-small tile @click="clearImage(index)">
+                                                    <v-icon>mdi-close</v-icon>
+                                                </v-btn>
+                                            </v-img>
+                                        </v-col>
+                                        <label for="gallery" class="addNewbtn">
+                                            <v-icon>mdi-plus</v-icon>
+                                            <input 
+                                                type="file" 
+                                                id="gallery" 
+                                                hidden multiple 
+                                                ref="files" 
+                                                @change="updateImageList"
+                                                accept="image/png, image/jpeg, image/bmp"
+                                                :maxlength="maxLength"
+                                            >
+                                        </label>
+                                    </v-row>
+
+                                    <v-row>
+                                        <v-col cols="4" v-for="image in pricegallery" :key="image.id">
+                                            <v-img
+                                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                aspect-ratio="1.4"
+                                                cover
+                                            >
+                                                <v-btn x-small fab tile @click="deletePriceImage(image.id)"><v-icon>mdi-close</v-icon></v-btn>
+                                            </v-img>
+                                        </v-col>
+                                    </v-row>
+                                    
+                                    <v-btn small block depressed class="mt-6" @click="uploadImage">Save</v-btn>
+                                </v-card>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+
                 </v-col>
                 <v-col md="6">
                     <v-simple-table>
@@ -88,26 +157,14 @@
                 <v-row class="">
                     <v-col md="8" offset-md="2">
                         <v-card class="mx-auto" tile>
-                            <v-img
-                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
-                                :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
-                                class="white--text align-end"
-                                height="250px"
-                                gradient="to bottom right, rgba(0,0,0,0), rgba(0,0,0,.9)"
-                            >   
-                                <div class="text-center pb-2">
-                                    <h6>PREPARED FOR</h6>
-                                    <h4>@CLIENTNAME</h4>
-                                </div>
-                            </v-img>
                             <v-card-title>{{website.title}}</v-card-title>
                             <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                            <v-row class="px-4">
-                                <v-col v-for="image in website.website_images" :key="image.id" class="px-1 d-flex child-flex" cols="6" md="3">
+                            <v-row class="px-4" v-if="website.website_images">
+                                <v-col  v-for="image in website.website_images" :key="image.id" class="px-1 d-flex child-flex" cols="6" md="3">
                                     <v-img
                                         :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                        lazy-src="../../assets/img/bg-grey.svg"
                                         aspect-ratio="1"
                                         class="white rounded-lg"
                                     >
@@ -186,7 +243,9 @@ export default {
         LazyYoutube
     },
     data: () => ({
+        maxLength: 2,
         website: null,
+        pricegallery: [],
         opened: null,
         unopened: null,
         total: null,
@@ -195,7 +254,14 @@ export default {
         leadListSidebar: false,
         leads: [],
         ytUrl: 'https://www.youtube.com/embed/',
-        projectGallery: 0
+        projectGallery: 0,
+        rules: [
+            value => !value || value.size < 2000000 || 'File size should be less than 2 MB!',
+        ],
+        previewImage: [],
+        fileName: '',
+        fileSize: '',
+        pricelist: [],
     }),
 
     methods:{
@@ -206,6 +272,7 @@ export default {
                 this.opened = response.data.opened
                 this.unopened = response.data.unopened
                 this.total = response.data.total
+                this.pricegallery = response.data.pricelists
                 // console.log(response.data)
             });
         },
@@ -214,6 +281,52 @@ export default {
                 this.agent = response.data.data;
                 this.loggedIn = true
             });
+        },
+        clearImage(index){
+            this.previewImage.splice(index);
+            this.pricelist.splice(index);
+        },
+        updateImageList(){
+            var selectedFiles = this.$refs.files.files;
+            for (let i = 0; i < selectedFiles.length; i++) {
+                let img = {
+                    src: URL.createObjectURL(selectedFiles[i]),
+                    file: selectedFiles[i]
+                }
+                this.previewImage.push(img);
+            }
+            for (let index = 0; index < selectedFiles.length; index++) {
+                this.pricelist.push(selectedFiles[index]);
+            }
+        },
+        uploadImage(){
+            let data = new FormData();
+            data.append('website_id', this.website.id)
+            data.append('type', 'pricelist')
+            for (let i = 0; i < this.pricelist.length; i++) {
+                let file = this.pricelist[i];
+                data.append('files[' + i + ']', file);
+            }
+
+            // for (var pair of data.entries()){
+            //     console.log(pair[0]+ ', '+ pair[1]); 
+            // }
+
+            Website.addNewImages(data)
+            .then(() => {
+                this.pricelist = []
+                this.previewImage = []
+                this.fetchData();
+            })
+        },
+        deletePriceImage(websiteimage){
+            const config = {
+                headers:{"content-type" : "multipart/form-data"}
+            }
+            Website.deletePriceListImage(websiteimage, config)
+            .then(() => {
+                this.fetchData();
+            })
         }
     },
 
@@ -244,5 +357,16 @@ export default {
   font-size: 15px;
   width: 100%;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.addNewbtn{
+    height: 90px;
+    width: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #efefef;
+    margin-top: 0.6em;
 }
 </style>

@@ -2,9 +2,9 @@
     <v-card flat height="100vh">
       <Navbar/>
 
-      <v-card class="cyan darken-1 px-4 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none" flat>
-        <v-icon color="amber accent-3" left>mdi-view-dashboard</v-icon>
-        <span class="white--text font-weight-bold">Dashboard</span>
+      <v-card class="bg-gradient px-4 pt-3 pb-10 mt-n6 rounded-t-xl d-md-none" flat>
+        <v-icon color="white" size="20">mdi-view-dashboard</v-icon>
+        <span class="white--text font-weight-bold ml-3">Dashboard</span>
       </v-card>
       
       <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 overflow-y-auto mt-n7 mt-md-0 fill-height">
@@ -371,4 +371,7 @@ background: linear-gradient(90deg, rgba(255,252,245,1) 0%, rgba(254,255,237,1) 1
 }
 .color-one{color: #283593;}
 .color-two{color: #3cabba;}
+.bg-gradient{
+  background-image: linear-gradient(to right, #283593, #3cabba);
+}
 </style>
