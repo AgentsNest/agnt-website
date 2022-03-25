@@ -1,5 +1,5 @@
 <template>
-    <v-card flat tile class="transparent pr-4" width="100vw">
+    <v-card flat height="100vh">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
             <template v-slot:action="{ attrs }">
@@ -29,9 +29,9 @@
             </div>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pb-5 overflow-y-auto mt-n7 mt-md-0 fill-height">
+        <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 mt-n7 mt-md-0 fill-height">
           
-          <div class="d-flex align-center ma-3">
+          <div class="d-flex align-center w-full mx-2 mb-3">
             <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
               <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -43,10 +43,10 @@
 
           <v-divider></v-divider>
 
-          <v-card flat class="py-5 px-3 overflow-y-auto" height="100%">
+          <v-card flat class="pt-4 pb-12 px-3 overflow-y-auto" height="100%">
             <!-- Search Results Website -->
             <div v-if="showsearch">
-              <v-row class="">
+              <v-row class="pb-12">
                   <v-col md="4" v-for="website in results" :key="website.id">
                       <v-card class="transparent" flat>
                       <div class="title">{{website.title}}</div>
@@ -156,7 +156,7 @@
             </div>
             <!-- Default Websites -->
             <div v-else>
-              <v-row class="">
+              <v-row class="pb-12">
                 <v-col md="4" v-for="(website, index) in websites" :key="index">
                     <v-card class="transparent" flat>
                       <div class="title">{{website.title}}</div>
@@ -266,7 +266,6 @@
               </v-row>
             </div>
           </v-card>
-
           
         </v-card>
 

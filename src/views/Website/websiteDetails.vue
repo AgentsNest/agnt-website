@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="rounded-xl pa-md-5 pa-2 shadow content-card" height="100vh" elevation="0">
+        <v-card class="rounded-xl pa-md-5 pa-2 shadow" height="100vh" width="100%" elevation="0">
 
             <v-toolbar flat>
                 <v-btn icon class="" @click="$router.go(-1)">
@@ -19,7 +19,7 @@
 
             <!-- Properties -->
             <v-row class="px-4">
-                <v-col md="6">
+                <v-col md="6" cols="12">
                     <v-img
                         v-if="website.website_images"
                         :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
@@ -97,7 +97,7 @@
                     </v-expansion-panels>
 
                 </v-col>
-                <v-col md="6">
+                <v-col md="6" cols="12">
                     <v-simple-table>
                         <thead><tr class="grey lighten-3"><th>Sharing History</th><th></th></tr></thead>
                         <tbody>
@@ -320,12 +320,10 @@ export default {
             })
         },
         deletePriceImage(websiteimage){
-            const config = {
-                headers:{"content-type" : "multipart/form-data"}
-            }
-            Website.deletePriceListImage(websiteimage, config)
+            Website.deletePriceListImage(websiteimage)
             .then(() => {
                 this.fetchData();
+                window.location.reload();
             })
         }
     },

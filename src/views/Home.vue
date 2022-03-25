@@ -13,10 +13,15 @@
             <v-btn text class="text-capitalize d-none d-md-flex">About Us</v-btn>
             <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Contact Us</v-btn>
             <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Sign Up</v-btn>
-            <v-btn  elevation="0" class="text-capitalize d-none d-md-flex gradient rounded-xl px-8" :to="{name: 'Login'}" link>Login</v-btn>
+
+            <div class="align-center d-none d-md-flex">
+                <v-btn v-if="isLoggedIn" elevation="0" class="text-capitalize gradient rounded-xl px-8" :to="{name: 'Login'}" link>Login</v-btn>
+                <v-btn v-else elevation="0" class="text-capitalize gradient rounded-xl px-8" :to="{name: 'Dashboard'}" link>Dashboard</v-btn>
+            </div>
 
             <div class="d-print-block d-md-none d-lg-none">
-                <v-btn icon :to="{name: 'Login'}" link><v-icon>mdi-dots-vertical</v-icon></v-btn>
+                <v-btn v-if="isLoggedIn" icon :to="{name: 'Dashboard'}" link><v-icon>mdi-view-dashboard</v-icon></v-btn>
+                <v-btn v-else icon :to="{name: 'Login'}" link><v-icon>mdi-login-variant</v-icon></v-btn>
             </div>
 
         </v-app-bar>
@@ -236,7 +241,14 @@ export default {
         return{
             videoOne: false,
             model: null,
+            isLoggedIn: false
         }
+    },
+    created(){
+        if(localStorage.getItem('token'))
+            this.isLoggedIn = true
+        else 
+            this.isLoggedIn = false
     }
 }
 </script>

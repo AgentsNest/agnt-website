@@ -10,7 +10,7 @@
 
         <Navbar/>
 
-        <v-card class="cyan darken-1 pl-4 pr-6 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none d-flex align-center" flat>
+        <v-card class="bg-gradient px-4 pt-2 pb-8 mt-n6 rounded-t-xl d-md-none d-flex" flat>
             <v-btn class="text-capitalize dark" text dark>
               <v-icon class="mr-2">mdi-account-group</v-icon>
               My Team ({{teams.length}})
@@ -22,64 +22,76 @@
             </v-btn>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pb-5 overflow-y-auto mt-n7 mt-md-0 fill-height">
+         <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-2 overflow-y-auto mt-n7 mt-md-0 fill-height">
 
             <v-card-text>
-
               <v-row>
                 <v-col md="8" cols="12">
-                    <v-row>
-                        <v-col md="6" v-for="(team, index) in teams" :key="index">
-                            <v-list-item class="shadow rounded-lg" height="100%"
-                              :to="{name: 'teamLeads', params:{id: team.id}}"
-                            >
-                                <v-list-item-avatar tile :color="randomColor(team.id)" 
-                                  class="white--text rounded-lg title" size="48"
-                                >
-                                  {{team.name[0]}}
-                                </v-list-item-avatar>
+                  <div class="d-none d-md-flex shadow pa-2 rounded-lg mb-5">
+                    <v-btn class="text-capitalize" text>
+                      <v-icon class="mr-2">mdi-account-group</v-icon>
+                      My Team ({{teams.length}})
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn small outlined text class="text-capitalize" @click="dialog = !dialog">
+                      <v-icon left>mdi-plus</v-icon>
+                      Add New
+                    </v-btn>
+                  </div>
+                  <v-row>
+                      <v-col md="6" v-for="(team, index) in teams" :key="index">
+                          <v-list-item class="shadow rounded-lg" height="100%"
+                            :to="{name: 'teamLeads', params:{id: team.id}}"
+                          >
+                              <v-list-item-avatar tile :color="randomColor(team.id)" 
+                                class="white--text rounded-lg title" size="48"
+                              >
+                                {{team.name[0]}}
+                              </v-list-item-avatar>
 
-                                <v-list-item-content>
-                                    <v-list-item-title v-html="team.name" class="font-weight-bold"></v-list-item-title>
-                                    <v-list-item-subtitle>{{team.email}}</v-list-item-subtitle>
-                                    <v-list-item-subtitle>
-                                        <span class="text--primary mr-2">Property:</span> 
-                                        <span v-if="team.leads">{{team.leads.length}}</span>
-                                    </v-list-item-subtitle>
-                                    <v-list-item-subtitle><span class="text--primary">Added:</span> {{team.created_at | formatDate}}</v-list-item-subtitle>
-                                </v-list-item-content>
+                              <v-list-item-content>
+                                  <v-list-item-title v-html="team.name" class="font-weight-bold"></v-list-item-title>
+                                  <v-list-item-subtitle>{{team.email}}</v-list-item-subtitle>
+                                  <v-list-item-subtitle>
+                                      <span class="text--primary mr-2">Property:</span> 
+                                      <span v-if="team.leads">{{team.leads.length}}</span>
+                                  </v-list-item-subtitle>
+                                  <v-list-item-subtitle><span class="text--primary">Added:</span> {{team.created_at | formatDate}}</v-list-item-subtitle>
+                              </v-list-item-content>
 
-                                <v-list-item-action>
-                                  <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
-                                </v-list-item-action>
+                              <v-list-item-action>
+                                <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
+                              </v-list-item-action>
 
-                              
-                            </v-list-item>
-                        </v-col>
-                    </v-row>
+                            
+                          </v-list-item>
+                      </v-col>
+                  </v-row>
                 </v-col>
-                <v-col md="4" class="d-none d-md-block">
-                    <v-card class="pa-5 rounded-lg">
-                        <v-img
-                            max-width="300"
-                            class="mx-auto"
-                            src="../../assets/img/client.svg"
-                            lazy-src="../../assets/img/client.svg"
-                        >
-                            <template v-slot:placeholder>
-                            <v-row class="fill-height ma-0" align="center" justify="center">
-                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                            </v-row>
-                            </template>
-                        </v-img>
 
-                        <v-card class="pa-4" flat>
-                            <input type="text" class="input-field" placeholder="Name" v-model="team.name">
-                            <input type="text" class="input-field" placeholder="Email" v-model="team.email">
-                            <input type="text" class="input-field" placeholder="Password" v-model="team.password">
-                            <v-btn rounded-md large block dark class="grey darken-4" @click="SaveTeam">Create account</v-btn>
-                        </v-card>
+                <v-col md="4" class="d-none d-md-block">
+                  <v-card class="pa-5 rounded-lg">
+                    <div class="text-h6 mb-4">Add New Team</div>
+                    <v-img
+                        max-width="300"
+                        class="mx-auto"
+                        src="../../assets/img/client.svg"
+                        lazy-src="../../assets/img/client.svg"
+                    >
+                        <template v-slot:placeholder>
+                        <v-row class="fill-height ma-0" align="center" justify="center">
+                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                        </v-row>
+                        </template>
+                    </v-img>
+
+                    <v-card class="pa-4" flat>
+                        <input type="text" class="input-field" placeholder="Name" v-model="team.name">
+                        <input type="text" class="input-field" placeholder="Email" v-model="team.email">
+                        <input type="text" class="input-field" placeholder="Password" v-model="team.password">
+                        <v-btn rounded-md large block dark class="grey darken-4" @click="SaveTeam">Create account</v-btn>
                     </v-card>
+                  </v-card>
                 </v-col>
             </v-row>
           </v-card-text>

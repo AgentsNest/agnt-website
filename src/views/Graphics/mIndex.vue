@@ -1,14 +1,17 @@
 <template>
 
-    <v-card class="rounded-lg shadow content-card" height="100vh" elevation="0">
+    <v-card flat height="100vh">
       <Navbar />
 
-      <v-card class="cyan darken-1 px-4 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none" flat>
-        <v-icon color="amber accent-3" left>mdi-image-size-select-large</v-icon>
-        <span class="white--text font-weight-bold">Choose Graphics</span>
+      <v-card class="bg-gradient px-4 pt-2 pb-8 mt-n6 rounded-t-xl d-md-none d-flex" flat>
+          <v-btn class="text-capitalize dark" text dark>
+            <v-icon class="mr-3" size="20">mdi-image-multiple</v-icon>
+            Graphics
+          </v-btn>
+          <v-spacer></v-spacer>
       </v-card>
 
-      <v-card flat width="100%" class="white rounded-t-xl pb-10 overflow-y-auto mt-n7 mt-md-0 fill-height">
+      <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-2 mt-n7 mt-md-0 fill-height">
         <v-container>
           <v-row>
             <v-col class="all-images-card">
@@ -153,10 +156,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.all-images-card{
-  height: 82vh;
-  overflow-y: scroll;
-}
+// .all-images-card{
+//   height: 82vh;
+//   overflow-y: scroll;
+// }
 .pointer{
   cursor: pointer;
 }

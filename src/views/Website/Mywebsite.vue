@@ -1,5 +1,5 @@
 <template>
-    <v-card height="100vh" width="100vw" class="transparent" flat>
+    <v-card flat height="100vh">
 
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
@@ -19,18 +19,18 @@
             <v-btn class="rounded-xl text-capitalize" small outlined dark :to="{name: 'Website'}">All Projects</v-btn>
         </v-card>
 
-        <v-card class="my-8 d-none d-md-flex" elevation="0">
+        <v-card class="mt-8 mb-5 d-none d-md-flex" elevation="0">
             <div class="mr-5">
-              <v-btn class="rounded-l-lg mr-1" large dark tile><v-icon>mdi-view-dashboard</v-icon></v-btn>
-              <v-btn dark tile class="rounded-r-lg text-capitalize" large>My Projects</v-btn>
+              <v-btn class="rounded-l-lg mr-1" color="#111828" large dark tile><v-icon>mdi-view-dashboard</v-icon></v-btn>
+              <v-btn dark tile color="#111828" class="rounded-r-lg text-capitalize" large>My Projects</v-btn>
             </div>
             <div class="shadow rounded-lg">
-              <v-btn dark large><v-icon>mdi-tablet-dashboard</v-icon></v-btn>
+              <v-btn dark large color="#111828"><v-icon>mdi-tablet-dashboard</v-icon></v-btn>
               <v-btn class="text-capitalize" text :to="{name: 'Website'}" link>All Projects</v-btn>
             </div>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pb-5 overflow-y-auto mt-n7 mt-md-0 fill-height">
+        <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 overflow-y-auto mt-n7 mt-md-0 fill-height">
           
           <div class="d-flex align-center ma-4">
             <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
@@ -44,10 +44,10 @@
 
           <v-divider></v-divider>
 
-          <v-card flat class="py-5 px-3 overflow-y-auto" height="100%">
+          <v-card flat class="pt-4 pb-12 px-3 overflow-y-auto" height="100%">
             <!-- Search Results Website -->
             <div v-if="showsearch">
-              <v-row class="">
+              <v-row class="pb-12">
                   <v-col md="4" v-for="website in results" :key="website.id">
                     <v-card class="transparent" flat>
                       <div class="title">{{website.title}}</div>
@@ -73,7 +73,7 @@
             </div>
             <!-- Default Websites -->
             <div v-else>
-              <v-row class="">
+              <v-row class="pb-12">
                 <v-col md="4" v-for="(website, index) in websites" :key="index">
                     <v-card class="transparent" flat>
                       <div class="title">{{website.title}}</div>

@@ -1,8 +1,15 @@
 <template>
-<div>
+<v-card flat height="100vh">
     <Navbar/>
+
+    <v-card class="my-8 d-none d-md-flex" elevation="0">
+        <div class="shadow rounded-lg">
+          <v-btn large color="#111828" dark><v-icon>mdi-image-multiple</v-icon></v-btn>
+          <v-btn class="text-capitalize" text>Graphics</v-btn>
+        </div>
+    </v-card>
     
-    <v-card class="rounded shadow content-card" height="100%" elevation="0">
+    <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-2 mt-n7 mt-md-0 fill-height">
       <v-row class="pa-5">
         <!-- Image gallery columns 4 -->
         <v-col cols="12" class="all-images-card">
@@ -48,7 +55,7 @@
       
     </v-card>
 
-</div>
+</v-card>
 </template>
 
 <script>
@@ -240,10 +247,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.all-images-card{
-  height: 82vh;
-  overflow-y: scroll;
-}
+// .all-images-card{
+//   height: 82vh;
+//   overflow-y: scroll;
+// }
 .pointer{
   cursor: pointer;
 }

@@ -71,9 +71,9 @@
         </div>
         
         <v-navigation-drawer v-model="mSidebar" absolute color="#111828">
-            <v-img :src="agent.brand_logo" lazy-src="../../assets/img/bg-grey.svg" aspect-ratio="2" contain class="mx-auto mt-8 mb-3"></v-img>
+            <v-img src="../../assets/img/agnt.png" lazy-src="../../assets/img/bg-grey.svg" width="120" class="mx-auto mt-4"></v-img>
 
-            <v-divider class="" color="#666"></v-divider>
+            <v-divider class="my-3" color="#333"></v-divider>
 
             <v-list dense dark>
               <v-list-item
@@ -91,7 +91,7 @@
               </v-list-item>
             </v-list>
 
-            <v-divider class="" color="#666"></v-divider>
+            <v-divider class="" color="#444"></v-divider>
 
             <v-list dark dense>
               <v-list-item link :to="{name: 'AgentAccount'}">
@@ -108,7 +108,7 @@
               </v-list-item>
             </v-list>
 
-            <v-divider class="" color="#666"></v-divider>
+            <v-divider class="" color="#444"></v-divider>
 
             <div class="d-flex align-center pa-4 mt-2">
               <v-avatar size="36"><v-img :src="agent.image"></v-img></v-avatar>
@@ -142,7 +142,7 @@ export default {
         // { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
         // { title: 'Social Ads', icon: 'mdi-advertisements', link: 'Smm' },
         { title: 'Projects', icon: 'mdi-office-building-marker', link: 'MyWebsite' },
-        // { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
+        { title: 'Groups', icon: 'mdi-folder-open', link: 'Groups' },
         { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
         { title: 'Teams', icon: 'mdi-account-multiple', link: 'Team' },
       ],
@@ -165,7 +165,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .navbg{
   background: #111828;
 }
@@ -177,5 +177,12 @@ export default {
   width: 100%;
   max-width: 480px;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.bg-gradient{
+  background-image: linear-gradient(to right, #283593, #3cabba);
+}
+.shadow{
+  background-color: #fff;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.4),0 24px 20px -24px rgba(71,82,107,.2);
 }
 </style>

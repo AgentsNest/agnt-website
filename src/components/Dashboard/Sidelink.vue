@@ -22,6 +22,17 @@
       </router-link>
     </ul>
 
+    <v-divider class="" color="#444"></v-divider>
+    <ul class="nav-links">
+      <router-link :to="{name: 'AgentAccount'}" >
+        <li>
+          <v-icon color="grey lighten-3">mdi-account-box-outline</v-icon>
+          <span class="ml-2">Account</span>
+        </li>
+      </router-link>
+    </ul>
+    <v-divider class="" color="#444"></v-divider>
+
     <v-card-actions>
       <v-btn class="text-capitalize logout-btn" block text dark @click="logout">
         <v-icon color="amber accent-3" left>mdi-logout</v-icon>
@@ -44,7 +55,7 @@ import User from '../../Apis/User'
           // { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
           // { title: 'Social Ads', icon: 'mdi-advertisements', link: 'Smm' },
           { title: 'Projects', icon: 'mdi-home-city-outline', link: 'MyWebsite' },
-          { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
+          { title: 'Groups', icon: 'mdi-folder-open', link: 'Groups' },
           { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
           { title: 'Teams', icon: 'mdi-account-group-outline', link: 'Team' },
         ],

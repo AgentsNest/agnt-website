@@ -4,6 +4,18 @@ import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
+function guardMyroute(to, from, next) {
+  var isAuthenticated = false;
+  if (localStorage.getItem("token")) isAuthenticated = true;
+  else isAuthenticated = false;
+
+  if (isAuthenticated) {
+    next();
+  } else {
+    next("/agnt/auth/login");
+  }
+}
+
 const routes = [
   {
     path: "/",
@@ -39,12 +51,14 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
+    beforeEnter: guardMyroute,
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Auth/Profile.vue"),
   },
   {
     path: "/agent-dashboard",
     name: "AgentDashboard",
+    beforeEnter: guardMyroute,
     component: () =>
       import(
         /* webpackChunkName: "agent-dashboard" */ "../views/Dashboard.vue"
@@ -53,6 +67,7 @@ const routes = [
       {
         path: "/dashboard",
         name: "Dashboard",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "dashboard" */ "../views/Pages/AgentDashboard.vue"
@@ -63,6 +78,7 @@ const routes = [
       {
         path: "/get-card",
         name: "GetCard",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "get-vcard" */ "../views/Pages/getCard.vue"
@@ -80,6 +96,7 @@ const routes = [
       {
         path: "/graphics",
         name: "Graphic",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "graphic" */ "../views/Graphics/Index.vue"
@@ -88,7 +105,7 @@ const routes = [
       {
         path: "/graphic/:id",
         name: "previewGraphic",
-        meta: { authOnly: true },
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "previewGraphic" */ "../views/Graphics/DesktopPreview.vue"
@@ -97,6 +114,7 @@ const routes = [
       {
         path: "/m-graphics",
         name: "mGraphic",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "mgraphic" */ "../views/Graphics/mIndex.vue"
@@ -105,7 +123,7 @@ const routes = [
       {
         path: "/m/graphic/:id",
         name: "previewMgraphic",
-        meta: { authOnly: true },
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "previewGraphic" */ "../views/Graphics/mPreview.vue"
@@ -122,12 +140,14 @@ const routes = [
       {
         path: "/clients",
         name: "Client",
+        beforeEnter: guardMyroute,
         component: () =>
           import(/* webpackChunkName: "client" */ "../views/Client/Index.vue"),
       },
       {
         path: "/clients/client-profile/:id",
         name: "clientProfile",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "clientProfile" */ "../views/Client/clientProfile.vue"
@@ -136,6 +156,7 @@ const routes = [
       {
         path: "/clients/add-client",
         name: "AddClient",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "addClient" */ "../views/Client/addClient.vue"
@@ -144,6 +165,7 @@ const routes = [
       {
         path: "/clients/add-update",
         name: "sendUpdateToClient",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "sendUpdateToClient" */ "../views/Client/sendUpdate.vue"
@@ -152,6 +174,7 @@ const routes = [
       {
         path: "/clients/add-property/:id",
         name: "AddProperty",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "addProperty" */ "../views/Client/addProperty.vue"
@@ -160,6 +183,7 @@ const routes = [
       {
         path: "/clients/edit-property/:id",
         name: "editProperty",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "editProperty" */ "../views/Client/editProperty.vue"
@@ -168,6 +192,7 @@ const routes = [
       {
         path: "/clients/single-property/:id",
         name: "singleProperty",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "singleProperty" */ "../views/Client/singleProperty.vue"
@@ -184,18 +209,21 @@ const routes = [
       {
         path: "/social-ads",
         name: "Smm",
+        beforeEnter: guardMyroute,
         component: () =>
           import(/* webpackChunkName: "smm" */ "../views/Smm/Index.vue"),
       },
       {
         path: "/social-ads/create",
         name: "CreateNewAd",
+        beforeEnter: guardMyroute,
         component: () =>
           import(/* webpackChunkName: "createNewAd" */ "../views/Smm/New.vue"),
       },
       {
         path: "/social-ads/checkout",
         name: "socialAdCheckout",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "socialAdCheckout" */ "../views/Smm/Checkout.vue"
@@ -204,6 +232,7 @@ const routes = [
       {
         path: "/social-ads/success",
         name: "SuccessPayment",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "createNewAd" */ "../views/Smm/Success.vue"
@@ -212,6 +241,7 @@ const routes = [
       {
         path: "/social-ads/failed",
         name: "FailedPayment",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "createNewAd" */ "../views/Smm/Failed.vue"
@@ -228,18 +258,21 @@ const routes = [
       {
         path: "/leads",
         name: "Leads",
+        beforeEnter: guardMyroute,
         component: () =>
           import(/* webpackChunkName: "leads" */ "../views/Leads/Index.vue"),
       },
       {
         path: "/m-leads",
         name: "mLeads",
+        beforeEnter: guardMyroute,
         component: () =>
           import(/* webpackChunkName: "m-leads" */ "../views/Leads/mIndex.vue"),
       },
       {
         path: "/lead/:id",
         name: "singleLead",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "single-leads" */ "../views/Leads/Single.vue"
@@ -248,6 +281,7 @@ const routes = [
       {
         path: "/leads/hot",
         name: "HotLeads",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "hot-leads" */ "../views/Leads/HotLeads.vue"
@@ -256,12 +290,14 @@ const routes = [
       {
         path: "/leads/add-lead",
         name: "AddLeads",
+        beforeEnter: guardMyroute,
         component: () =>
           import(/* webpackChunkName: "add-leads" */ "../views/Leads/Add.vue"),
       },
       {
         path: "/leads/bulk-upload",
         name: "bulkUploadLead",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "bulk-upload" */ "../views/Leads/Bulk.vue"
@@ -270,6 +306,7 @@ const routes = [
       {
         path: "/followups",
         name: "Followups",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "followups" */ "../views/Leads/Followups.vue"
@@ -286,6 +323,7 @@ const routes = [
       {
         path: "/w/all",
         name: "Website",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "all-website" */ "../views/Website/Index.vue"
@@ -294,6 +332,7 @@ const routes = [
       {
         path: "/w/my-websites",
         name: "MyWebsite",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "my-website" */ "../views/Website/Mywebsite.vue"
@@ -302,6 +341,7 @@ const routes = [
       {
         path: "/w/addNew",
         name: "addNewWebsite",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "add-new-website" */ "../views/Website/AddNew.vue"
@@ -310,6 +350,7 @@ const routes = [
       {
         path: "/w/info/:id",
         name: "WebsiteDetails",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "website-details" */ "../views/Website/websiteDetails.vue"
@@ -326,6 +367,7 @@ const routes = [
       {
         path: "/setting/account",
         name: "AgentAccount",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "accountSetting" */ "../views/Setting/Account.vue"
@@ -334,6 +376,7 @@ const routes = [
       {
         path: "/setting/notification",
         name: "NotificationSetting",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "notificationSetting" */ "../views/Setting/Notification.vue"
@@ -342,6 +385,7 @@ const routes = [
       {
         path: "/setting/integration",
         name: "Integration",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "integration" */ "../views/Setting/Integration.vue"
@@ -350,6 +394,7 @@ const routes = [
       {
         path: "/webhook",
         name: "payWebhook",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "paywebhook" */ "../views/Webhook/Index.vue"
@@ -358,6 +403,7 @@ const routes = [
       {
         path: "/setting/membership",
         name: "Membership",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "membership" */ "../views/Setting/Membership.vue"
@@ -366,6 +412,7 @@ const routes = [
       {
         path: "/setting/digitalcard",
         name: "digitalCard",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "digitalCard" */ "../views/Setting/DigitalCard.vue"
@@ -382,6 +429,7 @@ const routes = [
       {
         path: "/managers",
         name: "Manager",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "my-website" */ "../views/Managers/Index.vue"
@@ -399,12 +447,14 @@ const routes = [
       {
         path: "/teams",
         name: "Team",
+        beforeEnter: guardMyroute,
         component: () =>
           import(/* webpackChunkName: "my-team" */ "../views/Team/Index.vue"),
       },
       {
         path: "/team/:id",
         name: "teamLeads",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "team-leads" */ "../views/Team/Single.vue"
@@ -421,6 +471,7 @@ const routes = [
       {
         path: "/groups",
         name: "Groups",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "my-website" */ "../views/Group/Index.vue"
@@ -437,6 +488,7 @@ const routes = [
       {
         path: "/messages",
         name: "Message",
+        beforeEnter: guardMyroute,
         component: () =>
           import(
             /* webpackChunkName: "my-website" */ "../views/Message/Index.vue"
@@ -447,6 +499,7 @@ const routes = [
   {
     path: "/w/:id",
     name: "SingleWebsite",
+    beforeEnter: guardMyroute,
     component: () =>
       import(
         /* webpackChunkName: "single-website" */ "../views/Website/Single.vue"
@@ -472,12 +525,15 @@ const routes = [
   {
     path: "/wallet",
     name: "Wallet",
+    beforeEnter: guardMyroute,
     component: () =>
       import(/* webpackChunkName: "wallet" */ "../views/Setting/Wallet.vue"),
   },
   {
     path: "/feedback",
     name: "Feedback",
+    beforeEnter: guardMyroute,
+
     component: () =>
       import(/* webpackChunkName: "feedback" */ "../views/Pages/Feedback.vue"),
   },

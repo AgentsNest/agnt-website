@@ -7,7 +7,24 @@
             </template>
         </v-snackbar>
 
-        <v-card class="rounded-xl pa-2 shadow content-card" elevation="0" height="88vh">
+        <Navbar/>
+
+        <v-card class="bg-gradient px-4 pt-2 pb-8 mt-n6 rounded-t-xl d-md-none d-flex" flat>
+            <v-btn class="text-capitalize dark" text dark>
+              <v-icon class="mr-3" size="20">mdi-folder-open</v-icon>
+              Groups
+            </v-btn>
+            <v-spacer></v-spacer>
+        </v-card>
+
+        <v-card class="my-8 d-none d-md-flex align-center" elevation="0">
+            <div class="shadow rounded-lg">
+              <v-btn large color="#111828" dark><v-icon>mdi-folder-open</v-icon></v-btn>
+              <v-btn class="text-capitalize" text>Groups</v-btn>
+            </div>
+        </v-card>
+
+        <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-2 overflow-y-auto mt-n7 mt-md-0 fill-height">
             <v-toolbar flat>
                 <div class="font-weight-bold text-h6">Groups</div>
                 <v-spacer></v-spacer>
@@ -47,7 +64,7 @@
                                     <div>Leads:</div>
                                 </div> -->
 
-                                <v-card class="folder" :color="group.color" @click="leadSidebar(group.id)">
+                                <v-card class="folder" :color="group.color">
                                     <v-btn class="folder-handle" :color="group.color" depressed></v-btn>
                                     <span class="white--text">{{group.title}}</span>
                                     <span class="white--text"><strong>Leads:</strong> {{group.leads.length}}</span>
@@ -129,8 +146,10 @@
 <script>
 import Group from '../../Apis/Other'
 import User from '../../Apis/User'
+import Navbar from "../../components/Dashboard/Navbar";
 
 export default {
+  components:{Navbar},
     data () {
       return {
         addGroupBox: false,
