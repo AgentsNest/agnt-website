@@ -42,12 +42,12 @@ const routes = [
         /* webpackChunkName: "forgot-password" */ "../views/Auth/Forgot.vue"
       ),
   },
-  {
-    path: "/agnt/auth/register",
-    name: "Register",
-    component: () => import("../views/Auth/Register.vue"),
-    meta: { guestOnly: true },
-  },
+  // {
+  //   path: "/agnt/auth/register",
+  //   name: "Register",
+  //   component: () => import("../views/Auth/Register.vue"),
+  //   meta: { guestOnly: true },
+  // },
   {
     path: "/profile",
     name: "Profile",

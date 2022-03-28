@@ -28,11 +28,11 @@
                     <v-card-actions>
                         <v-btn block large class="amber accent-3" dark depressed @click="login">Login</v-btn>
                     </v-card-actions>
-                    <v-btn block text class="grey--text text-capitalize">Forgot Password</v-btn>
-                    <div class="text-center grey--text mt-4">
+                    <v-btn block text class="grey--text text-capitalize" :to="{name: 'forgotPassword'}">Forgot Password</v-btn>
+                    <!-- <div class="text-center grey--text mt-4">
                         I'm new user.
                         <router-link :to="{name: 'Register'}">Sign Up</router-link>
-                    </div>
+                    </div> -->
                 </v-card>
             </v-col>
         </v-row>

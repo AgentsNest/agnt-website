@@ -9,9 +9,52 @@
 
         <Navbar/>
 
-        <v-card class="cyan darken-1 px-4 pt-4 pb-10 mt-n6 rounded-t-xl d-md-none" flat>
-            <v-icon color="amber accent-3" left>mdi-format-list-bulleted-square</v-icon>
-            <span class="white--text font-weight-bold">Clients ({{totalLeads}})</span>
+        <v-card class="bg-gradient px-4 pt-3 pb-10 mt-n6 rounded-t-xl d-md-none d-flex align-center" flat>
+            <div>
+                <v-icon color="white" size="18">mdi-format-list-bulleted-square</v-icon>
+                <span class="white--text  ml-2 body-2 font-weight-bold">Clients ({{total_leads}})</span>
+            </div>
+            <v-spacer></v-spacer>
+            <div class="d-flex align-center">
+                <v-btn x-small elevation="1"
+                    @click="fetchData(pagination.prev_page_url)"
+                    :disabled="!pagination.prev_page_url"
+                    color="#3cabba"
+                    class="rouneded-lg"
+                >
+                    <v-icon size="20" color="white">mdi-chevron-double-left</v-icon>
+                </v-btn>
+                <v-btn x-small text class="white--text">
+                    {{pagination.current_page}}/{{pagination.last_page}}
+                </v-btn>
+                <v-btn x-small elevation="1"
+                    @click="fetchData(pagination.next_page_url)"
+                    :disabled="!pagination.next_page_url"
+                    color="#3cabba"
+                    class="rouneded-lg"
+                >
+                    <v-icon size="20" color="white">mdi-chevron-double-right</v-icon>
+                </v-btn>
+            </div>
+             <!-- <v-btn-toggle dense rounde class="transparent">
+                <v-btn x-small tile fab
+                    @click="fetchData(pagination.prev_page_url)"
+                    :disabled="!pagination.prev_page_url"
+                    color="#3cabba"
+                >
+                    <v-icon size="20" color="white">mdi-chevron-double-left</v-icon>
+                </v-btn>
+                <v-btn x-small tile fab class="transparent white--text">
+                    {{pagination.current_page}}/{{pagination.last_page}}
+                </v-btn>
+                <v-btn x-small tile fab
+                    @click="fetchData(pagination.next_page_url)"
+                    :disabled="!pagination.next_page_url"
+                    color="#3cabba"
+                >
+                    <v-icon size="20" color="white">mdi-chevron-double-right</v-icon>
+                </v-btn>
+            </v-btn-toggle> -->
         </v-card>
 
          <v-card flat width="100%" class="white rounded-t-xl pb-10 overflow-y-auto mt-n7 mt-md-0 fill-height">
@@ -92,7 +135,7 @@
                     </v-card-actions>
                 </v-card>               
                 
-                <v-btn block @click="loadMoreDesktop" v-if="loadMoreBtn" class="my-3 rounded-lg text-capitalize">load more</v-btn>
+                <!-- <v-btn block @click="loadMoreDesktop" v-if="loadMoreBtn" class="my-3 rounded-lg text-capitalize">load more</v-btn> -->
 
             </v-card>
 
@@ -554,7 +597,9 @@ export default {
         searchInput: false,
         selectedWebsiteMsg: '',
         multipleActionToolbar: false,
-        loadMoreBtn: true
+        loadMoreBtn: true,
+        pagination: {},
+        leads:[]
       }
     },
     methods:{
@@ -563,10 +608,11 @@ export default {
             this.multipleActionToolbar = !this.multipleActionToolbar
         },
         async fetchData(){
-            Lead.auth().then(response => {
+            Lead.auth(this.page).then(response => {
                 this.leads = response.data.data;
-                this.total_leads = response.data.data.length;
-                // console.log(response.data.data.length)
+                this.total_leads = response.data.meta.total;
+                this.makePagination(response.data)
+                console.log(response.data)
             });
         },
         async fetchGroups(){
@@ -920,12 +966,25 @@ export default {
                 });
             }
         },
-        
+        makePagination: function(data){
+            if(this.page < data.meta.last_page){
+                this.page++;
+            } else {
+                this.page--;
+            }
+            let paginate = {
+                current_page: data.meta.current_page,
+                last_page: data.meta.last_page,
+                next_page_url: data.links.next,
+                prev_page_url: data.links.prev
+            }
+            this.pagination = paginate;
+        }
     },
     computed:{
-        leads(){  return this.$store.state.leads; },
-        totalLeads(){ return this.$store.state.totalLeads },
-        lead(){ return this.$store.state.lead; },
+        // leads(){  return this.$store.state.leads; },
+        // totalLeads(){ return this.$store.state.totalLeads },
+        // lead(){ return this.$store.state.lead; },
 
         filterLead: function(){
             return this.leads.filter((lead) => {
@@ -950,7 +1009,7 @@ export default {
         },
     },
     mounted(){
-        // this.fetchData();
+        this.fetchData();
         // this.fetchGroups();
         // this.fetchTeams();
         // this.fetchAgent();

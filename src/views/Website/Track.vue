@@ -134,10 +134,15 @@ export default {
             lead_name: '',
         }
     },
-    created(){
+    // created(){
+    //     window.addEventListener('beforeunload', (event) => {
+    //         event.preventDefault();
+    //         this.storeDuration();
+    //     });
+    // },
+    beforeDestroy() {
         window.addEventListener('beforeunload', (event) => {
             event.preventDefault();
-            // event.returnValue = '';
             this.storeDuration();
         });
     },

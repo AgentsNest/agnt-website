@@ -10,24 +10,21 @@
         <!-- Desktop Screen -->
         <v-card class="rounded-xl pa-md-5 shadow content-card" height="100vh" width="100%" elevation="0">
             <v-toolbar flat>
-                <div class="font-weight-bold text-h6">Clients</div>
-                <v-spacer></v-spacer>
 
-                <!-- <v-text-field
-                    v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    single-line
-                    hide-details
-                    outlined
-                    dense
-                ></v-text-field> -->
+                <v-card class="my-8 d-none d-md-flex" elevation="0">
+                    <div class="shadow rounded-lg">
+                    <v-btn small color="#111828" dark><v-icon size="18">mdi-format-list-bulleted-type</v-icon></v-btn>
+                    <v-btn class="text-capitalize" text>Clients</v-btn>
+                    </div>
+                </v-card>
 
                 <v-spacer></v-spacer>
+
                 <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn fab small depressed class="text-capitalize rounded-lg blue-grey darken-3" dark v-bind="attrs" v-on="on">
-                            <v-icon>mdi-plus</v-icon>
+                        <v-btn small depressed class="text-capitalize rounded" color="#111828" dark v-bind="attrs" v-on="on">
+                            <v-icon left>mdi-plus</v-icon>
+                            Add Lead
                         </v-btn>
                     </template>
                     <v-list dense>
@@ -35,6 +32,29 @@
                         <v-list-item link :to="{name: 'bulkUploadLead'}"><v-list-item-title>Bulk Upload</v-list-item-title></v-list-item>
                     </v-list>
                 </v-menu>
+
+                <div class="pagination ml-5">
+                    <v-btn 
+                        class="text-capitalize grey--text text--lighten-2" 
+                        @click="fetchData(pagination.prev_page_url)"
+                        :disabled="!pagination.prev_page_url"
+                        color="#111828"
+                        small
+                    >
+                        Previous
+                    </v-btn>
+                    <span class="caption mx-4">Page {{pagination.current_page}} of {{pagination.last_page}}</span>
+                    <v-btn 
+                        class="text-capitalize grey--text text--lighten-2" 
+                        @click="fetchData(pagination.next_page_url)"
+                        :disabled="!pagination.next_page_url"
+                        color="#111828"
+                        small
+                    >
+                        Next
+                    </v-btn>
+                </div>
+
             </v-toolbar>
 
             <v-card flat>
@@ -82,7 +102,7 @@
                                 dense
                                 label="Group"
                             ></v-autocomplete>
-                            <v-btn fab tile small elevation="0" dark class="gradient rounded ml-2" @click="addLeadToGroup">
+                            <v-btn fab tile small elevation="0" color="#111828" dark class="rounded ml-2" @click="addLeadToGroup">
                                 <v-icon>mdi-check</v-icon>
                             </v-btn>
                         </v-col>
@@ -97,7 +117,7 @@
                                 dense
                                 label="Team"
                             ></v-autocomplete>
-                            <v-btn fab tile small elevation="0" dark class="gradient rounded ml-2" @click="assignToTeam">
+                            <v-btn fab tile small elevation="0" dark color="#111828" class="rounded ml-2" @click="assignToTeam">
                                 <v-icon>mdi-check</v-icon>
                             </v-btn>
                         </v-col>
@@ -112,7 +132,7 @@
                                 dense
                                 label="Lead Status"
                             ></v-autocomplete>
-                            <v-btn fab tile small elevation="0" dark class="gradient rounded-lg ml-2" @click="changeLeadStatus">
+                            <v-btn fab tile small elevation="0" dark color="#111828" class="rounded-lg ml-2" @click="changeLeadStatus">
                                 <v-icon>mdi-check</v-icon>
                             </v-btn>
                         </v-col>
@@ -183,7 +203,8 @@
                     </tbody>
                     </template>
                 </v-simple-table>
-                <v-btn block @click="loadMoreDesktop" v-if="loadMoreBtn" class="my-3 rounded-lg text-capitalize">load more</v-btn>
+                
+                <!-- <v-btn block @click="loadMoreDesktop" v-if="loadMoreBtn" class="my-3 rounded-lg text-capitalize">load more</v-btn> -->
 
                 <!--
                     ===========================
@@ -211,6 +232,8 @@
                                     <v-select
                                         :items="leadStatus"
                                         label="Lead Status"
+                                        item-text="title"
+                                        item-value="title"
                                         @change="onChangeLeadStatus($event)"
                                         v-model="editedLead.status"
                                     ></v-select>
@@ -561,14 +584,17 @@ export default {
             {id: 5, title: 'Dead'}
         ],
         whateverActivatesThisLink: true,
-        loadMoreBtn: true
+        loadMoreBtn: true,
+        pagination: {}
       }
     },
     methods:{
         async fetchData(){
-            Lead.auth().then(response => {
-                this.leads = response.data.data;
-                this.total_leads = response.data.total;
+            var self=this;
+            Lead.auth(this.page).then(response => {
+                self.leads = response.data.data;
+                self.total_leads = response.data.total;
+                self.makePagination(response.data)
                 // console.log(response.data)
             });
         },
@@ -747,7 +773,7 @@ export default {
                 name: this.editedLead.name
             })
             .then(response => {
-                this.fetchData();
+                // this.fetchData();
                 this.snackbarText = 'Lead Updated'
                 this.snackbar = true;
             })
@@ -838,6 +864,20 @@ export default {
 
 
         },
+        makePagination: function(data){
+            if(this.page < data.meta.last_page){
+                this.page++;
+            } else {
+                this.page--;
+            }
+            let paginate = {
+                current_page: data.meta.current_page,
+                last_page: data.meta.last_page,
+                next_page_url: data.links.next,
+                prev_page_url: data.links.prev
+            }
+            this.pagination = paginate;
+        }
     },
     computed:{
         filterLead: function(){

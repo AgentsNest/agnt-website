@@ -7,7 +7,9 @@
           </v-col>
           <v-col md="10" cols="12" class="fill-height">
             <!-- <slot /> -->
-            <router-view/>
+            <keep-alive>
+              <router-view/>
+            </keep-alive>
           </v-col>
         </v-row>
     <!-- </v-container> -->

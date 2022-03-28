@@ -15,7 +15,7 @@
             <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Sign Up</v-btn>
 
             <div class="align-center d-none d-md-flex">
-                <v-btn v-if="isLoggedIn" elevation="0" class="text-capitalize gradient rounded-xl px-8" :to="{name: 'Login'}" link>Login</v-btn>
+                <v-btn v-if="!isLoggedIn" elevation="0" class="text-capitalize gradient rounded-xl px-8" :to="{name: 'Login'}" link>Login</v-btn>
                 <v-btn v-else elevation="0" class="text-capitalize gradient rounded-xl px-8" :to="{name: 'Dashboard'}" link>Dashboard</v-btn>
             </div>
 
@@ -123,7 +123,7 @@
             </v-card>
 
             <!-- CRM Real-time Updates -->
-            <v-card class="py-12 mb-2">
+            <v-card class="py-12">
                 <v-container>
                     <v-row class="align-center">
                         <v-col>
@@ -140,7 +140,7 @@
             </v-card>
 
             <!-- Brand Idenetity -->
-            <v-card class="py-12" flat tile>
+            <v-card class="py-12 grey lighten-4" flat tile>
                 <v-container>
                     <v-row class="align-center">
                         <v-col>
@@ -157,7 +157,7 @@
             </v-card>
 
             <!-- Join Us Plan -->
-            <v-card class="cyan py-12 px-10 price-div">
+            <!-- <v-card class="cyan py-12 px-10 price-div">
                 <div class="curve">
                     <v-card-text>
                         <div class="white--text font-weight-bold sm-title display-1">JUST ONE PLATFORM</div>
@@ -169,11 +169,11 @@
                         <v-btn large class="px-12" color="#111828" dark>Join Us</v-btn>
                     </div>
                 </div>
-                <!-- <svg viewBox="0 0 500 150" preserveAspectRatio="none" class="viewBox demo-svg">
+                <svg viewBox="0 0 500 150" preserveAspectRatio="none" class="viewBox demo-svg">
                     <path d="M0.00,49.98 C254.51,72.06 306.43,22.41 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" class="path">
                     </path>
-                </svg> -->
-            </v-card>
+                </svg>
+            </v-card> -->
 
             <!-- Demo Book -->
             <v-card class="mt-12" flat tile>

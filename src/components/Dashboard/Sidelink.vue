@@ -23,7 +23,7 @@
     </ul>
 
     <v-divider class="" color="#444"></v-divider>
-    <ul class="nav-links">
+    <ul class="nav-links py-0">
       <router-link :to="{name: 'AgentAccount'}" >
         <li>
           <v-icon color="grey lighten-3">mdi-account-box-outline</v-icon>
@@ -31,14 +31,13 @@
         </li>
       </router-link>
     </ul>
-    <v-divider class="" color="#444"></v-divider>
+    <!-- <v-divider class="" color="#444"></v-divider> -->
 
-    <v-card-actions>
-      <v-btn class="text-capitalize logout-btn" block text dark @click="logout">
-        <v-icon color="amber accent-3" left>mdi-logout</v-icon>
-        Logout
-      </v-btn>
-    </v-card-actions>
+    <v-btn class="text-capitalize logout-btn" color="#111" block dark @click="logout">
+      <v-icon color="amber accent-1" left>mdi-logout</v-icon>
+      Logout
+    </v-btn>
+
   </v-card>
 </template>
 
@@ -96,7 +95,7 @@ ul {
 }
 
 ul li {
-  margin: 1.2rem 0;
+  margin: 2vh 0;
   padding: 0.8em;
   width: 100%;
   text-align: left;
