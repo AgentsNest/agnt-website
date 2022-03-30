@@ -1,5 +1,5 @@
 <template>
-    <v-card flat height="100vh">
+    <v-card flat min-height="100vh" tile class="pa-md-5">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
             <template v-slot:action="{ attrs }">
@@ -29,13 +29,13 @@
             </div>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 mt-n7 mt-md-0 fill-height">
+        <v-card flat width="100%" class="white rounded-t-xl pt-3 mt-n7 mt-md-0">
           
-          <div class="d-flex align-center w-full mx-2 mb-3">
+          <div class="d-flex align-center mx-2 mb-3 search-input">
             <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
               <v-icon>mdi-close</v-icon>
             </v-btn>
-            <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mx-2">
+            <input type="text" v-model="search" placeholder="Search Projects..." class=" mx-2 flex-grow-1 searchInputField">
             <v-btn icon class="white rounded-lg" @click.prevent="searchWebsite()">
               <v-icon>mdi-magnify</v-icon>
             </v-btn>
@@ -43,12 +43,12 @@
 
           <v-divider></v-divider>
 
-          <v-card flat class="pt-4 pb-12 px-3 overflow-y-auto" height="100%">
+          <v-card flat class="pt-1 px-3" height="100%">
             <!-- Search Results Website -->
             <div v-if="showsearch">
-              <v-row class="pb-12">
+              <v-row>
                   <v-col md="4" v-for="website in results" :key="website.id">
-                    <v-card class="transparent" flat>
+                    <v-card class="transparent rounded-lg" elevation="1">
                       
                       <!-- Website Preview -->
                       <v-dialog v-model="preview[website.id]" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -56,6 +56,7 @@
                             <v-img
                               v-bind="attrs" v-on="on"
                               aspect-ratio="2"
+                              cover
                               :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                               lazy-src="../../assets/img/bg-grey.svg"
                               class="rounded-lg shadow-xl my-2"
@@ -68,51 +69,53 @@
                                 <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                             </v-toolbar>
 
-                            <v-row class="">
-                                <v-col md="8" offset-md="2">
-                                    <v-card class="mx-auto" tile>
-                                        <v-card-title>{{website.title}}</v-card-title>
-                                        <v-card-subtitle>{{website.about}}</v-card-subtitle>
+                            <v-container class="pa-0">
+                              <v-row>
+                                  <v-col md="8" offset-md="2" cols="12">
+                                      <v-card class="mx-auto" tile>
+                                          <v-card-title>{{website.title}}</v-card-title>
+                                          <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                                        <v-container>
-                                          <v-row class="" v-if="website.website_images">
-                                              <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="6" md="4">
-                                                  <v-img
-                                                      :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                      :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                      aspect-ratio="1.7"
-                                                      class="white rounded-lg"
-                                                  >
-                                                      <template v-slot:placeholder>
-                                                          <v-row class="fill-height ma-0" align="center" justify="center">
-                                                              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                                          </v-row>
-                                                      </template>
-                                                  </v-img>
-                                              </v-col>
-                                          </v-row>
-                                        </v-container>
+                                          <v-container>
+                                            <v-row class="" v-if="website.website_images">
+                                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="6" md="4">
+                                                    <v-img
+                                                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                        aspect-ratio="1.7"
+                                                        class="white rounded-lg"
+                                                    >
+                                                        <template v-slot:placeholder>
+                                                            <v-row class="fill-height ma-0" align="center" justify="center">
+                                                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                                            </v-row>
+                                                        </template>
+                                                    </v-img>
+                                                </v-col>
+                                            </v-row>
+                                          </v-container>
 
-                                        <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
-                                            <div class="font-weight-bold">PREPARED BY:</div>
-                                            <v-spacer></v-spacer>
-                                            <div>
-                                                <div>@AGENTNAME</div>
-                                                <div>@AGENTCONTACT</div>
-                                            </div>
-                                        </v-card>
+                                          <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
+                                              <div class="font-weight-bold">PREPARED BY:</div>
+                                              <v-spacer></v-spacer>
+                                              <div>
+                                                  <div>@AGENTNAME</div>
+                                                  <div>@AGENTCONTACT</div>
+                                              </div>
+                                          </v-card>
 
-                                        <v-card-text>
-                                            <div class="text-h6">Map</div>
-                                            <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
-                                        </v-card-text>
-                                        <v-card-text class="text-center">
-                                            <div class="text-h6">Walkthrough</div>
-                                            <LazyYoutube :src="website.walkthrough" />
-                                        </v-card-text>
-                                    </v-card>
-                                </v-col>
-                            </v-row>
+                                          <v-card-text>
+                                              <div class="text-h6">Map</div>
+                                              <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
+                                          </v-card-text>
+                                          <v-card-text class="text-center">
+                                              <div class="text-h6">Walkthrough</div>
+                                              <LazyYoutube :src="website.walkthrough" />
+                                          </v-card-text>
+                                      </v-card>
+                                  </v-col>
+                              </v-row>
+                            </v-container>
 
                             <v-card>
                                 <v-card-text class="text-center">
@@ -145,11 +148,11 @@
                       </v-dialog>
                       <!-- Website preview ends -->
 
-                      <div class="d-flex align-center">
+                      <div class="d-flex align-center px-2 pb-3">
                           <div class="subtitle-1 grey--text text--darken-3">{{website.title}}</div>
                           <v-spacer></v-spacer>
-                          <v-btn fab x-small class="ml-2 dark" dark @click="cloneWebsite(website.id)">
-                            <v-icon size="18">mdi-bookmark-outline</v-icon>
+                          <v-btn fab x-small elevation="1" class="white rounded-lg" @click="cloneWebsite(website.id)">
+                            <v-icon size="18">mdi-content-copy</v-icon>
                           </v-btn>
                       </div>
                     </v-card>
@@ -158,9 +161,9 @@
             </div>
             <!-- Default Websites -->
             <div v-else>
-              <v-row class="pb-12">
+              <v-row>
                 <v-col md="4" cols="12" v-for="(website, index) in websites" :key="index">
-                    <v-card class="transparent" flat>
+                    <v-card class="transparent rounded-lg" elevation="1">
                       
                       <!-- Website Preview -->
                       <v-dialog v-model="preview[website.id]" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -168,6 +171,7 @@
                             <v-img
                               v-bind="attrs" v-on="on"
                               aspect-ratio="2"
+                              cover
                               :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                               lazy-src="../../assets/img/bg-grey.svg"
                               class="rounded-lg shadow-xl my-2"
@@ -180,51 +184,53 @@
                                 <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                             </v-toolbar>
 
-                            <v-row class="">
-                                <v-col md="8" offset-md="2">
-                                    <v-card class="mx-auto" tile>
-                                        <v-card-title>{{website.title}}</v-card-title>
-                                        <v-card-subtitle>{{website.about}}</v-card-subtitle>
+                            <v-container class="pa-0">
+                              <v-row>
+                                  <v-col md="8" offset-md="2" cols="12">
+                                      <v-card class="mx-auto" tile>
+                                          <v-card-title>{{website.title}}</v-card-title>
+                                          <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                                        <v-container>
-                                          <v-row class="" v-if="website.website_images">
-                                              <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="6" md="4">
-                                                  <v-img
-                                                      :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                      :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                      aspect-ratio="1.7"
-                                                      class="white rounded-lg"
-                                                  >
-                                                      <template v-slot:placeholder>
-                                                          <v-row class="fill-height ma-0" align="center" justify="center">
-                                                              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                                          </v-row>
-                                                      </template>
-                                                  </v-img>
-                                              </v-col>
-                                          </v-row>
-                                        </v-container>
+                                          <v-container>
+                                            <v-row class="" v-if="website.website_images">
+                                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="6" md="4">
+                                                    <v-img
+                                                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                        aspect-ratio="1.7"
+                                                        class="white rounded-lg"
+                                                    >
+                                                        <template v-slot:placeholder>
+                                                            <v-row class="fill-height ma-0" align="center" justify="center">
+                                                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                                            </v-row>
+                                                        </template>
+                                                    </v-img>
+                                                </v-col>
+                                            </v-row>
+                                          </v-container>
 
-                                        <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
-                                            <div class="font-weight-bold">PREPARED BY:</div>
-                                            <v-spacer></v-spacer>
-                                            <div>
-                                                <div>@AGENTNAME</div>
-                                                <div>@AGENTCONTACT</div>
-                                            </div>
-                                        </v-card>
+                                          <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
+                                              <div class="font-weight-bold">PREPARED BY:</div>
+                                              <v-spacer></v-spacer>
+                                              <div>
+                                                  <div>@AGENTNAME</div>
+                                                  <div>@AGENTCONTACT</div>
+                                              </div>
+                                          </v-card>
 
-                                        <v-card-text>
-                                            <div class="text-h6">Map</div>
-                                            <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
-                                        </v-card-text>
-                                        <v-card-text class="text-center">
-                                            <div class="text-h6">Walkthrough</div>
-                                            <LazyYoutube :src="website.walkthrough" />
-                                        </v-card-text>
-                                    </v-card>
-                                </v-col>
-                            </v-row>
+                                          <v-card-text>
+                                              <div class="text-h6">Map</div>
+                                              <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
+                                          </v-card-text>
+                                          <v-card-text class="text-center">
+                                              <div class="text-h6">Walkthrough</div>
+                                              <LazyYoutube :src="website.walkthrough" />
+                                          </v-card-text>
+                                      </v-card>
+                                  </v-col>
+                              </v-row>
+                            </v-container>
 
                             <v-card>
                                 <v-card-text class="text-center">
@@ -257,11 +263,11 @@
                       </v-dialog>
                       <!-- Website preview ends -->
 
-                      <div class="d-flex align-center">
+                      <div class="d-flex align-center px-2 pb-3">
                           <div class="subtitle-1 grey--text text--darken-3">{{website.title}}</div>
                           <v-spacer></v-spacer>
-                          <v-btn fab x-small class="ml-2 dark" dark @click="cloneWebsite(website.id)">
-                            <v-icon size="18">mdi-bookmark-outline</v-icon>
+                          <v-btn fab x-small elevation="1" class="white rounded-lg" @click="cloneWebsite(website.id)">
+                            <v-icon size="18">mdi-content-copy</v-icon>
                           </v-btn>
                       </div>
                     </v-card>
@@ -338,7 +344,7 @@ export default {
         Website.clone(website)
         .then(response => {
           if (response.data === 'Already Cloned') {
-            this.snackbarText = 'Already Cloned'
+            this.snackbarText = 'Already in your projects'
             this.snackbar = true
             // console.log(response)
           } else {
@@ -382,11 +388,14 @@ export default {
   overflow-y: scroll;
 }
 .search-input{
-  background-color: #fff;
   border-radius: 12px;
   padding: 0.6em 0.8em;
-  width: 100%; 
+  width: 96%; 
+  background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.searchInputField{
+  outline: none;
 }
 .gallery-img{
     object-fit: cover;

@@ -1,17 +1,22 @@
 <template>
-  <section class="main-card">
-        <v-row>
-          <v-col md="2" class="d-none d-md-block" cols="12">
+  <v-card class="d-flex overflow-y-auto" flat tile height="100vh">
+        <!-- <v-row>
+          <v-col md="2" class="d-none d-md-block">
             <Sidelink />
           </v-col>
-          <v-col md="10" cols="12" class="pb-0">
-            <!-- <slot /> -->
+          <v-col md="10" cols="12" class="">
             <keep-alive>
               <router-view/>
             </keep-alive>
           </v-col>
-        </v-row>
-  </section>
+        </v-row> -->
+    <Sidelink />
+
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+    
+  </v-card>
 </template>
 
 <script>
@@ -37,6 +42,6 @@ export default {
   background: #ffffff;
   /* background: #f5f5f5; */
   /* height: 100vh; */
-  /* width: 100vw; */
+  width: 100vw;
 }
 </style>

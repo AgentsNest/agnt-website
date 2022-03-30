@@ -1,5 +1,5 @@
 <template>
-    <v-card flat height="100vh">
+    <v-card flat>
       <Navbar/>
 
       <v-card class="bg-gradient px-4 pt-3 pb-10 mt-n6 rounded-t-xl d-md-none" flat>

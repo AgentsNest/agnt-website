@@ -201,7 +201,7 @@
                         </v-card>
 
                         <!-- Agent Avatar -->
-                        <v-card class="rounded-xl mb-5 content-card" flat>
+                        <v-card class="rounded-xl" flat>
                         
                             <!-- <v-toolbar flat class="d-none d-md-flex">
                                 <v-img 
@@ -227,7 +227,7 @@
                                     :class="success == true ? 'gradient' : 'grey darken-4'"
                                 >{{submitBtn}}</v-btn>
                             </v-toolbar> -->
-                            <div class="text-center mt-5">
+                            <div class="text-center my-5">
                                 <v-avatar tile size="130" class="rounded-lg">
                                     <img 
                                         :src="avatarPreview ? avatarPreview : agent.image"
@@ -244,49 +244,51 @@
                             <v-card-text>
                                 <v-row>
                                     <v-col md="6" cols="12">
-                                        <label>Full Name</label>
-                                        <input type="text" class="search-input" v-model="agent.name">
+                                        <v-text-field label="Full Name" v-model="agent.name" outlined></v-text-field>
                                     </v-col>
                                     <v-col md="6" cols="12">
-                                        <label>Email</label>
-                                        <input type="text" readonly class="search-input" v-model="agent.email">
+                                        <!-- <label>Email</label>
+                                        <input type="text" readonly class="search-input" v-model="agent.email"> -->
+                                        <v-text-field label="Email" v-model="agent.email" outlined></v-text-field>
                                     </v-col>
                                     <v-col md="6" cols="12">
-                                        <label>Contact Number</label>
-                                        <input type="text" class="search-input" v-model="agent.contact">
+                                        <v-text-field label="Contact Number" v-model="agent.contact" outlined></v-text-field>
                                     </v-col>
                                     <v-col md="6" cols="12">
-                                        <label>Website</label>
-                                        <input type="text" class="search-input" v-model="agent.website">
+                                        <v-text-field label="Your Website" v-model="agent.website" outlined></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-card-text>
                         </v-card>
                             
                         <!-- Basic Info -->
-                        <v-card class="rounded-xl mb-5 content-card" flat>        
+                        <v-card class="rounded-xl" flat>        
                             <v-card-title>Basic Info</v-card-title>
                             <v-card-text>
-                                <textarea rows="6" placeholder="About You" class="search-input mb-6" v-model="agent.bio"></textarea>
+                                <v-textarea
+                                    outlined
+                                    label="About You"
+                                    v-model="agent.bio"
+                                ></v-textarea>
                                 <v-row>
                                     <v-col md="4" cols="12">
-                                        <label>City</label>
-                                        <input type="text" class="search-input" v-model="agent.city" placeholder="City">
+                                        <v-text-field label="Full Address" v-model="agent.address" outlined></v-text-field>
                                     </v-col>
-                                    <v-col md="4" cols="12">
-                                        <label>State</label>
-                                        <input type="text" class="search-input" v-model="agent.state" placeholder="State">
+                                    <v-col md="4" cols="6">
+                                        <v-text-field label="City" v-model="agent.city" outlined></v-text-field>
                                     </v-col>
-                                    <v-col md="4" cols="12">
-                                        <label>Country</label>
-                                        <input type="text" class="search-input" v-model="agent.country" placeholder="Country">
+                                    <v-col md="4" cols="6">
+                                        <v-text-field label="State" v-model="agent.state" outlined></v-text-field>
                                     </v-col>
+                                    <!-- <v-col md="3" cols="6">
+                                        <v-text-field label="Country" v-model="agent.country" outlined></v-text-field>
+                                    </v-col> -->
                                 </v-row>
                             </v-card-text>
                         </v-card>
 
                         <!-- Business Details -->
-                        <v-card class="rounded-xl mb-5 content-card" flat>
+                        <v-card class="rounded-xl mb-5" flat>
                             <v-card-title>Business Details</v-card-title>
 
                             <div>
@@ -319,47 +321,38 @@
                             <v-card-text>
                                 <v-row>
                                     <v-col md="6" cols="12">
-                                        <label>Company Name</label>
-                                        <input type="text" class="search-input" v-model="agent.brand_text">
+                                        <v-text-field label="Company Name" v-model="agent.brand_text" outlined></v-text-field>
                                     </v-col>
                                     <v-col md="6" cols="12">
-                                        <label>RERA
-                                            <span v-if="verified" class="red--text ml-1 font-weight-bold caption">
-                                            (not verified)</span> 
-                                        </label>
-                                        <input type="text" class="search-input" v-model="agent.rera" placeholder="RERA Number">
+                                        <v-text-field label="RERA Number" v-model="agent.rera" outlined></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-card-text>
                         </v-card>
 
                         <!-- Social Links -->
-                        <v-card class="rounded-xl mb-5 content-card" flat>
+                        <v-card class="rounded-xl" flat>
                             <v-card-title>Social Links</v-card-title>
                             <v-card-text>
                                 <v-row>
                                     <v-col md="6" cols="12">
-                                        <label><v-icon size="20">mdi-facebook</v-icon> Facebook</label>
-                                        <input type="text" class="search-input" v-model="agent.facebook" placeholder="Facebook">
+                                        <v-text-field v-model="agent.facebook" outlined prepend-inner-icon="mdi-facebook"></v-text-field>
                                     </v-col>
                                     <v-col md="6" cols="12">
-                                        <label><v-icon size="20">mdi-linkedin</v-icon> LinkedIn</label>
-                                        <input type="text" class="search-input" v-model="agent.linkedin" placeholder="LinkedIn">
+                                        <v-text-field v-model="agent.linkedin" outlined prepend-inner-icon="mdi-linkedin"></v-text-field>
                                     </v-col>
                                     <v-col md="6" cols="12">
-                                        <label><v-icon size="20">mdi-instagram</v-icon> Instagram</label>
-                                        <input type="text" class="search-input" v-model="agent.instagram" placeholder="Instagram">
+                                        <v-text-field v-model="agent.instagram" outlined prepend-inner-icon="mdi-instagram"></v-text-field>
                                     </v-col>
                                     <v-col md="6" cols="12">
-                                        <label><v-icon size="20">mdi-twitter</v-icon> Twitter</label>
-                                        <input type="text" class="search-input" v-model="agent.twitter" placeholder="Twitter">
+                                        <v-text-field v-model="agent.twitter" outlined prepend-inner-icon="mdi-twitter"></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-card-text>
                         </v-card>
 
-                        <v-card flat>
-                            <v-toolbar>
+                        <v-card class="">
+                            <v-toolbar flat>
                                 <v-icon class="mr-2">mdi-qrcode-scan</v-icon>
                                 <span>Your QRCode</span>
                             </v-toolbar>

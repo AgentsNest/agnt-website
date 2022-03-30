@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div class="flex-grow-1">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Lead Added Successfully
             <template v-slot:action="{ attrs }">
                 <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
             </template>
         </v-snackbar>
-        <v-card class="rounded-xl pa-3 shadow content-card overflow-y-auto" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-3 px-md-16 shadow"  elevation="0">
             <v-toolbar flat class="mb-6">
                 <v-btn class="white rounded-lg mr-6" elevation="0" depressed icon @click="$router.go(-1)">
                     <v-icon>mdi-arrow-left</v-icon>

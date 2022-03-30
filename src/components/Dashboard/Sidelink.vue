@@ -1,45 +1,52 @@
 <template>
-    <v-card
-      class="shadow py-5 sidelink"
+    <!-- <v-card
+      class="shadow py-5 sidelink d-none d-md-flex"
       color="#111828"
-      permanent
       tile
       flat
       height="100vh"
-      width="270"
+      width="250"
+    > -->
+    <v-navigation-drawer
+      app
+      color="#111828"
+      class="d-none d-md-flex"
     >
+        <div class="white--text text-h5 text-center font-weight-bold mt-4">
+          agnt<span class="blue--text">.</span>
+        </div>
 
-    <div class="white--text text-h5 text-center font-weight-bold">agnt.</div>
+        <ul class="nav-links">
+          <router-link :to="{name: item.link}" v-for="item in items" :key="item.title" 
+            :disabled="whateverActivatesThisLink" 
+            :event="whateverActivatesThisLink ? 'click' : ''"
+          >
+            <li>
+              <v-icon color="grey lighten-3">{{item.icon}}</v-icon>
+              <span class="ml-2">{{item.title}}</span>
+            </li>
+          </router-link>
+        </ul>
 
-    <ul class="nav-links">
-      <router-link :to="{name: item.link}" v-for="item in items" :key="item.title" 
-        :disabled="whateverActivatesThisLink" 
-        :event="whateverActivatesThisLink ? 'click' : ''"
-      >
-        <li>
-          <v-icon color="grey lighten-3">{{item.icon}}</v-icon>
-          <span class="ml-2">{{item.title}}</span>
-        </li>
-      </router-link>
-    </ul>
+        <v-divider class="" color="#444"></v-divider>
+        <ul class="nav-links py-0">
+          <router-link :to="{name: 'AgentAccount'}" >
+            <li>
+              <v-icon color="grey lighten-3">mdi-account-box-outline</v-icon>
+              <span class="ml-2">Account</span>
+            </li>
+          </router-link>
+        </ul>
+        <!-- <v-divider class="" color="#444"></v-divider> -->
 
-    <v-divider class="" color="#444"></v-divider>
-    <ul class="nav-links py-0">
-      <router-link :to="{name: 'AgentAccount'}" >
-        <li>
-          <v-icon color="grey lighten-3">mdi-account-box-outline</v-icon>
-          <span class="ml-2">Account</span>
-        </li>
-      </router-link>
-    </ul>
-    <!-- <v-divider class="" color="#444"></v-divider> -->
+        <v-btn class="text-capitalize text-left logout-btn" text block dark @click="logout">
+          <v-icon color="amber accent-1" size="18">mdi-logout</v-icon>
+          Logout
+        </v-btn>
 
-    <v-btn class="text-capitalize logout-btn" color="#111" block dark @click="logout">
-      <v-icon color="amber accent-1" left>mdi-logout</v-icon>
-      Logout
-    </v-btn>
+    </v-navigation-drawer>
 
-  </v-card>
+  <!-- </v-card> -->
 </template>
 
 
@@ -87,10 +94,10 @@ import User from '../../Apis/User'
 </script>
 
 <style scoped>
-.sidelink{position: fixed;}
+/* .sidelink{position: fixed;} */
 .logout-btn{position: absolute;bottom: 0;left: 0;right: 0;}
 ul {
-  padding: 1em;
+  padding: 1em 0 1em 1em;
   margin: 0;
   list-style-type: none;
 }
@@ -100,7 +107,7 @@ ul li {
   padding: 0.8em;
   width: 100%;
   text-align: left;
-  border-radius: 12px;
+  border-radius: 12px 0 0 12px;
   cursor: pointer;
   display: flex;
   align-items: center;

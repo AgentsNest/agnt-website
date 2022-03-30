@@ -1,61 +1,43 @@
 <template>
-<v-card flat min-height="100vh" tile class="pa-5">
-    <Navbar/>
+  <div class="flex-grow-1"> 
 
-    <v-card class="d-none d-md-flex mb-5" elevation="0">
+    <v-card class="d-none d-md-flex mb-5 pa-5" elevation="0">
         <div class="shadow rounded-lg">
           <v-btn large color="#111828" dark><v-icon>mdi-image-multiple</v-icon></v-btn>
           <v-btn class="text-capitalize" text>Graphics</v-btn>
         </div>
     </v-card>
     
-    <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-2 mt-n7 mt-md-0 fill-height">
-      <v-row class="pa-5">
-        <!-- Image gallery columns 4 -->
-        <v-col cols="12" class="all-images-card">
-          <!-- <v-row>
-            <v-col>
-              <input type="text" placeholder="Search by category..." class="search-input" v-model="search">
-            </v-col>
-          </v-row> -->
-          <v-row v-if="skelton">
-            <v-col cols="6" v-for="n in 12" :key="n">
-              <v-skeleton-loader
-                class="mx-auto rounded-lg"
-                height="140px"
-                type="image"
-              ></v-skeleton-loader>
-            </v-col>
-          </v-row>
-          <v-row v-else>
-            <v-col cols="3" v-for="(graphic, index) in filterGraphic" :key="index">
-              <router-link :to="{name: 'previewGraphic', params: {id: graphic.id} }">
-                <v-img
-                    :src="graphic.thumb"
-                    :lazy-src="graphic.thumb"
-                    aspect-ratio="1.4"
-                    height="200px"
-                    class="grey lighten-2 rounded-lg pointer"
-                    @click="detailsSidebar(graphic.id)"
-                  >
-                    <template v-slot:placeholder>
-                      <v-row class="fill-height ma-0" align="center" justify="center">
-                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                      </v-row>
-                    </template>
-                </v-img>
-              </router-link>
-            </v-col>
-          </v-row>
-          <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
-            <span slot="no-more"></span>
-          </infinite-loading>
-        </v-col>
-      </v-row>
+    <v-card flat class="white rounded-t-xl">
+      <v-container>
+        <v-row>
+          <v-col cols="3" v-for="(graphic, index) in filterGraphic" :key="index">
+            <router-link :to="{name: 'previewGraphic', params: {id: graphic.id} }">
+              <v-img
+                  :src="graphic.thumb"
+                  lazy-src="../../assets/img/bg-grey.svg"
+                  aspect-ratio="1.4"
+                  max-width="250px"
+                  class="grey lighten-2 rounded-lg pointer"
+                  @click="detailsSidebar(graphic.id)"
+                >
+                  <template v-slot:placeholder>
+                    <v-row class="fill-height ma-0" align="center" justify="center">
+                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    </v-row>
+                  </template>
+              </v-img>
+            </router-link>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <v-btn block text x-large @click="infiniteHandler" v-if="loadMoreBtn"><v-icon>mdi-arrow-down</v-icon></v-btn>
+        
       
     </v-card>
 
-</v-card>
+  </div>
 </template>
 
 <script>
@@ -68,12 +50,12 @@ const width = 500;
 const height = '';
 
 export default {
-  components: { InfiniteLoading, Navbar },
+  components: {  },
   data() {
     return {
       graphics: [],
       graphic: '',
-      loadMoreBtn: true,
+      loadMoreBtn: false,
       page: 1,
       last_page : null,
       skelton: false,
@@ -122,9 +104,7 @@ export default {
   },
   methods: {
     fetchData() {
-      this.skelton = true
       Graphic.all(this.page).then((response) => {
-        this.skelton = false
         this.graphics = response.data.data;
         this.last_page = response.data.last_page;
         // console.log(response.data.data)
@@ -185,15 +165,17 @@ export default {
     },
     infiniteHandler($state){
       if (this.page === this.last_page) {
-        $state.complete();
+        this.loadMoreBtn = false
+        // $state.complete();
       } else {
+        this.loadMoreBtn = true
         this.page = this.page + 1;
         Graphic.all(this.page).then((response) => {
           // console.log(response.data.data)
           response.data.data.forEach(data => {
             this.graphics.push(data);
           });
-          $state.loaded();
+          // $state.loaded();
         });
       }
     },

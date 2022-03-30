@@ -1,6 +1,6 @@
 <template>
 
-    <v-card flat height="100vh" tile>
+    <div class="flex-grow-1">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Design saved successfully
             <template v-slot:action="{ attrs }">
@@ -22,9 +22,9 @@
             </v-btn>
         </v-card>
         
-        <v-card flat width="100vw" height="70vh" class=" rounded-t-xl pb-16 pt-12 mt-n7 mt-md-0 d-flex align-center justify-center">
+        <v-card flat height="70vh" class=" rounded-t-xl mt-n7 d-flex align-center justify-center">
            
-                <v-card ref="container" flat id="capture" class="transparent mainCanvas ml-3" width="100%">
+                <v-card ref="container" flat id="capture" class="transparent mainCanvas">
                     <v-stage ref="stage" :config="stageSize" id="theCanvas"> 
                         <v-layer ref="layer">
                             <v-image
@@ -366,12 +366,12 @@
         </v-card>
 
         <div class="bottomNav-ext d-flex justify-space-between" v-if="textControls">
-            <v-btn class="flex-grow-1 text-capitalize" @click="companyControls = !companyControls">Company</v-btn>
-            <v-btn class="flex-grow-1 text-capitalize" @click="reraControls = !reraControls">Rera</v-btn>
-            <v-btn class="flex-grow-1 text-capitalize" @click="emailControls = !emailControls">Email</v-btn>
+            <v-btn large class="flex-grow-1 text-capitalize" @click="companyControls = !companyControls">Company</v-btn>
+            <v-btn large class="flex-grow-1 text-capitalize" @click="reraControls = !reraControls">Rera</v-btn>
+            <v-btn large class="flex-grow-1 text-capitalize" @click="emailControls = !emailControls">Email</v-btn>
         </div>
 
-        <v-bottom-navigation class="bottomNav grey darken-4" grow dark tile height="48px">
+        <v-bottom-navigation class="bottomNav grey darken-4" grow dark tile height="58px">
             <v-btn value="recent" @click="imageControls = !imageControls">
                 <span>Image</span>
                 <v-icon size="18">mdi-image</v-icon>
@@ -389,7 +389,7 @@
         </v-bottom-navigation>
 
 
-    </v-card>
+    </div>
 
 </template>
 
@@ -627,7 +627,7 @@ export default {
 }
 .bottomNav-ext{
     position: fixed;
-    bottom: 48px;
+    bottom: 58px;
     left: 0;
     right: 0;
 }

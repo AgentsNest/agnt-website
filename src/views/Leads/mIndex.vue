@@ -1,5 +1,5 @@
 <template>
-    <v-card flat height="100%" class="transparent">
+    <div class="flex-grow-1">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{ snackbarText }}
             <template v-slot:action="{ attrs }">
@@ -496,7 +496,7 @@
             </v-btn>
         </v-speed-dial>
 
-    </v-card>
+    </div>
 </template>
 
 <script>

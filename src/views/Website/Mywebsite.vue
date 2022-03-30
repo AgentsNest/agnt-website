@@ -1,5 +1,5 @@
 <template>
-    <v-card flat height="100vh">
+    <v-card flat min-height="100vh" tile class="pa-md-5">
 
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
@@ -30,13 +30,13 @@
             </div>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pt-4 overflow-y-auto mt-n7 mt-md-0">
+        <v-card flat width="100%" class="white rounded-t-xl pt-2 mt-n7 mt-md-0">
           
-          <div class="d-flex align-center w-full mx-2 mb-3">
+          <div class="d-flex align-center mx-2 mb-3 search-input">
             <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
               <v-icon>mdi-close</v-icon>
             </v-btn>
-            <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mx-2">
+            <input type="text" v-model="search" placeholder="Search Projects..." class=" mx-2 flex-grow-1 searchInputField">
             <v-btn icon class="white rounded-lg" @click.prevent="searchWebsite()">
               <v-icon>mdi-magnify</v-icon>
             </v-btn>
@@ -44,27 +44,43 @@
 
           <v-divider></v-divider>
 
-          <v-card flat class="py-2 px-3 overflow-y-auto" height="100%">
+          <v-card flat class="py-2 px-3">
             <!-- Search Results Website -->
             <div v-if="showsearch">
-              <v-row class="pb-12">
+              <v-row>
                   <v-col md="4" v-for="website in results" :key="website.id">
-                    <v-card class="transparent" flat>
+                    <v-card class="transparent rounded-lg" elevation="1">
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
                             aspect-ratio="2"
                             :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                            :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                            lazy-src="../../assets/img/bg-grey.svg"
                             class="rounded-lg shadow-xl my-2"
-                        ></v-img>
+                            cover
+                        >
+                        </v-img>
                       </router-link>
-                      <div class="d-flex align-center">
-                        <div class="text-h6 grey--text text--darken-3">{{website.title}}</div>
+                      <div class="d-flex align-center px-2 pb-3">
+                        <div class="subtitle-1 grey--text text--darken-3">{{website.title}}</div>
                         <v-spacer></v-spacer>
-                        <v-btn fab small elevation="1" dark class="dark mr-2" @click="deleteWebsite(website.id)"><v-icon size="20">mdi-trash-can</v-icon></v-btn>
-                        <v-btn fab small elevation="1" class="text-capitalize dark" dark @click="shareSidebarOpen(website)">
-                          <v-icon size="18">mdi-share-variant</v-icon>
+                        <v-btn fab x-small elevation="0" class="white rounded-lg" @click="shareSidebarOpen(website)">
+                          <v-icon color="#666" size="18">mdi-share-variant</v-icon>
                         </v-btn>
+                        <v-menu offset-y>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn v-bind="attrs" v-on="on" icon>
+                              <v-icon>mdi-dots-vertical</v-icon>
+                            </v-btn>
+                          </template>
+                          <v-list dense class="py-0">
+                            <v-list-item @click="deleteWebsite(website.id)">
+                              <v-list-item-title class="d-flex align-center">
+                                <v-icon color="#666" left size="18">mdi-trash-can</v-icon>
+                                Delete
+                              </v-list-item-title>
+                            </v-list-item>
+                          </v-list>
+                        </v-menu>
                       </div>
                     </v-card>
                   </v-col>
@@ -74,22 +90,38 @@
             <div v-else>
               <v-row>
                 <v-col md="4" cols="12" v-for="(website, index) in websites" :key="index">
-                    <v-card class="transparent" flat>
+                    <v-card class="transparent rounded-lg" elevation="1">
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
                             aspect-ratio="2"
                             :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                            :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                            lazy-src="../../assets/img/bg-grey.svg"
                             class="rounded-lg shadow-xl my-2"
-                        ></v-img>
+                            cover
+                        >
+                        </v-img>
                       </router-link>
-                      <div class="d-flex align-center">
-                        <div class="text-h6 grey--text text--darken-3">{{website.title}}</div>
+                      <div class="d-flex align-center px-2 pb-3">
+                        <div class="subtitle-1 grey--text text--darken-3">{{website.title}}</div>
                         <v-spacer></v-spacer>
-                        <v-btn fab small elevation="1" dark class="dark mr-2" @click="deleteWebsite(website.id)"><v-icon size="20">mdi-trash-can</v-icon></v-btn>
-                        <v-btn fab small elevation="1" class="text-capitalize dark" dark @click="shareSidebarOpen(website)">
-                          <v-icon size="18">mdi-share-variant</v-icon>
+                        <v-btn fab x-small elevation="0" class="white rounded-lg" @click="shareSidebarOpen(website)">
+                          <v-icon color="#666" size="18">mdi-share-variant</v-icon>
                         </v-btn>
+                        <v-menu offset-y>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn v-bind="attrs" v-on="on" icon>
+                              <v-icon>mdi-dots-vertical</v-icon>
+                            </v-btn>
+                          </template>
+                          <v-list dense class="py-0">
+                            <v-list-item @click="deleteWebsite(website.id)">
+                              <v-list-item-title class="d-flex align-center">
+                                <v-icon color="#666" left size="18">mdi-trash-can</v-icon>
+                                Delete
+                              </v-list-item-title>
+                            </v-list-item>
+                          </v-list>
+                        </v-menu>
                       </div>
                     </v-card>
                 </v-col>
@@ -458,12 +490,18 @@ export default {
 .search-input{
   border-radius: 12px;
   padding: 0.6em 0.8em;
-  width: 100%; 
+  width: 96%; 
   background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.searchInputField{
+  outline: none;
 }
 .shadow{
   background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.4),0 24px 20px -24px rgba(71,82,107,.2);
+}
+@media screen {
+  
 }
 </style>
