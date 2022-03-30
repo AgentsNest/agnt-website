@@ -1,8 +1,8 @@
 <template>
-<v-card flat height="100vh">
+<v-card flat min-height="100vh" tile class="pa-5">
     <Navbar/>
 
-    <v-card class="my-8 d-none d-md-flex" elevation="0">
+    <v-card class="d-none d-md-flex mb-5" elevation="0">
         <div class="shadow rounded-lg">
           <v-btn large color="#111828" dark><v-icon>mdi-image-multiple</v-icon></v-btn>
           <v-btn class="text-capitalize" text>Graphics</v-btn>

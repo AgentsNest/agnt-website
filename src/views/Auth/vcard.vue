@@ -24,42 +24,72 @@
                     </v-card-actions>
 
                     <v-divider></v-divider>
-                    <div class="px-6 my-2 grey--text">Business Details</div>
-                    <v-divider></v-divider>
+                    <!-- <div class="px-6 my-2 grey--text">Business Details</div>
+                    <v-divider></v-divider> -->
 
                     <div class="py-3 px-6">
                         <div class="d-flex mt-3">
-                            <v-icon color="black" size="20">mdi-bag-checked</v-icon>
-                            <div class="ml-2 body-2">{{user.brand_text}}</div>
+                            <v-btn fab small class="rounded-lg blue-grey lighten-5" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-bag-checked</v-icon>
+                            </v-btn>
+                            <div class="ml-4 body-2">
+                                <div class="caption grey--text">Company</div>
+                                {{user.brand_text}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="20">mdi-phone</v-icon>
-                            <div class="ml-2 body-2">{{user.contact}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-phone</v-icon>
+                            </v-btn>
+                            <div class="ml-4 body-2">
+                                <div class="caption grey--text">Phone number</div>
+                                {{user.contact}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="20">mdi-card-account-details-outline</v-icon>
-                            <div class="ml-2 body-2">{{user.rera}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-card-account-details-outline</v-icon>
+                            </v-btn>
+                            <div class="ml-4 body-2">
+                                <div class="caption grey--text">RERA number</div>
+                                {{user.rera}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="20">mdi-email-outline</v-icon>
-                            <div class="ml-2 body-2">{{user.email}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-email-outline</v-icon>
+                            </v-btn>
+                            <div class="ml-4 body-2">
+                                <div class="caption grey--text">Email</div>
+                                {{user.email}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="20">mdi-web</v-icon>
-                            <div class="ml-2 body-2">{{user.website}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-web</v-icon>
+                            </v-btn>
+                            <div class="ml-4 body-2">
+                                <div class="caption grey--text">Website</div>
+                                {{user.website}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="22">mdi-map-marker-radius-outline</v-icon>
-                            <div class="ml-2 body-2">{{user.address}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="22">mdi-map-marker-radius-outline</v-icon>
+                            </v-btn>
+                            <div class="ml-4 body-2">
+                                <div class="caption grey--text">Address</div>
+                                {{user.address}}
+                            </div>
                         </div>
                     </div>
                     <!-- About Text -->
-                    <div class="pa-3">
+                    <div class="pa-3 mx-3">
                         <v-card-text class="blue lighten-5 rounded-lg">{{user.bio}}</v-card-text>
                     </div>
 
-                    <v-card-text>
-                        <v-btn block large dark class="amber accent-4 text-capitalize" depressed link :href="`https://wa.me/${user.contact}`">
+                    <v-card-text class="px-6">
+                        <v-btn block large dark class="blue darken-4 text-capitalize" depressed link :href="`https://wa.me/${user.contact}`">
                             <v-icon left>mdi-share</v-icon>
                             Send Message
                         </v-btn>

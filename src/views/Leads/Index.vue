@@ -8,7 +8,7 @@
         </v-snackbar>
 
         <!-- Desktop Screen -->
-        <v-card class="rounded-xl pa-md-5 shadow content-card" height="100vh" width="100%" elevation="0">
+        <v-card class="pa-md-5 shadow" height="100%" width="100%" flat tile>
             <v-toolbar flat>
 
                 <v-card class="my-8 d-none d-md-flex" elevation="0">

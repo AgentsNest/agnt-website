@@ -7,7 +7,7 @@
         <span class="white--text font-weight-bold ml-3">Dashboard</span>
       </v-card>
       
-      <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 overflow-y-auto mt-n7 mt-md-0 fill-height">
+      <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 mt-n7 mt-md-0 fill-height">
 
         <v-container>
           <v-row>

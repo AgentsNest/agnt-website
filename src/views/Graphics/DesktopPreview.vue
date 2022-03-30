@@ -1,6 +1,6 @@
 <template>
 
-    <v-card flat height="100vh" class="transparent pt-5" tile>
+    <v-card flat min-height="100vh" class="pa-5" tile>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Design saved successfully
             <template v-slot:action="{ attrs }">
@@ -10,11 +10,13 @@
 
         <Navbar/>
 
-        <v-toolbar class="gradient-bg rounded-lg" dark dense>
-            <v-icon left>mdi-image-edit-outline</v-icon>
-            Customize Graphic
+        <v-toolbar class="transparent rounded-lg" flat dense>
+            <v-btn text class="text-capitalize" x-large>
+                <v-icon>mdi-image-edit-outline</v-icon>
+                <span class="ml-3">Customize Graphic</span>
+            </v-btn>
             <v-spacer></v-spacer>
-            <v-btn @click="download">
+            <v-btn @click="download" class="bg-gradient text-capitalize" dark depressed>
                 <v-icon left>mdi-download</v-icon>
                 Download
             </v-btn>
@@ -22,8 +24,8 @@
 
         <v-row>
             <v-col cols="8" class="py-10">
-                <v-card class="d-flex transparent" height="100%" width="100%" ref="canvasCard" flat>
-                    <v-card ref="container" id="capture" class="mainCanvas transparent" flat>
+                <v-card class="d-flex align-center justify-center" height="100%" width="100%" ref="canvasCard" flat>
+                    <v-card ref="container" id="capture" class="mainCanvas transparent">
                         <v-stage ref="stage" :config="stageSize" id="theCanvas"> 
                             <v-layer ref="layer">
                                 <v-image
@@ -160,12 +162,12 @@
             <v-col cols="4" class="py-10">
                 <v-card class="overflow-y-auto transparent" height="75vh" flat>
                     <!-- Text Controls -->
-                    <v-card class="rounded-lg mb-2" flat>
-                        <div class="font-weight-bold d-flex align-center px-5">
+                    <v-card class="rounded-lg mb-4">
+                        <div class="font-weight-bold d-flex align-center px-5 blue-grey lighten-5">
                             <v-switch dense color="teal darken-2" v-model="showRera"></v-switch>
                             <span class="">Rera Number</span>
                         </div>
-                        <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
+                        <div class="d-flex align-center px-5 py-3">
                             <span>Size</span>
                             <v-spacer></v-spacer>
                             <v-btn x-small fab tile elevation="1" class="white rounded" @click="reraFontSize -= 2">
@@ -191,12 +193,12 @@
                         </div>
                     </v-card>
                     <!-- Company Controls -->
-                    <v-card class="rounded-lg mb-2" flat>
-                        <div class="font-weight-bold d-flex align-center px-5">
+                    <v-card class="rounded-lg mb-4">
+                        <div class="font-weight-bold d-flex align-center px-5 blue-grey lighten-5">
                             <v-switch dense color="teal darken-2" v-model="showCompany"></v-switch>
                             <span class="">Company Name</span>
                         </div>
-                        <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
+                        <div class="d-flex align-center px-5 py-3">
                             <span>Size</span>
                             <v-spacer></v-spacer>
                             <v-btn x-small fab tile elevation="1" class="white rounded" @click="brandFontSize -= 2">
@@ -222,12 +224,12 @@
                         </div>
                     </v-card>
                     <!-- Logo -->
-                    <v-card class="rounded-lg mb-2" flat>
-                        <div class="font-weight-bold d-flex align-center px-5">
+                    <v-card class="rounded-lg mb-4">
+                        <div class="font-weight-bold d-flex align-center px-5 blue-grey lighten-5">
                             <v-switch dense color="teal darken-2" v-model="showLogo"></v-switch>
                             <span class="">Logo</span>
                         </div>
-                        <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
+                        <div class="d-flex align-center px-5 py-3">
                             <span>Size</span>
                             <v-spacer></v-spacer>
                             <v-btn x-small fab tile elevation="1" class="white rounded" @click="logoWidth -= 50">
@@ -240,7 +242,7 @@
                     </v-card>
 
                     <!-- Email -->
-                    <v-card class="rounded-lg mb-2" flat>
+                    <v-card class="rounded-lg mb-4">
                         <div class="font-weight-bold d-flex align-center px-5">
                             <v-switch dense color="teal darken-2" v-model="showEmail"></v-switch>
                             <span class="">Email</span>
@@ -261,7 +263,7 @@
                         </div>
                     </v-card>
                     <!-- Website -->
-                    <v-card class="rounded-lg mb-2" flat>
+                    <v-card class="rounded-lg mb-4">
                         <div class="font-weight-bold d-flex align-center px-5">
                             <v-switch dense color="teal darken-2" v-model="showWebsite"></v-switch>
                             <span class="">Website</span>
@@ -282,7 +284,7 @@
                         </div>
                     </v-card>
                     <!-- Phone Number -->
-                    <v-card class="rounded-lg mb-2" flat>
+                    <v-card class="rounded-lg mb-4">
                         <div class="font-weight-bold d-flex align-center px-5">
                             <v-switch dense color="teal darken-2" v-model="showPhone"></v-switch>
                             <span class="">Contact</span>

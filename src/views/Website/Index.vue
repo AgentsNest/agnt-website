@@ -48,106 +48,108 @@
             <div v-if="showsearch">
               <v-row class="pb-12">
                   <v-col md="4" v-for="website in results" :key="website.id">
-                      <v-card class="transparent" flat>
-                      <div class="title">{{website.title}}</div>
-                      <v-img
-                          aspect-ratio="1.8"
-                          :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                          :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                          class="rounded-lg shadow-xl my-2"
-                      ></v-img>
+                    <v-card class="transparent" flat>
+                      
+                      <!-- Website Preview -->
+                      <v-dialog v-model="preview[website.id]" fullscreen hide-overlay transition="dialog-bottom-transition">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-img
+                              v-bind="attrs" v-on="on"
+                              aspect-ratio="2"
+                              :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                              lazy-src="../../assets/img/bg-grey.svg"
+                              class="rounded-lg shadow-xl my-2"
+                            ></v-img>
+                        </template>
+                        <v-card tile>
+                            <v-toolbar dark color="#111828">
+                                <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
+                                <v-spacer></v-spacer>
+                                <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
+                            </v-toolbar>
 
-                      <div class="d-flex">
-                          <!-- Website Preview -->
-                          <v-dialog v-model="preview[website.id]" fullscreen hide-overlay transition="dialog-bottom-transition">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn v-bind="attrs" v-on="on" dark color="#111828" class="text-capitalize flex-grow-1 rounded-lg">Preview</v-btn>
-                            </template>
-                            <v-card tile>
-                                <v-toolbar dark color="primary">
-                                    <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
-                                    <v-spacer></v-spacer>
-                                    <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
-                                </v-toolbar>
+                            <v-row class="">
+                                <v-col md="8" offset-md="2">
+                                    <v-card class="mx-auto" tile>
+                                        <v-card-title>{{website.title}}</v-card-title>
+                                        <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                                <v-row class="">
-                                    <v-col md="8" offset-md="2">
-                                        <v-card class="mx-auto" tile>
-                                            <v-card-title>{{website.title}}</v-card-title>
-                                            <v-card-subtitle>{{website.about}}</v-card-subtitle>
+                                        <v-container>
+                                          <v-row class="" v-if="website.website_images">
+                                              <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="6" md="4">
+                                                  <v-img
+                                                      :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                      :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                      aspect-ratio="1.7"
+                                                      class="white rounded-lg"
+                                                  >
+                                                      <template v-slot:placeholder>
+                                                          <v-row class="fill-height ma-0" align="center" justify="center">
+                                                              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                                          </v-row>
+                                                      </template>
+                                                  </v-img>
+                                              </v-col>
+                                          </v-row>
+                                        </v-container>
 
-                                            <v-row class="" v-if="website.website_images">
-                                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="12">
-                                                    <v-img
-                                                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                        contain
-                                                        class="white rounded-lg"
-                                                        
-                                                    >
-                                                        <template v-slot:placeholder>
-                                                            <v-row class="fill-height ma-0" align="center" justify="center">
-                                                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                                            </v-row>
-                                                        </template>
-                                                    </v-img>
-                                                </v-col>
-                                            </v-row>
-
-                                            <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
-                                                <div class="font-weight-bold">PREPARED BY:</div>
-                                                <v-spacer></v-spacer>
-                                                <div>
-                                                    <div>@AGENTNAME</div>
-                                                    <div>@AGENTCONTACT</div>
-                                                </div>
-                                            </v-card>
-
-                                            <v-card-text>
-                                                <div class="text-h6">Map</div>
-                                                <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
-                                            </v-card-text>
-                                            <v-card-text class="text-center">
-                                                <div class="text-h6">Walkthrough</div>
-                                                <LazyYoutube :src="website.walkthrough" />
-                                            </v-card-text>
+                                        <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
+                                            <div class="font-weight-bold">PREPARED BY:</div>
+                                            <v-spacer></v-spacer>
+                                            <div>
+                                                <div>@AGENTNAME</div>
+                                                <div>@AGENTCONTACT</div>
+                                            </div>
                                         </v-card>
-                                    </v-col>
-                                </v-row>
 
-                                <v-card>
-                                    <v-card-text class="text-center">
-                                        <h5>SHARED BY</h5>
-                                        <h3>@COMPANYNAME</h3>
-                                        <h4>@AGENTNAME</h4>
-                                        <div class="caption">@AGENTCONTACT</div>
-                                    </v-card-text>
-                                    <v-card-actions class="justify-center">
-                                        <v-btn outlined class="text-capitalize" color="blue darken-3">
-                                            <v-icon left>mdi-phone</v-icon>
-                                            <span>Call</span>
-                                        </v-btn>
-                                        <v-btn outlined class="text-capitalize" color="grey darken-1">
-                                            <v-icon left>mdi-message-processing-outline</v-icon>
-                                            <span>SMS</span>
-                                        </v-btn>
-                                        <v-btn outlined class="text-capitalize" color="teal darken-3">
-                                            <v-icon left>mdi-whatsapp</v-icon>
-                                            <span>Whatsapp</span>
-                                        </v-btn>
-                                    </v-card-actions>
-                                    <v-card-text class="text-center">
-                                        <v-icon color="orange">mdi-lightning-bolt</v-icon>
-                                        Powered By AgentsNest
-                                    </v-card-text>
-                                </v-card>
+                                        <v-card-text>
+                                            <div class="text-h6">Map</div>
+                                            <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
+                                        </v-card-text>
+                                        <v-card-text class="text-center">
+                                            <div class="text-h6">Walkthrough</div>
+                                            <LazyYoutube :src="website.walkthrough" />
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
 
+                            <v-card>
+                                <v-card-text class="text-center">
+                                    <h5>SHARED BY</h5>
+                                    <h3>@COMPANYNAME</h3>
+                                    <h4>@AGENTNAME</h4>
+                                    <div class="caption">@AGENTCONTACT</div>
+                                </v-card-text>
+                                <v-card-actions class="justify-center">
+                                    <v-btn outlined class="text-capitalize" color="blue darken-3">
+                                        <v-icon left>mdi-phone</v-icon>
+                                        <span>Call</span>
+                                    </v-btn>
+                                    <v-btn outlined class="text-capitalize" color="grey darken-1">
+                                        <v-icon left>mdi-message-processing-outline</v-icon>
+                                        <span>SMS</span>
+                                    </v-btn>
+                                    <v-btn outlined class="text-capitalize" color="teal darken-3">
+                                        <v-icon left>mdi-whatsapp</v-icon>
+                                        <span>Whatsapp</span>
+                                    </v-btn>
+                                </v-card-actions>
+                                <v-card-text class="text-center">
+                                    <v-icon color="orange">mdi-lightning-bolt</v-icon>
+                                    Powered By AgentsNest
+                                </v-card-text>
                             </v-card>
-                          </v-dialog>
-                          <!-- Website preview ends -->
 
-                          <v-btn  class="ml-2 amber accent-3 text-capitalize rounded-lg" dark @click="cloneWebsite(website.id)">
-                            <v-icon size="18" color="#111828">mdi-bookmark-outline</v-icon>
+                        </v-card>
+                      </v-dialog>
+                      <!-- Website preview ends -->
+
+                      <div class="d-flex align-center">
+                          <div class="subtitle-1 grey--text text--darken-3">{{website.title}}</div>
+                          <v-spacer></v-spacer>
+                          <v-btn fab x-small class="ml-2 dark" dark @click="cloneWebsite(website.id)">
+                            <v-icon size="18">mdi-bookmark-outline</v-icon>
                           </v-btn>
                       </div>
                     </v-card>
@@ -157,108 +159,109 @@
             <!-- Default Websites -->
             <div v-else>
               <v-row class="pb-12">
-                <v-col md="4" v-for="(website, index) in websites" :key="index">
+                <v-col md="4" cols="12" v-for="(website, index) in websites" :key="index">
                     <v-card class="transparent" flat>
-                      <div class="title">{{website.title}}</div>
-                      <v-img
-                          aspect-ratio="1.8"
-                          :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                          :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                          class="rounded-lg shadow-xl my-2"
-                      ></v-img>
+                      
+                      <!-- Website Preview -->
+                      <v-dialog v-model="preview[website.id]" fullscreen hide-overlay transition="dialog-bottom-transition">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-img
+                              v-bind="attrs" v-on="on"
+                              aspect-ratio="2"
+                              :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                              lazy-src="../../assets/img/bg-grey.svg"
+                              class="rounded-lg shadow-xl my-2"
+                            ></v-img>
+                        </template>
+                        <v-card tile>
+                            <v-toolbar dark color="#111828">
+                                <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
+                                <v-spacer></v-spacer>
+                                <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
+                            </v-toolbar>
 
-                      <div class="d-flex">
-                          <!-- Website Preview -->
-                          <v-dialog v-model="preview[website.id]" fullscreen hide-overlay transition="dialog-bottom-transition">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn v-bind="attrs" v-on="on" dark color="#111828" class="text-capitalize flex-grow-1 rounded-lg">Preview</v-btn>
-                            </template>
-                            <v-card tile>
-                                <v-toolbar dark color="#111828">
-                                    <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
-                                    <v-spacer></v-spacer>
-                                    <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
-                                </v-toolbar>
+                            <v-row class="">
+                                <v-col md="8" offset-md="2">
+                                    <v-card class="mx-auto" tile>
+                                        <v-card-title>{{website.title}}</v-card-title>
+                                        <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                                <v-row class="">
-                                    <v-col md="8" offset-md="2">
-                                        <v-card class="mx-auto" tile>
-                                            <v-card-title>{{website.title}}</v-card-title>
-                                            <v-card-subtitle>{{website.about}}</v-card-subtitle>
+                                        <v-container>
+                                          <v-row class="" v-if="website.website_images">
+                                              <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="6" md="4">
+                                                  <v-img
+                                                      :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                      :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                      aspect-ratio="1.7"
+                                                      class="white rounded-lg"
+                                                  >
+                                                      <template v-slot:placeholder>
+                                                          <v-row class="fill-height ma-0" align="center" justify="center">
+                                                              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                                          </v-row>
+                                                      </template>
+                                                  </v-img>
+                                              </v-col>
+                                          </v-row>
+                                        </v-container>
 
-                                            <v-container>
-                                              <v-row class="" v-if="website.website_images">
-                                                  <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex px-1" cols="6" md="4">
-                                                      <v-img
-                                                          :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                          :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                          aspect-ratio="1.7"
-                                                          class="white rounded-lg"
-                                                      >
-                                                          <template v-slot:placeholder>
-                                                              <v-row class="fill-height ma-0" align="center" justify="center">
-                                                                  <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                                              </v-row>
-                                                          </template>
-                                                      </v-img>
-                                                  </v-col>
-                                              </v-row>
-                                            </v-container>
-
-                                            <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
-                                                <div class="font-weight-bold">PREPARED BY:</div>
-                                                <v-spacer></v-spacer>
-                                                <div>
-                                                    <div>@AGENTNAME</div>
-                                                    <div>@AGENTCONTACT</div>
-                                                </div>
-                                            </v-card>
-
-                                            <v-card-text>
-                                                <div class="text-h6">Map</div>
-                                                <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
-                                            </v-card-text>
-                                            <v-card-text class="text-center">
-                                                <div class="text-h6">Walkthrough</div>
-                                                <LazyYoutube :src="website.walkthrough" />
-                                            </v-card-text>
+                                        <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
+                                            <div class="font-weight-bold">PREPARED BY:</div>
+                                            <v-spacer></v-spacer>
+                                            <div>
+                                                <div>@AGENTNAME</div>
+                                                <div>@AGENTCONTACT</div>
+                                            </div>
                                         </v-card>
-                                    </v-col>
-                                </v-row>
 
-                                <v-card>
-                                    <v-card-text class="text-center">
-                                        <h5>SHARED BY</h5>
-                                        <h3>@COMPANYNAME</h3>
-                                        <h4>@AGENTNAME</h4>
-                                        <div class="caption">@AGENTCONTACT</div>
-                                    </v-card-text>
-                                    <v-card-actions class="justify-center">
-                                        <v-btn outlined class="text-capitalize" color="blue darken-3">
-                                            <v-icon left>mdi-phone</v-icon>
-                                            <span>Call</span>
-                                        </v-btn>
-                                        <v-btn outlined class="text-capitalize" color="grey darken-1">
-                                            <v-icon left>mdi-message-processing-outline</v-icon>
-                                            <span>SMS</span>
-                                        </v-btn>
-                                        <v-btn outlined class="text-capitalize" color="teal darken-3">
-                                            <v-icon left>mdi-whatsapp</v-icon>
-                                            <span>Whatsapp</span>
-                                        </v-btn>
-                                    </v-card-actions>
-                                    <v-card-text class="text-center">
-                                        <v-icon color="orange">mdi-lightning-bolt</v-icon>
-                                        Powered By AgentsNest
-                                    </v-card-text>
-                                </v-card>
+                                        <v-card-text>
+                                            <div class="text-h6">Map</div>
+                                            <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
+                                        </v-card-text>
+                                        <v-card-text class="text-center">
+                                            <div class="text-h6">Walkthrough</div>
+                                            <LazyYoutube :src="website.walkthrough" />
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
 
+                            <v-card>
+                                <v-card-text class="text-center">
+                                    <h5>SHARED BY</h5>
+                                    <h3>@COMPANYNAME</h3>
+                                    <h4>@AGENTNAME</h4>
+                                    <div class="caption">@AGENTCONTACT</div>
+                                </v-card-text>
+                                <v-card-actions class="justify-center">
+                                    <v-btn outlined class="text-capitalize" color="blue darken-3">
+                                        <v-icon left>mdi-phone</v-icon>
+                                        <span>Call</span>
+                                    </v-btn>
+                                    <v-btn outlined class="text-capitalize" color="grey darken-1">
+                                        <v-icon left>mdi-message-processing-outline</v-icon>
+                                        <span>SMS</span>
+                                    </v-btn>
+                                    <v-btn outlined class="text-capitalize" color="teal darken-3">
+                                        <v-icon left>mdi-whatsapp</v-icon>
+                                        <span>Whatsapp</span>
+                                    </v-btn>
+                                </v-card-actions>
+                                <v-card-text class="text-center">
+                                    <v-icon color="orange">mdi-lightning-bolt</v-icon>
+                                    Powered By AgentsNest
+                                </v-card-text>
                             </v-card>
-                          </v-dialog>
-                          <!-- Website preview ends -->
 
-                          <v-btn  class="ml-2 amber accent-3 text-capitalize rounded-lg" dark @click="cloneWebsite(website.id)">
-                            <v-icon size="18" color="#111828">mdi-bookmark-outline</v-icon>
+                        </v-card>
+                      </v-dialog>
+                      <!-- Website preview ends -->
+
+                      <div class="d-flex align-center">
+                          <div class="subtitle-1 grey--text text--darken-3">{{website.title}}</div>
+                          <v-spacer></v-spacer>
+                          <v-btn fab x-small class="ml-2 dark" dark @click="cloneWebsite(website.id)">
+                            <v-icon size="18">mdi-bookmark-outline</v-icon>
                           </v-btn>
                       </div>
                     </v-card>

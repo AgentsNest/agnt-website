@@ -1,22 +1,24 @@
 <template>
     <v-card class="overflow-hidden" tile>
             
-        <v-app-bar absolute color="#111828" dark elevate-on-scroll scroll-target="#scrolling-techniques-7" class="px-md-16" tile>
+        <v-app-bar absolute elevate-on-scroll color="#fff" scroll-target="#scrolling-techniques-7" width="80vw" class="mx-auto py-4" tile>
             <v-toolbar-title class="font-weight-bold headline">
                 agnt. 
-                <span class="caption">beta v.01</span>
+                <!-- <span class="caption">beta v.01</span> -->
             </v-toolbar-title>
             
             <v-spacer></v-spacer>
 
-            <v-btn text class="text-capitalize d-none d-md-flex">Home</v-btn>
-            <v-btn text class="text-capitalize d-none d-md-flex">About Us</v-btn>
-            <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Contact Us</v-btn>
-            <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Sign Up</v-btn>
+            <v-btn 
+                text elevation="0"
+                class="text-capitalize d-none d-md-flex py-6 mr-6" 
+                outlined
+                @click.stop="bookDemo = true"
+            >Book Demo Now</v-btn>
 
             <div class="align-center d-none d-md-flex">
                 <v-btn v-if="!isLoggedIn" elevation="0" class="text-capitalize gradient rounded-xl px-8" :to="{name: 'Login'}" link>Login</v-btn>
-                <v-btn v-else elevation="0" class="text-capitalize gradient rounded-xl px-8" :to="{name: 'Dashboard'}" link>Dashboard</v-btn>
+                <v-btn v-else elevation="0" class="text-capitalize gradient rounded-lg px-8 py-6" dark :to="{name: 'Dashboard'}" link>Dashboard</v-btn>
             </div>
 
             <div class="d-print-block d-md-none d-lg-none">
@@ -28,7 +30,7 @@
 
         <v-sheet id="scrolling-techniques-7" class="overflow-y-auto pt-12" min-height="100vh">
             <!-- Tracker and share -->
-            <v-card class="py-12" color="#eff8fc" flat tile>
+            <v-card class="py-12" color="#fefefe" flat tile>
                 <v-container>
                     <v-row class="">
                         <v-col cols="12" md="6">
@@ -232,6 +234,33 @@
             </v-card>
 
         </v-sheet>
+
+        <!-- Book Demo Dialog -->
+        <v-dialog
+            transition="dialog-top-transition"
+            width="70vw"
+            v-model="bookDemo"
+        >
+            <v-card class="rounded-lg">
+                <v-toolbar flat>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="bookDemo = !bookDemo"><v-icon>mdi-close</v-icon></v-btn>
+                </v-toolbar>
+                <div class="d-flex">
+                    <div class="px-16 flex-grow-2">
+                        <div class="text-h4 mb-8">Book Demo Now</div>
+                        <input type="text" placeholder="Name" class="search-input">
+                        <input type="email" placeholder="Email" class="search-input">
+                        <input type="text" placeholder="Phone" class="search-input">
+                        <v-btn block depressed class="bg-gradient text-capitalize my-4" x-large dark>Book Now</v-btn>
+                        <div class="mt-10">250+ BROKERS IN 10+ CITIES TRUST US</div>
+                    </div>
+                    <div>
+                        <v-img src="../assets/img/plans.jpg"></v-img>
+                    </div>
+                </div>
+            </v-card>
+        </v-dialog>
     </v-card>
 </template>
 
@@ -241,7 +270,8 @@ export default {
         return{
             videoOne: false,
             model: null,
-            isLoggedIn: false
+            isLoggedIn: false,
+            bookDemo: false,
         }
     },
     created(){
@@ -296,6 +326,13 @@ export default {
     background: #36D1DC; 
     background: -webkit-linear-gradient(to left, #5B86E5, #36D1DC); 
     background: linear-gradient(to left, #5B86E5, #36D1DC);
-
+}
+.search-input{
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0.8em 1em;
+  margin-bottom: 1em;
+  width: 22vw;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-card flat tile>
         <Navbar/>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Profile Updated
@@ -7,345 +7,387 @@
                 <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
             </template>
         </v-snackbar>
-        <v-row>
-            <!-- <v-col md="4" class="d-none d-md-block">
-                <Sidebar />
-            </v-col> -->
-            <v-col cols="12">
-                <v-card height="88vh" flat class="content-card transparent">
 
-                    <v-card class="rounded-xl mb-5 px-2 py-1" flat>
-                        <v-card-actions>
-                            <div class="caption grey--text font-weight-bold">https://agentsnest.com/me/<span class="teal--text">{{agent.uid}}</span> </div>
-                            <v-spacer></v-spacer>
+        <v-container>
+            <v-row>
+                <v-col cols="12">
+                    <v-card flat width="100%" class="white rounded-t-xl overflow-y-auto mt-n7 mt-md-0">
 
-                            <v-dialog
-                                v-model="dialog"
-                                fullscreen
-                                hide-overlay
-                                transition="dialog-bottom-transition"
-                            >
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn v-bind="attrs" v-on="on" class="mr-2 white" x-small fab elevation="1">
-                                        <v-icon>mdi-eye</v-icon>
-                                    </v-btn>
-                                </template>
-                                <v-card tile>
-                                    <v-toolbar dark class="dark" dense tile> 
-                                        <div>Preview</div>
-                                        <v-spacer></v-spacer>
-                                        <v-toolbar-items>
-                                            <v-btn dark icon @click="dialog = false">
-                                                <v-icon>mdi-close</v-icon>
-                                            </v-btn>
-                                        </v-toolbar-items>
-                                    </v-toolbar>
+                        <v-card class="rounded-xl mb-5 px-2 py-1">
+                            <v-card-actions>
+                                <div class="caption grey--text font-weight-bold">https://agentsnest.com/me/<span class="teal--text">{{agent.uid}}</span> </div>
+                                <v-spacer></v-spacer>
 
-                                    <v-card flat tile class="overflow-y-auto">
-                                        <v-img
-                                            :src="agent.image"
-                                            :lazy-src="agent.image"
-                                            class=""
-                                            aspect-ratio="1"
-                                            width="100%"
-                                            max-height="400"
-                                        ></v-img>
-
-                                        <v-card class="rounded-t-xl mt-n6" flat>
-                                            <v-card-actions>
-                                                <div class="pa-4">
-                                                    <div class="title">{{agent.name}}</div>
-                                                    <div class="caption">RERA: {{agent.rera}}</div>
-                                                    <div class="caption">{{agent.brand_text}}</div>
-                                                </div>
-                                                <v-spacer></v-spacer>
-                                                <v-img max-width="100" :src="agent.brand_logo"></v-img>
-                                            </v-card-actions>
-
-                                            <v-divider></v-divider>
-                                            <div class="px-6 my-2 grey--text">Business Details</div>
-                                            <v-divider></v-divider>
-
-                                            <div class="py-3 px-6">
-                                                <div class="d-flex mt-3">
-                                                    <v-icon color="black" size="20">mdi-bag-checked</v-icon>
-                                                    <div class="ml-2 body-2">{{agent.brand_text}}</div>
-                                                </div>
-                                                <div class="d-flex my-4">
-                                                    <v-icon color="black" size="20">mdi-phone</v-icon>
-                                                    <div class="ml-2 body-2">{{agent.contact}}</div>
-                                                </div>
-                                                <div class="d-flex my-4">
-                                                    <v-icon color="black" size="20">mdi-card-account-details-outline</v-icon>
-                                                    <div class="ml-2 body-2">{{agent.rera}}</div>
-                                                </div>
-                                                <div class="d-flex my-4">
-                                                    <v-icon color="black" size="20">mdi-email-outline</v-icon>
-                                                    <div class="ml-2 body-2">{{agent.email}}</div>
-                                                </div>
-                                                <div class="d-flex my-4">
-                                                    <v-icon color="black" size="20">mdi-web</v-icon>
-                                                    <div class="ml-2 body-2">{{agent.website}}</div>
-                                                </div>
-                                                <div class="d-flex my-4">
-                                                    <v-icon color="black" size="22">mdi-map-marker-radius-outline</v-icon>
-                                                    <div class="ml-2 body-2">{{agent.address}}</div>
-                                                </div>
-                                            </div>
-                                            <!-- About Text -->
-                                            <div class="pa-3">
-                                                <v-card-text class="blue lighten-5 rounded-lg">{{agent.bio}}</v-card-text>
-                                            </div>
-
-                                            <v-card-actions>
-                                                <v-btn block x-large dark class="amber accent-3 text-capitalize" depressed link :href="`https://wa.me/${agent.contact}`">Send Message</v-btn>
-                                            </v-card-actions>
-
-                                            <!-- Social Links -->
-                                            <v-card-actions class="justify-center my-4">
-                                                <v-btn class="mr-3" small fab v-if="agent.facebook" :href="agent.facebook" target="_blank">
-                                                    <v-icon>mdi-facebook</v-icon>
-                                                </v-btn>
-                                                <v-btn class="mr-3" small fab v-if="agent.instagram" :href="agent.instagram" target="_blank">
-                                                    <v-icon>mdi-instagram</v-icon>
-                                                </v-btn>
-                                                <v-btn class="mr-3" small fab v-if="agent.twitter" :href="agent.twitter" target="_blank">
-                                                    <v-icon>mdi-twitter</v-icon>
-                                                </v-btn>
-                                                <v-btn small fab v-if="agent.linkedin" :href="agent.linkedin" target="_blank">
-                                                    <v-icon>mdi-linkedin</v-icon>
-                                                </v-btn>
-                                            </v-card-actions>
-
-                                            <v-divider></v-divider>
-                                            <v-card-text class="text-center">
-                                                <v-icon color="yellow darken-3">mdi-lightning-bolt</v-icon> Powered By <strong>agnt.</strong>        
-                                            </v-card-text>
-
-                                        </v-card>
-                                    </v-card>
-
-                                </v-card>
-                            </v-dialog>
-
-                            <v-menu offset-y>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn fab elevation="1" class="white" x-small v-bind="attrs" v-on="on">
-                                        <v-icon>mdi-share-variant-outline</v-icon>
-                                    </v-btn>
-                                </template>
-                                <v-list dense elevation="0" class="py-0">
-                                    <v-list-item link :href="`https://wa.me/?text=https://www.agentsnest.com/me/${agent.uid}`">
-                                        <v-list-item-title>
-                                            <v-icon left size="16">mdi-whatsapp</v-icon>
-                                            Whatsapp
-                                        </v-list-item-title>
-                                    </v-list-item>
-                                    <v-list-item link :href="`sms:&body=https://www.agentsnest.com/me/${agent.uid}`">
-                                        <v-list-item-title>
-                                            <v-icon left size="16">mdi-message-text-outline</v-icon>
-                                            Message
-                                        </v-list-item-title>
-                                    </v-list-item>
-                                    <v-list-item link target="_blank" :href="`mailto:&body=${agent.uid}`">
-                                        <v-list-item-title>
-                                            <v-icon left size="16">mdi-email</v-icon>
-                                            Email 
-                                        </v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
-                            </v-menu>
-                        </v-card-actions>
-
-                    </v-card>
-
-                    <!-- Agent Avatar -->
-                    <v-card class="rounded-xl mb-5 content-card" flat>
-                    
-                        <!-- <v-toolbar flat class="d-none d-md-flex">
-                            <v-img 
-                                :src="avatarPreview ? avatarPreview : agent.image"
-                                max-height="160px"
-                                aspect-ratio="1"
-                                contain
-                                class="text-end mx-auto rounded-xl"
-                            >
-                                <v-btn fab depressed color="grey lighten-3" x-small>
-                                    <label for="brandAvatar">
-                                        <v-icon class="cursor-pointer">mdi-camera</v-icon>
-                                        <input type="file" id="brandAvatar" hidden accept="image/*" @change="previewAvatar"/>
-                                    </label>
-                                </v-btn>
-                            </v-img>
-                            <v-spacer></v-spacer>
-                            <div class="title">Change Information here</div>
-                            <v-spacer></v-spacer>
-                            <v-btn 
-                                class="white--text rounded-lg d-none d-md-block" 
-                                @click="saveDetails()"
-                                :class="success == true ? 'gradient' : 'grey darken-4'"
-                            >{{submitBtn}}</v-btn>
-                        </v-toolbar> -->
-                        <div class="text-center mt-5">
-                            <v-avatar tile size="130" class="rounded-lg">
-                                <img 
-                                    :src="avatarPreview ? avatarPreview : agent.image"
-                                    :lazy-src="avatarPreview ? avatarPreview : agent.image"
+                                <v-dialog
+                                    v-model="dialog"
+                                    fullscreen
+                                    hide-overlay
+                                    transition="dialog-bottom-transition"
                                 >
-                                    <label for="brandAvatar" class="uploadAvatarBtn">
-                                        <v-icon color="grey lighten-1">mdi-camera</v-icon>
-                                        <!-- <span class="caption">change</span> -->
-                                        <input type="file" id="brandAvatar" hidden accept="image/*" @change="previewAvatar"/>
-                                    </label>
-                            </v-avatar>
-                        </div>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn v-bind="attrs" v-on="on" class="mr-2 white" x-small fab elevation="1">
+                                            <v-icon>mdi-eye</v-icon>
+                                        </v-btn>
+                                    </template>
 
-                        <v-card-text>
-                            <v-row>
-                                <v-col md="6" cols="12">
-                                    <label>Full Name</label>
-                                    <input type="text" class="search-input" v-model="agent.name">
-                                </v-col>
-                                <v-col md="6" cols="12">
-                                    <label>Email</label>
-                                    <input type="text" readonly class="search-input" v-model="agent.email">
-                                </v-col>
-                                <v-col md="6" cols="12">
-                                    <label>Contact Number</label>
-                                    <input type="text" class="search-input" v-model="agent.contact">
-                                </v-col>
-                                <v-col md="6" cols="12">
-                                    <label>Website</label>
-                                    <input type="text" class="search-input" v-model="agent.website">
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                    </v-card>
+                                    <v-card tile>
+                                        <v-toolbar dark class="dark" dense tile> 
+                                            <div>Preview</div>
+                                            <v-spacer></v-spacer>
+                                            <v-toolbar-items>
+                                                <v-btn dark icon @click="dialog = false">
+                                                    <v-icon>mdi-close</v-icon>
+                                                </v-btn>
+                                            </v-toolbar-items>
+                                        </v-toolbar>
+
+                                        <v-container>
+                                        <v-row>
+                                            <v-col cols="12" md="4" class="mx-auto">
+                                                <v-card flat tile class="overflow-y-auto">
+                                                    <v-img
+                                                        :src="agent.image"
+                                                        :lazy-src="agent.image"
+                                                        class=""
+                                                        aspect-ratio="1"
+                                                        width="100%"
+                                                        max-height="400"
+                                                    ></v-img>
+
+                                                    <v-card class="rounded-t-xl mt-n6" flat>
+                                                        <v-card-actions>
+                                                            <div class="pa-4">
+                                                                <div class="title">{{agent.name}}</div>
+                                                                <div class="caption">RERA: {{agent.rera}}</div>
+                                                            </div>
+                                                            <v-spacer></v-spacer>
+                                                            <v-img max-width="100" :src="agent.brand_logo"></v-img>
+                                                        </v-card-actions>
+
+                                                        <v-divider></v-divider>
+                                                        <!-- <div class="px-6 my-2 grey--text">Business Details</div>
+                                                        <v-divider></v-divider> -->
+
+                                                        <div class="py-3 px-6">
+                                                            <div class="d-flex mt-3">
+                                                                <v-btn fab small class="rounded-lg blue-grey lighten-5" depressed>
+                                                                    <v-icon color="grey darken-3" size="20">mdi-bag-checked</v-icon>
+                                                                </v-btn>
+                                                                <div class="ml-4 body-2">
+                                                                    <div class="caption grey--text">Company</div>
+                                                                    {{agent.brand_text}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex my-4">
+                                                                <v-btn fab small class="rounded-lg" depressed>
+                                                                    <v-icon color="grey darken-3" size="20">mdi-phone</v-icon>
+                                                                </v-btn>
+                                                                <div class="ml-4 body-2">
+                                                                    <div class="caption grey--text">Phone number</div>
+                                                                    {{agent.contact}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex my-4">
+                                                                <v-btn fab small class="rounded-lg" depressed>
+                                                                    <v-icon color="grey darken-3" size="20">mdi-card-account-details-outline</v-icon>
+                                                                </v-btn>
+                                                                <div class="ml-4 body-2">
+                                                                    <div class="caption grey--text">RERA number</div>
+                                                                    {{agent.rera}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex my-4">
+                                                                <v-btn fab small class="rounded-lg" depressed>
+                                                                    <v-icon color="grey darken-3" size="20">mdi-email-outline</v-icon>
+                                                                </v-btn>
+                                                                <div class="ml-4 body-2">
+                                                                    <div class="caption grey--text">Email</div>
+                                                                    {{agent.email}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex my-4">
+                                                                <v-btn fab small class="rounded-lg" depressed>
+                                                                    <v-icon color="grey darken-3" size="20">mdi-web</v-icon>
+                                                                </v-btn>
+                                                                <div class="ml-4 body-2">
+                                                                    <div class="caption grey--text">Website</div>
+                                                                    {{agent.website}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex my-4">
+                                                                <v-btn fab small class="rounded-lg" depressed>
+                                                                    <v-icon color="grey darken-3" size="22">mdi-map-marker-radius-outline</v-icon>
+                                                                </v-btn>
+                                                                <div class="ml-4 body-2">
+                                                                    <div class="caption grey--text">Address</div>
+                                                                    {{agent.address}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- About Text -->
+                                                        <div class="pa-3 mx-3">
+                                                            <v-card-text class="blue lighten-5 rounded-lg">{{agent.bio}}</v-card-text>
+                                                        </div>
+
+                                                        <v-card-actions class="px-6">
+                                                            <v-btn block large dark outlined class="blue darken-4 text-capitalize" depressed link :href="`https://wa.me/${agent.contact}`">Send Message</v-btn>
+                                                        </v-card-actions>
+
+                                                        <!-- Social Links -->
+                                                        <v-card-actions class="justify-center my-4">
+                                                            <v-btn class="mr-3" small fab v-if="agent.facebook" :href="agent.facebook" target="_blank">
+                                                                <v-icon>mdi-facebook</v-icon>
+                                                            </v-btn>
+                                                            <v-btn class="mr-3" small fab v-if="agent.instagram" :href="agent.instagram" target="_blank">
+                                                                <v-icon>mdi-instagram</v-icon>
+                                                            </v-btn>
+                                                            <v-btn class="mr-3" small fab v-if="agent.twitter" :href="agent.twitter" target="_blank">
+                                                                <v-icon>mdi-twitter</v-icon>
+                                                            </v-btn>
+                                                            <v-btn small fab v-if="agent.linkedin" :href="agent.linkedin" target="_blank">
+                                                                <v-icon>mdi-linkedin</v-icon>
+                                                            </v-btn>
+                                                        </v-card-actions>
+
+                                                        <v-divider></v-divider>
+                                                        <v-card-text class="text-center">
+                                                            <v-icon color="yellow darken-3">mdi-lightning-bolt</v-icon> Powered By <strong>agnt.</strong>        
+                                                        </v-card-text>
+
+                                                    </v-card>
+                                                </v-card>
+                                            </v-col>
+                                        </v-row>
+                                        </v-container>
+
+                                    </v-card>
+                                </v-dialog>
+
+                                <v-menu offset-y>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn fab elevation="1" class="white" x-small v-bind="attrs" v-on="on">
+                                            <v-icon>mdi-share-variant-outline</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <v-list dense elevation="0" class="py-0">
+                                        <v-list-item link :href="`https://wa.me/?text=https://www.agentsnest.com/me/${agent.uid}`">
+                                            <v-list-item-title>
+                                                <v-icon left size="16">mdi-whatsapp</v-icon>
+                                                Whatsapp
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item link :href="`sms:&body=https://www.agentsnest.com/me/${agent.uid}`">
+                                            <v-list-item-title>
+                                                <v-icon left size="16">mdi-message-text-outline</v-icon>
+                                                Message
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item link target="_blank" :href="`mailto:&body=${agent.uid}`">
+                                            <v-list-item-title>
+                                                <v-icon left size="16">mdi-email</v-icon>
+                                                Email 
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item link :href="`https://wa.me/?text=https://www.agentsnest.com/me/${agent.uid}`">
+                                            <v-list-item-title>
+                                                <v-icon left size="16">mdi-whatsapp</v-icon>
+                                                Copy
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
+                            </v-card-actions>
+
+                        </v-card>
+
+                        <!-- Agent Avatar -->
+                        <v-card class="rounded-xl mb-5 content-card" flat>
                         
-                    <!-- Basic Info -->
-                    <v-card class="rounded-xl mb-5 content-card" flat>        
-                        <v-card-title>Basic Info</v-card-title>
-                        <v-card-text>
-                            <textarea rows="6" placeholder="About You" class="search-input mb-6" v-model="agent.bio"></textarea>
-                            <v-row>
-                                <v-col md="4" cols="12">
-                                    <label>City</label>
-                                    <input type="text" class="search-input" v-model="agent.city" placeholder="City">
-                                </v-col>
-                                <v-col md="4" cols="12">
-                                    <label>State</label>
-                                    <input type="text" class="search-input" v-model="agent.state" placeholder="State">
-                                </v-col>
-                                <v-col md="4" cols="12">
-                                    <label>Country</label>
-                                    <input type="text" class="search-input" v-model="agent.country" placeholder="Country">
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                    </v-card>
-
-                    <!-- Business Details -->
-                    <v-card class="rounded-xl mb-5 content-card" flat>
-                        <v-card-title>Business Details</v-card-title>
-
-                        <div>
-                            <v-img
-                                :src="preview ? preview : agent.brand_logo"
-                                max-width="160px"
-                                aspect-ratio="2"
-                                contain
-                                class="text-end mx-auto"
-                            >
-                                <v-btn fab depressed color="grey lighten-3" x-small>
-                                    <label for="brandLogo">
-                                        <v-icon class="cursor-pointer">mdi-camera</v-icon>
-                                        <input type="file" id="brandLogo" hidden accept="image/*" @change="previewLogo"/>
-                                    </label>
-                                </v-btn>
-                            </v-img>
-                            <div class="text-center">
-                                <span class="caption font-weight-bold">Company Logo</span> <br/>
-                                <span class="caption grey--text">Allowed JPG, GIF or PNG. Max size of 800K</span>
+                            <!-- <v-toolbar flat class="d-none d-md-flex">
+                                <v-img 
+                                    :src="avatarPreview ? avatarPreview : agent.image"
+                                    max-height="160px"
+                                    aspect-ratio="1"
+                                    contain
+                                    class="text-end mx-auto rounded-xl"
+                                >
+                                    <v-btn fab depressed color="grey lighten-3" x-small>
+                                        <label for="brandAvatar">
+                                            <v-icon class="cursor-pointer">mdi-camera</v-icon>
+                                            <input type="file" id="brandAvatar" hidden accept="image/*" @change="previewAvatar"/>
+                                        </label>
+                                    </v-btn>
+                                </v-img>
+                                <v-spacer></v-spacer>
+                                <div class="title">Change Information here</div>
+                                <v-spacer></v-spacer>
+                                <v-btn 
+                                    class="white--text rounded-lg d-none d-md-block" 
+                                    @click="saveDetails()"
+                                    :class="success == true ? 'gradient' : 'grey darken-4'"
+                                >{{submitBtn}}</v-btn>
+                            </v-toolbar> -->
+                            <div class="text-center mt-5">
+                                <v-avatar tile size="130" class="rounded-lg">
+                                    <img 
+                                        :src="avatarPreview ? avatarPreview : agent.image"
+                                        lazy-src="../../assets/img/bg-grey.svg"
+                                    >
+                                        <label for="brandAvatar" class="uploadAvatarBtn">
+                                            <v-icon color="grey lighten-1">mdi-camera</v-icon>
+                                            <!-- <span class="caption">change</span> -->
+                                            <input type="file" id="brandAvatar" hidden accept="image/*" @change="previewAvatar"/>
+                                        </label>
+                                </v-avatar>
                             </div>
-                        </div>
 
-                        <!-- <v-card-actions class="px-6 py-6">
-                            <label for="brandLogo" class="brandLogoLabel">
-                                Upload
-                                <input type="file" id="brandLogo" hidden accept="image/*" @change="previewLogo"/>
-                            </label>
-                        </v-card-actions> -->
-                        <v-card-text>
-                            <v-row>
-                                <v-col md="6" cols="12">
-                                    <label>Company Name</label>
-                                    <input type="text" class="search-input" v-model="agent.brand_text">
-                                </v-col>
-                                <v-col md="6" cols="12">
-                                    <label>RERA
-                                        <span v-if="verified" class="red--text ml-1 font-weight-bold caption">
-                                        (not verified)</span> 
-                                    </label>
-                                    <input type="text" class="search-input" v-model="agent.rera" placeholder="RERA Number">
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
+                            <v-card-text>
+                                <v-row>
+                                    <v-col md="6" cols="12">
+                                        <label>Full Name</label>
+                                        <input type="text" class="search-input" v-model="agent.name">
+                                    </v-col>
+                                    <v-col md="6" cols="12">
+                                        <label>Email</label>
+                                        <input type="text" readonly class="search-input" v-model="agent.email">
+                                    </v-col>
+                                    <v-col md="6" cols="12">
+                                        <label>Contact Number</label>
+                                        <input type="text" class="search-input" v-model="agent.contact">
+                                    </v-col>
+                                    <v-col md="6" cols="12">
+                                        <label>Website</label>
+                                        <input type="text" class="search-input" v-model="agent.website">
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+                        </v-card>
+                            
+                        <!-- Basic Info -->
+                        <v-card class="rounded-xl mb-5 content-card" flat>        
+                            <v-card-title>Basic Info</v-card-title>
+                            <v-card-text>
+                                <textarea rows="6" placeholder="About You" class="search-input mb-6" v-model="agent.bio"></textarea>
+                                <v-row>
+                                    <v-col md="4" cols="12">
+                                        <label>City</label>
+                                        <input type="text" class="search-input" v-model="agent.city" placeholder="City">
+                                    </v-col>
+                                    <v-col md="4" cols="12">
+                                        <label>State</label>
+                                        <input type="text" class="search-input" v-model="agent.state" placeholder="State">
+                                    </v-col>
+                                    <v-col md="4" cols="12">
+                                        <label>Country</label>
+                                        <input type="text" class="search-input" v-model="agent.country" placeholder="Country">
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+                        </v-card>
+
+                        <!-- Business Details -->
+                        <v-card class="rounded-xl mb-5 content-card" flat>
+                            <v-card-title>Business Details</v-card-title>
+
+                            <div>
+                                <v-img
+                                    :src="preview ? preview : agent.brand_logo"
+                                    max-width="160px"
+                                    aspect-ratio="2"
+                                    contain
+                                    class="text-end mx-auto"
+                                >
+                                    <v-btn fab depressed color="grey lighten-3" x-small>
+                                        <label for="brandLogo">
+                                            <v-icon class="cursor-pointer">mdi-camera</v-icon>
+                                            <input type="file" id="brandLogo" hidden accept="image/*" @change="previewLogo"/>
+                                        </label>
+                                    </v-btn>
+                                </v-img>
+                                <div class="text-center">
+                                    <span class="caption font-weight-bold">Company Logo</span> <br/>
+                                    <span class="caption grey--text">Allowed JPG, GIF or PNG. Max size of 800K</span>
+                                </div>
+                            </div>
+
+                            <!-- <v-card-actions class="px-6 py-6">
+                                <label for="brandLogo" class="brandLogoLabel">
+                                    Upload
+                                    <input type="file" id="brandLogo" hidden accept="image/*" @change="previewLogo"/>
+                                </label>
+                            </v-card-actions> -->
+                            <v-card-text>
+                                <v-row>
+                                    <v-col md="6" cols="12">
+                                        <label>Company Name</label>
+                                        <input type="text" class="search-input" v-model="agent.brand_text">
+                                    </v-col>
+                                    <v-col md="6" cols="12">
+                                        <label>RERA
+                                            <span v-if="verified" class="red--text ml-1 font-weight-bold caption">
+                                            (not verified)</span> 
+                                        </label>
+                                        <input type="text" class="search-input" v-model="agent.rera" placeholder="RERA Number">
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+                        </v-card>
+
+                        <!-- Social Links -->
+                        <v-card class="rounded-xl mb-5 content-card" flat>
+                            <v-card-title>Social Links</v-card-title>
+                            <v-card-text>
+                                <v-row>
+                                    <v-col md="6" cols="12">
+                                        <label><v-icon size="20">mdi-facebook</v-icon> Facebook</label>
+                                        <input type="text" class="search-input" v-model="agent.facebook" placeholder="Facebook">
+                                    </v-col>
+                                    <v-col md="6" cols="12">
+                                        <label><v-icon size="20">mdi-linkedin</v-icon> LinkedIn</label>
+                                        <input type="text" class="search-input" v-model="agent.linkedin" placeholder="LinkedIn">
+                                    </v-col>
+                                    <v-col md="6" cols="12">
+                                        <label><v-icon size="20">mdi-instagram</v-icon> Instagram</label>
+                                        <input type="text" class="search-input" v-model="agent.instagram" placeholder="Instagram">
+                                    </v-col>
+                                    <v-col md="6" cols="12">
+                                        <label><v-icon size="20">mdi-twitter</v-icon> Twitter</label>
+                                        <input type="text" class="search-input" v-model="agent.twitter" placeholder="Twitter">
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+                        </v-card>
+
+                        <v-card flat>
+                            <v-toolbar>
+                                <v-icon class="mr-2">mdi-qrcode-scan</v-icon>
+                                <span>Your QRCode</span>
+                            </v-toolbar>
+                            <v-card-text class="mx-auto">
+                                <VueCard 
+                                    v-if="agent"
+                                    orgPost="00000" 
+                                    :orgCity="agent.city" 
+                                    orgCountry="India" 
+                                    :orgName="agent.brand_text" 
+                                    :firstName="agent.name" 
+                                    lastName="Doe" 
+                                    :workPhone="agent.contact"  
+                                />
+                            </v-card-text>
+                        </v-card>
+
                     </v-card>
+                </v-col>
 
-                    <!-- Social Links -->
-                    <v-card class="rounded-xl mb-5 content-card" flat>
-                        <v-card-title>Social Links</v-card-title>
-                        <v-card-text>
-                            <v-row>
-                                <v-col md="6" cols="12">
-                                    <label><v-icon size="20">mdi-facebook</v-icon> Facebook</label>
-                                    <input type="text" class="search-input" v-model="agent.facebook" placeholder="Facebook">
-                                </v-col>
-                                <v-col md="6" cols="12">
-                                    <label><v-icon size="20">mdi-linkedin</v-icon> LinkedIn</label>
-                                    <input type="text" class="search-input" v-model="agent.linkedin" placeholder="LinkedIn">
-                                </v-col>
-                                <v-col md="6" cols="12">
-                                    <label><v-icon size="20">mdi-instagram</v-icon> Instagram</label>
-                                    <input type="text" class="search-input" v-model="agent.instagram" placeholder="Instagram">
-                                </v-col>
-                                <v-col md="6" cols="12">
-                                    <label><v-icon size="20">mdi-twitter</v-icon> Twitter</label>
-                                    <input type="text" class="search-input" v-model="agent.twitter" placeholder="Twitter">
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                    </v-card>
-
-                    <v-card flat>
-                        <v-toolbar>
-                            <v-icon class="mr-2">mdi-qrcode-scan</v-icon>
-                            <span>Your QRCode</span>
-                        </v-toolbar>
-                        <v-card-text class="mx-auto">
-                            <VueCard 
-                                v-if="agent"
-                                orgPost="00000" 
-                                :orgCity="agent.city" 
-                                orgCountry="India" 
-                                :orgName="agent.brand_text" 
-                                :firstName="agent.name" 
-                                lastName="Doe" 
-                                :workPhone="agent.contact"  
-                            />
-                        </v-card-text>
-                    </v-card>
-
-                </v-card>
-            </v-col>
-
-            <!-- Update Button -->
-            <v-btn class="teal update-btn white--text text-capitalize" @click="saveDetails()">
-                <v-icon left color="white">mdi-content-save</v-icon>
-                Update
-            </v-btn>
-        </v-row>
-    </div>
+                <!-- Update Button -->
+                <v-btn class="teal update-btn white--text text-capitalize" @click="saveDetails()">
+                    <v-icon left color="white">mdi-content-save</v-icon>
+                    Update
+                </v-btn>
+            </v-row>
+        </v-container>
+    </v-card>
 </template>
 
 <script>
@@ -434,7 +476,7 @@ export default {
 
 <style scoped>
 .content-card{
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 #brandLogo{width: 100%;margin-top:2em}
 .update-btn{

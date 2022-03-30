@@ -71,7 +71,8 @@
         </div>
         
         <v-navigation-drawer v-model="mSidebar" absolute color="#111828">
-            <v-img src="../../assets/img/agnt.png" lazy-src="../../assets/img/bg-grey.svg" width="120" class="mx-auto mt-4"></v-img>
+
+            <div class="white--text text-h5 text-center font-weight-bold mt-4">agnt<span class="blue--text">.</span></div>
 
             <v-divider class="my-3" color="#333"></v-divider>
 
@@ -172,7 +173,6 @@ export default {
 .search-input{
   background-color: #fff;
   border-radius: 12px;
-  margin-left: 2em;
   padding: 8px 1em;
   width: 100%;
   max-width: 480px;

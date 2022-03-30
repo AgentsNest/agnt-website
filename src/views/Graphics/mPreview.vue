@@ -1,6 +1,6 @@
 <template>
 
-    <v-card flat height="100vh">
+    <v-card flat height="100vh" tile>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Design saved successfully
             <template v-slot:action="{ attrs }">
@@ -10,7 +10,7 @@
 
         <Navbar/>
 
-        <v-card class="bg-gradient px-4 pt-2 pb-8 mt-n6 rounded-t-xl d-md-none d-flex" flat>
+        <v-card class="bg-gradient px-4 pt-2 pb-8 mt-n6 rounded-t-xl d-md-none d-flex" flat tile>
             <v-btn @click="$router.go(-1)" text class="text-capitalize" small>
                 <v-icon color="white" left>mdi-keyboard-backspace</v-icon>
                 <span class="white--text font-weight-bold">Back</span>
@@ -21,352 +21,370 @@
                 Graphics
             </v-btn>
         </v-card>
-        <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-12 mt-n7 mt-md-0 fill-height" ref="canvasCard">
-            <v-card ref="container" id="capture" class="mainCanvas" width="100%">
-                <v-stage ref="stage" :config="stageSize" id="theCanvas"> 
-                    <v-layer ref="layer">
-                        <v-image
-                            :config="{
-                                image: image,
-                                width: bgWidth,
-                                height: bgHeight
-                            }"
-                        />
-                        <v-text
-                            v-if="showCompany"
-                            @dragstart="handleDragStart"
-                            @dragend="handleDragEnd"
-                            ref="text"
-                            :config="{
-                                x: 120,
-                                y: 20,
-                                fontFamily: 'Calibri',
-                                fontSize: brandFontSize,
-                                text: brandText,
-                                fill: brandTextColor,
-                                draggable: true,
-                                fill: isDragging ? 'red' : brandTextColor
-                            }"
-                        />
-                        <v-text
-                            v-if="showRera"
-                            @dragstart="handleDragStart"
-                            @dragend="handleDragEnd"
-                            ref="text"
-                            :config="{
-                                x: 300,
-                                y: 10,
-                                fontFamily: 'Calibri',
-                                fontSize: reraFontSize,
-                                text: reraText,
-                                fill: reraTextColor,
-                                draggable: true,
-                                fill: isDragging ? 'red' : reraTextColor
-                            }"
-                        />
-                    </v-layer>
-                    <!-- Phone Number -->
-                    <v-layer :config="{draggable: true,}" v-if="showPhone">
-                        <v-image
-                            :config="{
-                                image: phoneIcon,
-                                x: bgWidth/26,
-                                y: bgHeight/1.35,
-                                width: 16,
-                                height: 16
-                            }"
-                        />
-                        <v-text
-                            ref="text"
-                            :config="{
-                                x: bgWidth/10,
-                                y: bgHeight/1.34,
-                                fontFamily: 'Calibri',
-                                fontSize: defaultSize,
-                                text: contact,
-                                fill: defaultColor,
-                                fill: isDragging ? 'red' : defaultColor
-                            }"
-                        />
-                    </v-layer>
-                    <!-- Email -->
-                    <v-layer :config="{draggable: true,}" v-if="showEmail">
-                        <v-image
-                            :config="{
-                                image: emailIcon,
-                                x: bgWidth/26,
-                                y: bgHeight/1.24,
-                                width: 16,
-                                height: 16
-                            }"
-                        />
-                        <v-text
-                            ref="text"
-                            :config="{
-                                x: bgWidth/10,
-                                y: bgHeight/1.23,
-                                fontFamily: 'Calibri',
-                                fontSize: defaultSize,
-                                text: email,
-                                fill: defaultColor,
-                                fill: isDragging ? 'red' : defaultColor
-                            }"
-                        />
-                    </v-layer>
-                    <!-- Website -->
-                    <v-layer :config="{draggable: true,}" v-if="showWebsite">
-                        <v-image
-                            :config="{
-                                image: websiteIcon,
-                                x: bgWidth/26,
-                                y: bgHeight/1.14,
-                                width: 16,
-                                height: 16
-                            }"
-                        />
-                        <v-text
-                            ref="text"
-                            :config="{
-                                x: bgWidth/10,
-                                y: bgHeight/1.13,
-                                fontFamily: 'Calibri',
-                                fontSize: defaultSize,
-                                text: website,
-                                fill: defaultColor,
-                                fill: isDragging ? 'red' : defaultColor
-                            }"
-                        />
-                    </v-layer>
-                    
-                    <!-- Brand logo -->
-                    <v-layer>
-                        <v-image
-                            v-if="showLogo"
-                            @dragstart="handleDragStart"
-                            @dragend="handleDragEnd"
-                            :config="{
-                                image: logo,
-                                draggable: true,
-                                width: logoWidth,
-                                height: logoHeight
-                            }"
-                        />
-                    </v-layer>
-                </v-stage>
-                <!-- <div class="details-box">
-                    <div class="flexbox">
-                        <v-img src="../../assets/img/phone.png" width="15" class="mr-1"></v-img>
-                        {{contact}}
-                    </div>
-                    <div class="flexbox">
-                        <v-img src="../../assets/img/web.png" width="15" class="mr-1"></v-img>
-                        {{website}}
-                    </div>
-                    <div class="flexbox">
-                        <v-img src="../../assets/img/email.png" width="15" class="mr-1"></v-img>
-                        {{email}}
-                    </div>
-                </div>             -->
-            </v-card>
-            
-            <!-- Text Controls -->
-            <v-bottom-sheet v-model="textControls">
-                <div class="rera-controls">
-                    <!-- Text Controls -->
-                    <v-card flat tile>
-                        <div class="font-weight-bold d-flex align-center px-5">
-                            <v-switch dense color="teal darken-2" v-model="showRera"></v-switch>
-                            <span class="">Rera Number</span>
+        
+        <v-card flat width="100vw" height="70vh" class=" rounded-t-xl pb-16 pt-12 mt-n7 mt-md-0 d-flex align-center justify-center">
+           
+                <v-card ref="container" flat id="capture" class="transparent mainCanvas ml-3" width="100%">
+                    <v-stage ref="stage" :config="stageSize" id="theCanvas"> 
+                        <v-layer ref="layer">
+                            <v-image
+                                :config="{
+                                    image: image,
+                                    width: bgWidth,
+                                    height: bgHeight
+                                }"
+                            />
+                            <v-text
+                                v-if="showCompany"
+                                @dragstart="handleDragStart"
+                                @dragend="handleDragEnd"
+                                ref="text"
+                                :config="{
+                                    x: 120,
+                                    y: 20,
+                                    fontFamily: 'Lato',
+                                    fontSize: brandFontSize,
+                                    text: brandText,
+                                    fill: brandTextColor,
+                                    draggable: true,
+                                    fill: isDragging ? 'red' : brandTextColor
+                                }"
+                            />
+                            <v-text
+                                v-if="showRera"
+                                @dragstart="handleDragStart"
+                                @dragend="handleDragEnd"
+                                ref="text"
+                                :config="{
+                                    x: 300,
+                                    y: 10,
+                                    fontFamily: 'Lato',
+                                    fontSize: reraFontSize,
+                                    text: reraText,
+                                    fill: reraTextColor,
+                                    draggable: true,
+                                    fill: isDragging ? 'red' : reraTextColor
+                                }"
+                            />
+                        </v-layer>
+                        <!-- Phone Number -->
+                        <v-layer :config="{draggable: true,}" v-if="showPhone">
+                            <v-image
+                                :config="{
+                                    image: phoneIcon,
+                                    x: bgWidth/26,
+                                    y: bgHeight/1.35,
+                                    width: 16,
+                                    height: 16
+                                }"
+                            />
+                            <v-text
+                                ref="text"
+                                :config="{
+                                    x: bgWidth/10,
+                                    y: bgHeight/1.34,
+                                    fontFamily: 'Lato',
+                                    fontSize: defaultSize,
+                                    text: contact,
+                                    fill: contactColor,
+                                    fill: isDragging ? 'red' : contactColor
+                                }"
+                            />
+                        </v-layer>
+                        <!-- Email -->
+                        <v-layer :config="{draggable: true,}" v-if="showEmail">
+                            <v-image
+                                :config="{
+                                    image: emailIcon,
+                                    x: bgWidth/26,
+                                    y: bgHeight/1.24,
+                                    width: 16,
+                                    height: 16
+                                }"
+                            />
+                            <v-text
+                                ref="text"
+                                :config="{
+                                    x: bgWidth/10,
+                                    y: bgHeight/1.23,
+                                    fontFamily: 'Lato',
+                                    fontSize: defaultSize,
+                                    text: email,
+                                    fill: emailColor,
+                                    fill: isDragging ? 'red' : emailColor
+                                }"
+                            />
+                        </v-layer>
+                        <!-- Website -->
+                        <v-layer :config="{draggable: true,}" v-if="showWebsite">
+                            <v-image
+                                :config="{
+                                    image: websiteIcon,
+                                    x: bgWidth/26,
+                                    y: bgHeight/1.14,
+                                    width: 16,
+                                    height: 16
+                                }"
+                            />
+                            <v-text
+                                ref="text"
+                                :config="{
+                                    x: bgWidth/10,
+                                    y: bgHeight/1.13,
+                                    fontFamily: 'Lato',
+                                    fontSize: defaultSize,
+                                    text: website,
+                                    fill: websiteColor,
+                                    fill: isDragging ? 'red' : websiteColor
+                                }"
+                            />
+                        </v-layer>
+                        
+                        <!-- Brand logo -->
+                        <v-layer>
+                            <v-image
+                                v-if="showLogo"
+                                @dragstart="handleDragStart"
+                                @dragend="handleDragEnd"
+                                :config="{
+                                    image: logo,
+                                    draggable: true,
+                                    width: logoWidth,
+                                    height: logoHeight
+                                }"
+                            />
+                        </v-layer>
+                    </v-stage>
+                    <!-- <div class="details-box">
+                        <div class="flexbox">
+                            <v-img src="../../assets/img/phone.png" width="15" class="mr-1"></v-img>
+                            {{contact}}
                         </div>
-                        <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
-                            <span>Size</span>
-                            <v-spacer></v-spacer>
-                            <v-btn x-small fab tile elevation="1" class="white rounded" @click="reraFontSize -= 2">
-                                <v-icon>mdi-minus</v-icon>
-                            </v-btn>
-                            <v-btn x-small fab tile elevation="1" class="white rounded" @click="reraFontSize += 2">
-                                <v-icon>mdi-plus</v-icon>
-                            </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-menu :close-on-content-click="false">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
-                                </template>
-                                <v-card flat>
-                                    <v-color-picker
-                                        v-model="reraTextColor"
-                                        class=""
-                                        hide-inputs
-                                        canvas-height="80px"
-                                    ></v-color-picker>
-                                </v-card>
-                            </v-menu>  
+                        <div class="flexbox">
+                            <v-img src="../../assets/img/web.png" width="15" class="mr-1"></v-img>
+                            {{website}}
                         </div>
-                    </v-card>
-                    <!-- Company Controls -->
-                    <v-card tile flat>
-                        <div class="font-weight-bold d-flex align-center px-5">
-                            <v-switch dense color="teal darken-2" v-model="showCompany"></v-switch>
-                            <span class="">Company Name</span>
+                        <div class="flexbox">
+                            <v-img src="../../assets/img/email.png" width="15" class="mr-1"></v-img>
+                            {{email}}
                         </div>
-                        <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
-                            <span>Size</span>
-                            <v-spacer></v-spacer>
-                            <v-btn x-small fab tile elevation="1" class="white rounded" @click="brandFontSize -= 2">
-                                <v-icon>mdi-minus</v-icon>
-                            </v-btn>
-                            <v-btn x-small fab tile elevation="1" class="white rounded" @click="brandFontSize += 2">
-                                <v-icon>mdi-plus</v-icon>
-                            </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-menu :close-on-content-click="false">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
-                                </template>
-                                <v-card flat>
-                                    <v-color-picker
-                                        v-model="brandTextColor"
-                                        class=""
-                                        hide-inputs
-                                        canvas-height="80px"
-                                    ></v-color-picker>
-                                </v-card>
-                            </v-menu>     
-                        </div>
-                    </v-card>
-                    <!-- Email -->
-                    <v-card flat tile>
-                        <div class="font-weight-bold d-flex align-center px-5">
-                            <v-switch dense color="teal darken-2" v-model="showEmail"></v-switch>
-                            <span class="">Email</span>
-                            <v-spacer></v-spacer>
-                            <v-menu :close-on-content-click="false">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
-                                </template>
-                                <v-card flat>
-                                    <v-color-picker
-                                        v-model="emailColor"
-                                        class=""
-                                        hide-inputs
-                                        canvas-height="80px"
-                                    ></v-color-picker>
-                                </v-card>
-                            </v-menu>   
-                        </div>
-                    </v-card>
-                    <!-- Website -->
-                    <v-card flat tile>
-                        <div class="font-weight-bold d-flex align-center px-5">
-                            <v-switch dense color="teal darken-2" v-model="showWebsite"></v-switch>
-                            <span class="">Website</span>
-                            <v-spacer></v-spacer>
-                            <v-menu :close-on-content-click="false">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
-                                </template>
-                                <v-card flat>
-                                    <v-color-picker
-                                        v-model="websiteColor"
-                                        class=""
-                                        hide-inputs
-                                        canvas-height="80px"
-                                    ></v-color-picker>
-                                </v-card>
-                            </v-menu>   
-                        </div>
-                    </v-card>
-                    <!-- Phone Number -->
-                    <v-card flat tile>
-                        <div class="font-weight-bold d-flex align-center px-5">
-                            <v-switch dense color="teal darken-2" v-model="showPhone"></v-switch>
-                            <span class="">Contact</span>
-                            <v-spacer></v-spacer>
-                            <v-menu :close-on-content-click="false">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
-                                </template>
-                                <v-card flat>
-                                    <v-color-picker
-                                        v-model="contactColor"
-                                        class=""
-                                        hide-inputs
-                                        canvas-height="80px"
-                                    ></v-color-picker>
-                                </v-card>
-                            </v-menu>   
-                        </div>
-                    </v-card>
-                </div>
-            </v-bottom-sheet>
-
-            <!-- Image Controls -->
-            <v-bottom-sheet v-model="imageControls">
-                <div class="logo-controls">
-                    <v-card class="px-4" flat tile>
-                        <div class="font-weight-bold d-flex align-center">
-                            <span class="mr-3">Company Logo</span>
-                            <v-switch inset dense color="teal darken-2" v-model="showLogo"></v-switch>
-                        </div>
-                    </v-card>
-                    <v-card class="px-4 py-5 text-center blue-grey lighten-5" tile>
-                        <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="logoWidth -= 50">
-                                <v-icon>mdi-minus</v-icon>
-                        </v-btn>
-                        <span class="body-2 mx-6">Logo Size</span>
-                        <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="logoWidth += 50">
-                            <v-icon>mdi-plus</v-icon>
-                        </v-btn>
-                    </v-card>
-                    <!-- <v-card class="pa-4 grey lighten-2 text-center" tile>
-                        <label for="bgImage">
-                            <v-icon>mdi-file-replace-outline</v-icon>
-                            <span class="text-capitalize ml-2">Replace Background Image</span>
-                            <input type="file" hidden id="bgImage" @change="onFileChange">
-                        </label>
-                    </v-card> -->
-                </div>
-            </v-bottom-sheet>
-
-            <div v-if="downloadProgress" class="loaderScreen">
-            <div class="relative h-full">
-                <div class="logoText">Creating your design...</div>
-                <div class="loader">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                </div>
-            </div>
-            </div>
-
-            <!-- saved dailog -->
-            <v-dialog v-model="savedDialog" persistent max-width="290">
-                <v-card class="text-center pa-4">
-                    <v-btn x-large icon outlined color="green"><v-icon size="42px">mdi-check</v-icon></v-btn>
-                    <div class="title">Downloaded!</div>
-                    <v-card-subtitle>Graphic saved successfully</v-card-subtitle>
-                    <v-btn color="green darken-1" depressed rounded-xl dark @click="savedDialog = false">OK</v-btn>
+                    </div>             -->
                 </v-card>
-            </v-dialog>
+                
+                <!-- Company Control -->
+                <v-bottom-sheet v-model="companyControls">
+                    <div class="rera-controls">
+                        <!-- Company Controls -->
+                        <v-card tile flat>
+                            <div class="font-weight-bold d-flex align-center px-5">
+                                <v-switch dense color="teal darken-2" v-model="showCompany"></v-switch>
+                                <span class="">Company Name</span>
+                            </div>
+                            <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
+                                <span>Size</span>
+                                <v-spacer></v-spacer>
+                                <v-btn x-small fab tile elevation="1" class="white rounded" @click="brandFontSize -= 2">
+                                    <v-icon>mdi-minus</v-icon>
+                                </v-btn>
+                                <v-btn x-small fab tile elevation="1" class="white rounded" @click="brandFontSize += 2">
+                                    <v-icon>mdi-plus</v-icon>
+                                </v-btn>
+                                <v-spacer></v-spacer>
+                                <v-menu :close-on-content-click="false">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                    </template>
+                                    <v-card flat>
+                                        <v-color-picker
+                                            v-model="brandTextColor"
+                                            class=""
+                                            hide-inputs
+                                            canvas-height="80px"
+                                        ></v-color-picker>
+                                    </v-card>
+                                </v-menu>     
+                            </div>
+                        </v-card>
+                    </div>
+                </v-bottom-sheet>
+                <!-- Rera Control -->
+                <v-bottom-sheet v-model="reraControls">
+                    <div class="rera-controls">
+                        <!-- Text Controls -->
+                        <v-card flat tile>
+                            <div class="font-weight-bold d-flex align-center px-5">
+                                <v-switch dense color="teal darken-2" v-model="showRera"></v-switch>
+                                <span class="">Rera Number</span>
+                            </div>
+                            <div class="d-flex align-center px-5 py-3 blue-grey lighten-5">
+                                <span>Size</span>
+                                <v-spacer></v-spacer>
+                                <v-btn x-small fab tile elevation="1" class="white rounded" @click="reraFontSize -= 2">
+                                    <v-icon>mdi-minus</v-icon>
+                                </v-btn>
+                                <v-btn x-small fab tile elevation="1" class="white rounded" @click="reraFontSize += 2">
+                                    <v-icon>mdi-plus</v-icon>
+                                </v-btn>
+                                <v-spacer></v-spacer>
+                                <v-menu :close-on-content-click="false">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                    </template>
+                                    <v-card flat>
+                                        <v-color-picker
+                                            v-model="reraTextColor"
+                                            class=""
+                                            hide-inputs
+                                            canvas-height="80px"
+                                        ></v-color-picker>
+                                    </v-card>
+                                </v-menu>  
+                            </div>
+                        </v-card>
+                    </div>
+                </v-bottom-sheet>
+                <!-- Email / Website / Contact -->
+                <v-bottom-sheet v-model="emailControls">
+                    <div class="rera-controls">
+                        <!-- Email -->
+                        <v-card flat tile>
+                            <div class="font-weight-bold d-flex align-center px-5">
+                                <v-switch dense color="teal darken-2" v-model="showEmail"></v-switch>
+                                <span class="">Email</span>
+                                <v-spacer></v-spacer>
+                                <v-menu :close-on-content-click="false">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                    </template>
+                                    <v-card flat>
+                                        <v-color-picker
+                                            v-model="emailColor"
+                                            class=""
+                                            hide-inputs
+                                            canvas-height="80px"
+                                        ></v-color-picker>
+                                    </v-card>
+                                </v-menu>   
+                            </div>
+                        </v-card>
+                        <!-- Website -->
+                        <v-card flat tile>
+                            <div class="font-weight-bold d-flex align-center px-5">
+                                <v-switch dense color="teal darken-2" v-model="showWebsite"></v-switch>
+                                <span class="">Website</span>
+                                <v-spacer></v-spacer>
+                                <v-menu :close-on-content-click="false">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                    </template>
+                                    <v-card flat>
+                                        <v-color-picker
+                                            v-model="websiteColor"
+                                            class=""
+                                            hide-inputs
+                                            canvas-height="80px"
+                                        ></v-color-picker>
+                                    </v-card>
+                                </v-menu>   
+                            </div>
+                        </v-card>
+                        <!-- Phone Number -->
+                        <v-card flat tile>
+                            <div class="font-weight-bold d-flex align-center px-5">
+                                <v-switch dense color="teal darken-2" v-model="showPhone"></v-switch>
+                                <span class="">Contact</span>
+                                <v-spacer></v-spacer>
+                                <v-menu :close-on-content-click="false">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-img src="../../assets/img/color.png" width="26" height="26" contain v-bind="attrs" v-on="on"></v-img>
+                                    </template>
+                                    <v-card flat>
+                                        <v-color-picker
+                                            v-model="contactColor"
+                                            class=""
+                                            hide-inputs
+                                            canvas-height="80px"
+                                        ></v-color-picker>
+                                    </v-card>
+                                </v-menu>   
+                            </div>
+                        </v-card>
+                    </div>
+                </v-bottom-sheet>
+
+                <!-- Image Controls -->
+                <v-bottom-sheet v-model="imageControls">
+                    <div class="logo-controls">
+                        <v-card class="px-4" flat tile>
+                            <div class="font-weight-bold d-flex align-center">
+                                <span class="mr-3">Company Logo</span>
+                                <v-switch inset dense color="teal darken-2" v-model="showLogo"></v-switch>
+                            </div>
+                        </v-card>
+                        <v-card class="px-4 py-5 text-center blue-grey lighten-5" tile>
+                            <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="logoWidth -= 50">
+                                    <v-icon>mdi-minus</v-icon>
+                            </v-btn>
+                            <span class="body-2 mx-6">Logo Size</span>
+                            <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="logoWidth += 50">
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                        </v-card>
+                        <!-- <v-card class="pa-4 grey lighten-2 text-center" tile>
+                            <label for="bgImage">
+                                <v-icon>mdi-file-replace-outline</v-icon>
+                                <span class="text-capitalize ml-2">Replace Background Image</span>
+                                <input type="file" hidden id="bgImage" @change="onFileChange">
+                            </label>
+                        </v-card> -->
+                    </div>
+                </v-bottom-sheet>
+
+                <div v-if="downloadProgress" class="loaderScreen">
+                <div class="relative h-full">
+                    <div class="logoText">Creating your design...</div>
+                    <div class="loader">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- saved dailog -->
+                <v-dialog v-model="savedDialog" persistent max-width="290">
+                    <v-card class="text-center pa-4">
+                        <v-btn x-large icon outlined color="green"><v-icon size="42px">mdi-check</v-icon></v-btn>
+                        <div class="title">Downloaded!</div>
+                        <v-card-subtitle>Graphic saved successfully</v-card-subtitle>
+                        <v-btn color="green darken-1" depressed rounded-xl dark @click="savedDialog = false">OK</v-btn>
+                    </v-card>
+                </v-dialog>
 
         </v-card>
 
-        <v-bottom-navigation class="bottomNav" grow dark tile height="56px">
+        <div class="bottomNav-ext d-flex justify-space-between" v-if="textControls">
+            <v-btn class="flex-grow-1 text-capitalize" @click="companyControls = !companyControls">Company</v-btn>
+            <v-btn class="flex-grow-1 text-capitalize" @click="reraControls = !reraControls">Rera</v-btn>
+            <v-btn class="flex-grow-1 text-capitalize" @click="emailControls = !emailControls">Email</v-btn>
+        </div>
+
+        <v-bottom-navigation class="bottomNav grey darken-4" grow dark tile height="48px">
             <v-btn value="recent" @click="imageControls = !imageControls">
                 <span>Image</span>
-                <v-icon>mdi-image</v-icon>
+                <v-icon size="18">mdi-image</v-icon>
             </v-btn>
 
             <v-btn value="favorites" @click="textControls = !textControls">
                 <span>Text</span>
-                <v-icon>mdi-signature-text</v-icon>
+                <v-icon size="18">mdi-signature-text</v-icon>
             </v-btn>
 
             <v-btn value="nearby" @click="download">
                 <span>Download</span>
-                <v-icon>mdi-download-circle</v-icon>
+                <v-icon size="18">mdi-download-circle</v-icon>
             </v-btn>
         </v-bottom-navigation>
 
@@ -401,7 +419,9 @@ export default {
                 width: width,
                 height: height
             },
-            defaultColor: "#000000",
+            emailColor: "#000000",
+            websiteColor: "#000000",
+            contactColor: "#000000",
             defaultSize: 12,
             phoneIcon: null,
             websiteIcon: null,
@@ -434,7 +454,10 @@ export default {
             showLogo: true,
             showRera: false,
             showCompany: false,
-            snackbar: false
+            snackbar: false,
+            companyControls: false,
+            emailControls: false,
+            reraControls: false,
         };
     },
     created() {},
@@ -599,6 +622,12 @@ export default {
 .bottomNav{
     position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
+}
+.bottomNav-ext{
+    position: fixed;
+    bottom: 48px;
     left: 0;
     right: 0;
 }

@@ -1,6 +1,6 @@
 <template>
 
-    <v-card flat height="100vh">
+    <v-card flat min-height="100vh">
       <Navbar />
 
       <v-card class="bg-gradient px-4 pt-2 pb-8 mt-n6 rounded-t-xl d-md-none d-flex" flat>

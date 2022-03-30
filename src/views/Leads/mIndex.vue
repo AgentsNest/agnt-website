@@ -1,5 +1,5 @@
 <template>
-    <v-card flat height="100vh" class="transparent">
+    <v-card flat height="100%" class="transparent">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{ snackbarText }}
             <template v-slot:action="{ attrs }">
@@ -57,7 +57,7 @@
             </v-btn-toggle> -->
         </v-card>
 
-         <v-card flat width="100%" class="white rounded-t-xl pb-10 overflow-y-auto mt-n7 mt-md-0 fill-height">
+        <v-card flat width="100%" class="white rounded-t-xl overflow-y-auto mt-n7 mt-md-0">
 
             <!-- <v-toolbar flat dense>
                 <div class="font-weight-bold">Total Leads ({{totalLeads}})</div>
@@ -105,7 +105,7 @@
             </v-toolbar> -->
             
 
-            <v-card height="88vh" class="overflow-y-auto" flat>
+            <v-card height="100%" class="" flat>
                 <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
                     <v-card-actions class="pa-3">
                         <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
@@ -470,31 +470,31 @@
 
             </v-dialog>
             
-            <v-speed-dial
-                    v-model="fab"
-                    class="speed-dail"
-                    :direction="direction"
-                    :open-on-hover="hover"
-                    :transition="transition"
-                >
-                <template v-slot:activator>
-                    <v-btn v-model="fab" class="gradient" dark fab>
-                        <v-icon v-if="fab">mdi-close</v-icon>
-                        <v-icon v-else>mdi-plus</v-icon>
-                    </v-btn>
-                </template>
-
-                <v-btn dark small color="white" class="rounded" link :to="{name: 'AddLeads'}">
-                    <v-icon left color="#444">mdi-pencil</v-icon>
-                    <span class="text-capitalize grey--text text--darken-3" >manual</span>
-                </v-btn>
-                <v-btn dark small color="white" class="rounded" link :to="{name: 'bulkUploadLead'}">
-                    <v-icon left color="#444">mdi-file-upload-outline</v-icon>
-                    <span class="text-capitalize grey--text text--darken-3">bulk</span>
-                </v-btn>
-            </v-speed-dial>
-            
         </v-card>
+
+        <v-speed-dial
+            v-model="fab"
+            class="speed-dail"
+            :direction="direction"
+            :open-on-hover="hover"
+            :transition="transition"
+        >
+            <template v-slot:activator>
+                <v-btn v-model="fab" class="gradient" dark fab>
+                    <v-icon v-if="fab">mdi-close</v-icon>
+                    <v-icon v-else>mdi-plus</v-icon>
+                </v-btn>
+            </template>
+
+            <v-btn dark small color="white" class="rounded" link :to="{name: 'AddLeads'}">
+                <v-icon left color="#444">mdi-pencil</v-icon>
+                <span class="text-capitalize grey--text text--darken-3" >manual</span>
+            </v-btn>
+            <v-btn dark small color="white" class="rounded" link :to="{name: 'bulkUploadLead'}">
+                <v-icon left color="#444">mdi-file-upload-outline</v-icon>
+                <span class="text-capitalize grey--text text--darken-3">bulk</span>
+            </v-btn>
+        </v-speed-dial>
 
     </v-card>
 </template>
@@ -1044,8 +1044,8 @@ select{
     box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }
 .speed-dail{
-    position: absolute;
-    bottom: 12em;
+    position: fixed;
+    bottom: 5em;
     right: 15px;
 }
 </style>

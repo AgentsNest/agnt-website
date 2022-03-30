@@ -6,9 +6,10 @@
       tile
       flat
       height="100vh"
+      width="270"
     >
 
-    <v-img src="../../assets/img/agnt.png" width="120" class="mx-auto"></v-img>
+    <div class="white--text text-h5 text-center font-weight-bold">agnt.</div>
 
     <ul class="nav-links">
       <router-link :to="{name: item.link}" v-for="item in items" :key="item.title" 
@@ -86,7 +87,7 @@ import User from '../../Apis/User'
 </script>
 
 <style scoped>
-.sidelink{position: relative;}
+.sidelink{position: fixed;}
 .logout-btn{position: absolute;bottom: 0;left: 0;right: 0;}
 ul {
   padding: 1em;
