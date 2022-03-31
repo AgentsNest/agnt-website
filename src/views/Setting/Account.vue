@@ -361,11 +361,11 @@
                                     v-if="agent"
                                     orgPost="00000" 
                                     :orgCity="agent.city" 
-                                    orgCountry="India" 
+                                    orgCountry="agent.city" 
                                     :orgName="agent.brand_text" 
                                     :firstName="agent.name" 
-                                    lastName="Doe" 
-                                    :workPhone="agent.contact"  
+                                    :workPhone="agent.contact"
+                                    :photo="agent.image"  
                                 />
                             </v-card-text>
                         </v-card>
