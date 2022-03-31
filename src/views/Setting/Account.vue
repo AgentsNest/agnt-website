@@ -1,5 +1,5 @@
 <template>
-    <v-card flat tile>
+    <div class="flex-grow-1">
         <Navbar/>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Profile Updated
@@ -380,7 +380,7 @@
                 </v-btn>
             </v-row>
         </v-container>
-    </v-card>
+    </div>
 </template>
 
 <script>
@@ -473,7 +473,7 @@ export default {
 }
 #brandLogo{width: 100%;margin-top:2em}
 .update-btn{
-    position: absolute;
+    position: fixed;
     right: 2em;
     bottom: 20px;
     z-index: 2;

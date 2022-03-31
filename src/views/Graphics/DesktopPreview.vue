@@ -428,6 +428,7 @@ export default {
                 this.email = response.data.data.email;
                 this.website = response.data.data.website;
                 this.contact = response.data.data.contact;
+                this.reraText = response.data.data.rera;
 
                 const image = new window.Image();
                 image.src = response.data.data.brand_logo;

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex-grow-1">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Group Created Successfully
             <template v-slot:action="{ attrs }">
@@ -17,14 +17,14 @@
             <v-spacer></v-spacer>
         </v-card>
 
-        <v-card class="my-8 d-none d-md-flex align-center" elevation="0">
+        <v-card class="ma-5 d-none d-md-flex align-center" elevation="0">
             <div class="shadow rounded-lg">
               <v-btn large color="#111828" dark><v-icon>mdi-folder-open</v-icon></v-btn>
               <v-btn class="text-capitalize" text>Groups</v-btn>
             </div>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-2 overflow-y-auto mt-n7 mt-md-0 fill-height">
+        <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-2 mt-n7 mt-md-0">
             <v-toolbar flat>
                 <div class="font-weight-bold text-h6">Groups</div>
                 <v-spacer></v-spacer>
@@ -33,7 +33,7 @@
             
             <v-card-text>
                 <v-row>
-                    <v-col md="4" cols="12" v-if="addGroupBox">
+                    <v-col cols="12" v-if="addGroupBox">
                         <div class="font-weight-bold subtitle-1 mb-3">Create new Group</div>
                         <input type="text" placeholder="Add group name..." class="search-input" v-model="form.title">
                         <div class="mt-6 d-flex">
@@ -190,7 +190,7 @@ export default {
                 this.fetchData();
                 this.snackbar = true
                 this.form = ''
-                console.log(response)
+                this.addGroupBox = false
             })
             .catch(error => {
                 console.log(error);

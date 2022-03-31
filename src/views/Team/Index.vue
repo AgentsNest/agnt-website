@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex-grow-1">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000"
         >
             Team Member Added Successfully

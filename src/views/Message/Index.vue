@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex-grow-1">
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Message Added Successfully
             <template v-slot:action="{ attrs }">
@@ -17,14 +17,14 @@
             <v-spacer></v-spacer>
         </v-card>
 
-        <v-card class="my-8 d-none d-md-flex" elevation="0">
+        <v-card class="ma-5 d-none d-md-flex" elevation="0">
             <div class="shadow rounded-lg">
               <v-btn large color="#111828" dark><v-icon>mdi-message-text-outline</v-icon></v-btn>
               <v-btn class="text-capitalize" text>Messages</v-btn>
             </div>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-2 overflow-y-auto mt-n7 mt-md-0 fill-height">
+        <v-card flat width="100%" class="white pa-md-5 rounded-t-xl mt-n7 mt-md-0">
 
             <v-tabs color="basil" grow>
                 <v-tab class="text-capitalize">My Msg</v-tab>
@@ -32,7 +32,7 @@
 
                 <!-- Content -->
                 <v-tab-item>
-                    <v-card height="80vh" class="overflow-y-auto">
+                    <v-card flat>
                         <v-toolbar flat class="mb-1">
                             <v-spacer></v-spacer>
                             <v-btn class="white" small elevation="1" fab @click="addMsgBox = !addMsgBox"><v-icon>mdi-plus</v-icon></v-btn>

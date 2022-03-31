@@ -3,14 +3,10 @@
         <v-card class="rounded-xl pa-md-5 pa-2 shadow" height="100vh" width="100%" elevation="0">
 
             <v-toolbar flat>
-                <v-btn icon class="" @click="$router.go(-1)">
-                    <v-icon size="28" color="grey darken-3">mdi-arrow-left</v-icon>
+                <v-btn class="bg-gradient" dark @click="$router.go(-1)" depressed>
+                    <v-icon size="20" left>mdi-chevron-left</v-icon>
+                    Back
                 </v-btn>
-                <v-list-item two-line>
-                    <v-list-item-content>
-                        <v-list-item-title>back</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
             </v-toolbar>
 
             <v-card-title class="flex justify-space-between align-center" v-if="website">
@@ -25,6 +21,7 @@
                         :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
                         lazy-src="../../assets/img/bg-grey.svg"
                         aspect-ratio="1.9"
+                        max-width="50vw"
                         class="rounded-lg"
                     ></v-img>
                     

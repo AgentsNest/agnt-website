@@ -10,22 +10,24 @@
         <Navbar/>
 
         <v-card class="bg-gradient px-4 pt-1 pb-8 mt-n6 mt-md-0 d-md-none rounded-t-xl d-flex align-center" flat>
-            <v-btn class="text-capitalize dark body-2" text dark>
+            <v-btn class="text-capitalize" small text dark :to="{name: 'MyWebsite'}">
               <v-icon left class="mr-2">mdi-office-building-outline</v-icon>
-              All Projects
+              My Projects
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn class="rounded-xl text-capitalize" small outlined dark :to="{name: 'MyWebsite'}">My Projects</v-btn>
+            <v-btn class="rounded-xl text-capitalize dark body-2" small outlined dark>
+               All Projects
+            </v-btn>
         </v-card>
 
         <v-card class="my-8 d-none d-md-flex" elevation="0">
-            <div class="mr-5">
-              <v-btn class="rounded-l-lg mr-1" large dark tile><v-icon>mdi-tablet-dashboard</v-icon></v-btn>
-              <v-btn dark tile class="rounded-r-lg text-capitalize" large>All Projects</v-btn>
-            </div>
             <div class="shadow rounded-lg">
               <v-btn dark large><v-icon>mdi-view-dashboard</v-icon></v-btn>
               <v-btn class="text-capitalize" text :to="{name: 'MyWebsite'}" link>My Projects</v-btn>
+            </div>
+            <div class="ml-5">
+              <v-btn class="rounded-l-lg mr-1" large dark tile><v-icon>mdi-tablet-dashboard</v-icon></v-btn>
+              <v-btn dark tile class="rounded-r-lg text-capitalize" large>All Projects</v-btn>
             </div>
         </v-card>
 
