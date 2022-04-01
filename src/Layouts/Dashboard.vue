@@ -1,22 +1,17 @@
 <template>
-  <v-card class="d-flex overflow-y-auto" flat tile height="100vh">
-        <!-- <v-row>
-          <v-col md="2" class="d-none d-md-block">
-            <Sidelink />
-          </v-col>
-          <v-col md="10" cols="12" class="">
-            <keep-alive>
-              <router-view/>
-            </keep-alive>
-          </v-col>
-        </v-row> -->
-    <Sidelink />
-
-    <keep-alive>
-      <router-view/>
-    </keep-alive>
-    
-  </v-card>
+  <div>
+    <Sidelink class="d-none d-md-flex" />
+    <v-row>
+      <!-- <v-col md="2" class="d-none d-md-block">
+        <Sidelink />
+      </v-col> -->
+      <v-col cols="12">
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>

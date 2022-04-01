@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-grow-1">
+    <div>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{ snackbarText }}
             <template v-slot:action="{ attrs }">
@@ -9,7 +9,7 @@
 
         <!-- Desktop Screen -->
         <v-card class="pa-md-5 shadow" height="100%" width="100%" flat tile>
-            <v-toolbar flat>
+            <!-- <v-toolbar flat>
 
                 <v-card class="my-8 d-none d-md-flex" elevation="0">
                     <div class="shadow rounded-lg">
@@ -33,29 +33,7 @@
                     </v-list>
                 </v-menu>
 
-                <div class="pagination ml-5">
-                    <v-btn 
-                        class="text-capitalize grey--text text--lighten-2" 
-                        @click="fetchData(pagination.prev_page_url)"
-                        :disabled="!pagination.prev_page_url"
-                        color="#111828"
-                        small
-                    >
-                        Previous
-                    </v-btn>
-                    <span class="caption mx-4">Page {{pagination.current_page}} of {{pagination.last_page}}</span>
-                    <v-btn 
-                        class="text-capitalize grey--text text--lighten-2" 
-                        @click="fetchData(pagination.next_page_url)"
-                        :disabled="!pagination.next_page_url"
-                        color="#111828"
-                        small
-                    >
-                        Next
-                    </v-btn>
-                </div>
-
-            </v-toolbar>
+            </v-toolbar> -->
 
             <v-card flat>
                 <!-- <v-toolbar flat class="d-none d-md-block">
@@ -89,7 +67,7 @@
                     </v-btn>
                 </v-toolbar> -->
 
-                <v-container>
+                <v-container v-if="selectedLeads.length >= 2">
                     <v-row>
                         <v-col cols="4" class="d-flex">
                             <v-autocomplete
@@ -139,78 +117,75 @@
                     </v-row>
                 </v-container>
 
-                <v-simple-table
-                    fixed-header
-                    height="100%"
-                >
-                    <template v-slot:default>
-                    <thead>
-                        <tr>
-                            <th class="text-left"><v-checkbox v-model="selectAll"></v-checkbox></th>
-                            <th class="text-left">Name</th>
-                            <th class="text-left">Contact No.</th>
-                            <th class="text-left">Added On</th>
-                            <!-- <th class="text-left">Last Remark</th> -->
-                            <th class="text-left">Status</th>
-                            <th class="text-left">Source</th>
-                            <!-- <th class="text-left">Assign To</th> -->
-                            <!-- <th class="text-left">Group</th> -->
-                            <th class="text-left">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr 
-                            v-for="(lead, index) in filterLead" :key="index"
-                            class="blue-grey--text text--darken-2 cursor-pointer"
-                        >
-                            <td><v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox></td>
-                            <td>
-                                <router-link :to="{name: 'singleLead', params: {id:lead.id}}" class="grey--text text--darken-3">
-                                    {{ lead.name }}
-                                </router-link>
-                            </td>
-                            <td>
-                                <router-link :to="{name: 'singleLead', params: {id:lead.id}}" class="grey--text text--darken-3">
-                                {{ lead.contact }}
-                                </router-link>
-                            </td>
-                            <td>
-                                <router-link :to="{name: 'singleLead', params: {id:lead.id}}" class="grey--text text--darken-3">
-                                {{ lead.created_at | formatDate }}
-                                </router-link>
-                            </td>
-                            <td>{{ lead.status }}</td>
-                            <td>{{ lead.lead_source }}</td>
-                            <!-- <td @click="detailsSidebar(lead.id)" v-if="lead.activities">
-                                <span v-if="lead.activities[0].notes !== null">{{ lead.activities[0].notes }}</span>
-                                <span v-if="lead.activities[0].message !== null">{{ lead.activities[0].message }}</span>
-                                <span v-if="lead.activities[0].call !== null">{{ lead.activities[0].call }}</span>
-                                <span v-if="lead.activities[0].whatsapp !== null">{{ lead.activities[0].whatsapp }}</span>
-                            </td> -->
-                            <!-- <td v-if="lead.activities">{{ lead.activities[0].created_at | formatDate }}</td> -->
-                            <!-- <td>{{ lead.team_id }}</td> -->
-                            <!-- <td>{{ lead.group_id }}</td> -->
-                            <td>
-                                <v-btn icon small @click="editedLeadDialogBox(lead.id)"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                                <v-btn icon small @click="deleteLeadDialogBox(lead.id)"><v-icon>mdi-trash-can-outline</v-icon></v-btn>
-                            </td>
-                        </tr>
-                        <!-- <infinite-loading @infinite="loadMoreDesktop">
-                            <div slot="spinner">Loading...</div>
-                            <div slot="no-more">No more leads</div>
-                            <div slot="no-results" class="text-center grey--text">&nbsp;</div>
-                        </infinite-loading> -->
-                    </tbody>
-                    </template>
-                </v-simple-table>
                 
-                <!-- <v-btn block @click="loadMoreDesktop" v-if="loadMoreBtn" class="my-3 rounded-lg text-capitalize">load more</v-btn> -->
+                <v-card-title>
+                    <v-btn fab small class="mr-2 blue lighten-5" elevation="0">
+                        <v-icon color="blue darken-4">mdi-account-group</v-icon>
+                    </v-btn> Clients 
+                    <span v-if="selectedLeads.length >= 2">({{selectedLeads.length}})</span>
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search Client"
+                        single-line
+                        hide-details
+                    ></v-text-field>
+                    <v-spacer></v-spacer>
+                    <v-btn class="text-capitalize dark" dark small @click="newLeadDialog = !newLeadDialog">Add Client</v-btn>
+                </v-card-title>
+                <v-data-table
+                    :headers="headers"
+                    :items="leads.data"
+                    :items-per-page="15"
+                    class="elevation-0"
+                    :search="search"
+                    v-model="selectedLeads"
+                >
+                    <template v-slot:body="props">
+                        <tbody>
+                            <tr v-for="lead in props.items" :key="lead.id" class="cursor-pointer">
+                                <td>{{ lead.name}}</td>
+                                <td>{{ lead.contact }}</td>
+                                <td><v-chip class="green lighten-5 green--text text--darken-3"  label>{{ lead.status }}</v-chip></td>
+                                <td>{{ lead.team_id }}</td>
+                                <td>
+                                    <div v-if="lead.activities" class="caption">
+                                        <div v-for="task in lead.activities.slice(0, 1)" :key="task.id" class="grey--text text--darken-2">
+                                            {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <v-btn icon><v-icon small @click="editedLeadDialogBox(lead.id)">mdi-pencil</v-icon></v-btn>
+                                    <v-btn icon><v-icon small @click="deleteLeadDialogBox(lead.id)">mdi-delete</v-icon></v-btn>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </template>
+                    <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                        Your search for "{{ search }}" found no results.
+                    </v-alert>
+                    <!-- <template v-slot:item.actions="{ item }">
+                        <v-icon
+                            small
+                            class="mr-2"
+                            @click="editedLeadDialogBox(item.id)"
+                        >
+                            mdi-pencil
+                        </v-icon>
+                        <v-icon
+                            small
+                            @click="deleteLeadDialogBox(item.id)"
+                        >
+                            mdi-delete
+                        </v-icon>
+                    </template> -->
+                </v-data-table>
 
-                <!--
-                    ===========================
+                <!-- ===========================
                           Edit Lead Dialog 
-                    ===========================
-                -->
+                ============================ -->
                 <v-dialog v-model="editLead" persistent max-width="600px">
                     <v-card>
                         <v-card-title>
@@ -244,6 +219,7 @@
                                         item-text="name"
                                         item-value="id"
                                         label="Assign Team"
+                                        v-model="editedLead.team_id"
                                     ></v-select>
                                 </v-col>
                                 <v-col cols="12" md="4">
@@ -252,6 +228,7 @@
                                         item-text="title"
                                         item-value="id"
                                         label="Group"
+                                        v-model="editedLead.group_id"
                                     ></v-select>
                                 </v-col>
                                 </v-row>
@@ -262,6 +239,66 @@
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="editLead = !editLead">Close</v-btn>
                             <v-btn color="blue darken-1" text @click="updateSingleLead(editedLead.id)">Save</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <!-- ===========================
+                    Add New Lead Dialog 
+                ============================ -->
+                <v-dialog v-model="newLeadDialog" persistent max-width="600px">
+                    <v-card>
+                        <v-card-title>
+                            <span class="text-h5">Add Client</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container>
+                                <v-row>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field label="Name" v-model="newLead.name" required></v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field label="Contact" v-model="newLead.contact"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="12">
+                                    <v-text-field label="Email" v-model="newLead.email" required></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-select
+                                        :items="leadStatus"
+                                        label="Lead Status"
+                                        item-text="title"
+                                        item-value="title"
+                                        @change="onChangeLeadStatus($event)"
+                                        v-model="newLead.status"
+                                    ></v-select>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-select
+                                        :items="teams"
+                                        item-text="name"
+                                        item-value="id"
+                                        label="Assign Team"
+                                        v-model="editedLead.team_id"
+                                    ></v-select>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-select
+                                        :items="groups"
+                                        item-text="title"
+                                        item-value="id"
+                                        label="Group"
+                                        v-model="editedLead.group_id"
+                                    ></v-select>
+                                </v-col>
+                                </v-row>
+                            </v-container>
+                            <small>*indicates required field</small>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="newLeadDialog = !newLeadDialog">Close</v-btn>
+                            <v-btn color="blue darken-1" text @click="saveNewLead">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -522,14 +559,16 @@ export default {
         headers: [
           { text: 'Name',align: 'start',sortable: false,value: 'name' },
           { text: 'Contact No.', value: 'contact' },
-          { text: 'Added On', value: 'created_at' },
+          { text: 'Status', value: 'status' },
           { text: 'Assign', value: 'team_id' },
-          { text: 'Last Remark', value: 'activites' },
+          { text: 'Last Remark', value: 'activities.notes' },
+          { text: 'Actions', value: 'actions', sortable: false },
         ],
         status_name: '',
-        leads:[],
         lead:{},
-        total_leads : '',
+        total_leads : 0,
+        loading: true,
+        options: {},
         page: 1,
         last_page : null,
         agent: null,
@@ -584,18 +623,15 @@ export default {
             {id: 5, title: 'Dead'}
         ],
         whateverActivatesThisLink: true,
-        loadMoreBtn: true,
-        pagination: {}
+        newLeadDialog: false,
+        newLead: {},
       }
     },
     methods:{
-        async fetchData(){
-            var self=this;
+        fetchData(){
             Lead.auth(this.page).then(response => {
-                self.leads = response.data.data;
-                self.total_leads = response.data.total;
-                self.makePagination(response.data)
-                // console.log(response.data)
+                this.leads = response.data;
+                this.loading = false
             });
         },
         async fetchGroups(){
@@ -711,7 +747,7 @@ export default {
 
             for (var key in selected) {
                 // console.log(selected[key]);
-                User.asignLeadToTeam(selected[key], {
+                User.asignLeadToTeam(selected[key].id, {
                     team_id: this.team_id
                 })
                 .then(response => {
@@ -730,7 +766,7 @@ export default {
 
             for (var key in selected) {
                 console.log(selected[key]);
-                User.asignLeadToTeam(selected[key], {
+                User.asignLeadToTeam(selected[key].id, {
                     group_id: this.group_id
                 })
                 .then(response => {
@@ -749,7 +785,7 @@ export default {
 
             for (var key in selected) {
                 // console.log(selected[key]);
-                User.asignLeadToTeam(selected[key], {
+                User.asignLeadToTeam(selected[key].id, {
                     status: this.status_name
                 })
                 .then(response => {
@@ -784,11 +820,11 @@ export default {
         deleteLeadDialogBox(lead){
             // console.log(lead)
             Lead.delete(lead)
-            this.fetchData();
         },
         editedLeadDialogBox(lead){
             this.editLead = true
-            Lead.details(lead).then(response => {
+            Lead.details(lead)
+            .then(response => {
                 this.editedLead = response.data.data;
             });
         },
@@ -864,19 +900,11 @@ export default {
 
 
         },
-        makePagination: function(data){
-            if(this.page < data.meta.last_page){
-                this.page++;
-            } else {
-                this.page--;
-            }
-            let paginate = {
-                current_page: data.meta.current_page,
-                last_page: data.meta.last_page,
-                next_page_url: data.links.next,
-                prev_page_url: data.links.prev
-            }
-            this.pagination = paginate;
+        saveNewLead(){
+            Lead.new(this.newLead)
+            .then(() => {
+                this.snackbar = true
+            })
         }
     },
     computed:{
@@ -885,6 +913,7 @@ export default {
                 return lead.name.toLowerCase().match(this.search.toLowerCase());
             })
         },
+        leads(){  return this.$store.state.leads; },
         selectAll:{
             get : function (){
                 return this.leads ? this.selectedLeads.length == this.leads.length : false;
@@ -910,6 +939,7 @@ export default {
         User.auth().then(response => {
             this.shareData.agent_id = response.data.data.id;
         });
+        this.$store.dispatch('getLeads');
     }
 }
 </script>

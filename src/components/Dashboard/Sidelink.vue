@@ -10,7 +10,6 @@
     <v-navigation-drawer
       app
       color="#111828"
-      class="d-none d-md-flex"
     >
         <div class="white--text text-h5 text-center font-weight-bold mt-4">
           agnt<span class="blue--text">.</span>

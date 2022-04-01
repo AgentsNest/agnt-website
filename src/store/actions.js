@@ -12,8 +12,8 @@ export const getAuth = ({ commit }) => {
 
 export const getLeads = ({ commit }) => {
   Lead.auth().then((response) => {
-    commit("SET_LEADS", response.data.data);
-    commit("TOTAL_LEADS", response.data.meta.total);
+    commit("SET_LEADS", response.data);
+    commit("TOTAL_LEADS", response.data.length);
   });
 };
 export const singleLead = ({ commit }, leadId) => {

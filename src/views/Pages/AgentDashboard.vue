@@ -1,13 +1,13 @@
 <template>
-    <v-card flat>
+    <div>
       <Navbar/>
 
-      <v-card class="bg-gradient px-4 pt-3 pb-10 mt-n6 rounded-t-xl d-md-none" flat>
+      <v-card class="bg-gradient px-4 py-3 mt-n6 rounded-t-xl d-md-none" flat tile>
         <v-icon color="white" size="20">mdi-view-dashboard</v-icon>
         <span class="white--text font-weight-bold ml-3">Dashboard</span>
       </v-card>
       
-      <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 mt-n7 mt-md-0 fill-height">
+      <v-card tile flat>
 
         <v-container>
           <v-row>
@@ -160,7 +160,7 @@
                               <span class="white--text">Clear</span>
                           </v-btn>
                       </div>
-                      <v-card class="overflow-y-auto" flat height="225">
+                      <v-card class="overflow-y-auto" flat max-height="225">
                           <div class="box" v-for="notification in unreadnotifications" :key="notification.id">
                               <div class="px-3 py-2">
                                   <div class="body-2">
@@ -215,7 +215,7 @@
         </v-container>
       </v-card>
 
-    </v-card>
+    </div>
 </template>
 
 <script>
@@ -224,6 +224,7 @@ import Client from '../../Apis/Client'
 import Navbar from '../../components/Dashboard/Navbar.vue'
 import Website from '../../Apis/Website'
 import Graphic from '../../Apis/Graphic'
+import Notification from '../../Apis/Notification'
 
 export default {
   components:{

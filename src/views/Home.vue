@@ -11,13 +11,13 @@
 
             <v-btn 
                 text elevation="0"
-                class="text-capitalize d-none d-md-flex py-6 mr-6" 
+                class="text-capitalize d-none d-md-flex py-3 mr-6 amber rounded-md" 
                 outlined
                 @click.stop="bookDemo = true"
             >Book Demo Now</v-btn>
 
             <div class="align-center d-none d-md-flex">
-                <v-btn v-if="!isLoggedIn" elevation="0" class="text-capitalize gradient rounded-xl px-8" :to="{name: 'Login'}" link>Login</v-btn>
+                <v-btn v-if="!isLoggedIn" elevation="0" class="text-capitalize gradient rounded-md px-8" dark :to="{name: 'Login'}" link>Login</v-btn>
                 <v-btn v-else elevation="0" class="text-capitalize gradient rounded-lg px-8 py-6" dark :to="{name: 'Dashboard'}" link>Dashboard</v-btn>
             </div>
 
@@ -33,15 +33,28 @@
             <v-card class="py-12" color="#fefefe" flat tile>
                 <v-container>
                     <v-row class="">
+                        <v-col cols="12" md="6" class="px-md-0">
+                            <div class="text-h3 mt-md-12 font-weight-medium d-none d-md-block">Grow your business</div>
+                            <div class="text-h3 mt-4 font-weight-medium d-none d-md-block">faster with agentsnest</div>
+                            <div class="grey--text text--darken-4 my-6" style="font-size: 22px">One solution for all you digital, market, and personal business needs.</div>
+
+                            <div class="d-flex align-center">
+                                <v-btn fab class="rounded-lg mr-2" x-small depressed color="amber lighten-5"><v-icon color="amber darken-3">mdi-check</v-icon></v-btn>
+                                One-click-share property details with leads
+                            </div>
+                            <div class="d-flex align-center my-3">
+                                <v-btn fab class="rounded-lg mr-2" x-small depressed color="amber lighten-5"><v-icon color="amber darken-3">mdi-check</v-icon></v-btn>
+                                Manage your team member from one place
+                            </div>
+                            <div class="d-flex align-center">
+                                <v-btn fab class="rounded-lg mr-2" x-small depressed color="amber lighten-5"><v-icon color="amber darken-3">mdi-check</v-icon></v-btn>
+                                Activity tracker with Real-time notifications.
+                            </div>
+
+                            <v-btn class="amber accent-4 rounded-lg pa-7 mt-6" dark large depressed @click.stop="bookDemo = true">Book Demo Now</v-btn>
+                        </v-col>
                         <v-col cols="12" md="6">
                             <v-img src="../assets/img/hero.png" lazy-src="../assets/img/hero.png" contain width="100%" height="100%" class="mx-auto"></v-img>
-                        </v-col>
-                        <v-col cols="12" md="6" class="px-md-0 text-center">
-                            <div class="text-center display-2 mt-md-12 font-weight-medium d-none d-md-block">Grow your business</div>
-                            <div class="text-center display-2 mt-4 font-weight-medium d-none d-md-block">faster with agentsnest</div>
-                            <div class="text-center grey--text text--darken-2 my-8">One solution for all you digital, market, and personal business needs.</div>
-                            <v-btn class="amber accent-3 rounded-lg pa-7" dark large depressed>Save time and invent</v-btn>
-                            <div class="mt-3 grey--text text--darken-2 mb-5">Towards a better future</div>
                         </v-col>
                     </v-row>
 
@@ -49,7 +62,7 @@
                         <v-row class="shadow-box pa-8 rounded-lg align-center">
                             <v-col>
                                 <div class="sm-text-center display-1 sm-title secondary-color">Share property details and Track activity</div>
-                                <div class="grey--text text--darken-1 sm-caption sm-text-center mt-3 mb-5">Forget all the hassles of sharing property details like floor plans, elevation images, sample flat images, and construction updates with a potential lead, with Agentsnest, you have the power of sharing it all via just a simple click. Select properties from our pool, or add your own, no more clusters of images, just a single link. And with our unique tracking system, keep a track of each property shared, opened/unopened timestamps, to help you filter out the best clientele.</div>
+                                <div class="grey--text text--darken-1 sm-caption subtitle-1 sm-text-center mt-3 mb-5">Forget all the hassles of sharing property details like floor plans, elevation images, sample flat images, and construction updates with a potential lead, with Agentsnest, you have the power of sharing it all via just a simple click. Select properties from our pool, or add your own, no more clusters of images, just a single link. And with our unique tracking system, keep a track of each property shared, opened/unopened timestamps, to help you filter out the best clientele.</div>
                             </v-col>
                             <v-col>
                                 <v-img src="../assets/img/track.png"></v-img>
@@ -62,7 +75,7 @@
             </v-card>
 
             <!-- Existing Clients -->
-            <v-card class="py-12 mb-2">
+            <!-- <v-card class="py-12 mb-2">
                 <v-container>
                     <v-row class="align-center">
                         <v-col>
@@ -76,7 +89,7 @@
                         </v-col>
                     </v-row>
                 </v-container>
-            </v-card>
+            </v-card> -->
 
             <!-- Grow Your Business Faster -->
             <v-card class="py-16" flat tile color="#111828">
@@ -125,7 +138,7 @@
             </v-card>
 
             <!-- CRM Real-time Updates -->
-            <v-card class="py-12">
+            <!-- <v-card class="py-12">
                 <v-container>
                     <v-row class="align-center">
                         <v-col>
@@ -139,7 +152,7 @@
                         </v-col>
                     </v-row>
                 </v-container>
-            </v-card>
+            </v-card> -->
 
             <!-- Brand Idenetity -->
             <v-card class="py-12 grey lighten-4" flat tile>
@@ -151,7 +164,7 @@
                         <v-col>
                             <section class="px-5">
                                 <div class="sm-text-center display-1 sm-title secondary-color">Build your Brand Identity</div>
-                                <div class="grey--text text--darken-1 sm-caption sm-text-center mt-3 mb-5">Forget allthe hassles of sharing property details like floor plans, elevation images, sample flat images, and construction updates with a potential, with Agentsnest, you have the power of sharing it all via just a simple click. Select properties from our pool</div>
+                                <div class="grey--text text--darken-1 sm-caption subtitle-1 sm-text-center mt-3 mb-5">Forget allthe hassles of sharing property details like floor plans, elevation images, sample flat images, and construction updates with a potential, with Agentsnest, you have the power of sharing it all via just a simple click. Select properties from our pool</div>
                             </section>
                         </v-col>
                     </v-row>
@@ -184,7 +197,7 @@
                         <v-col cols="12" md="6">
                             <section class="px-8">
                                 <div class="sm-text-center display-1 sm-title secondary-color">GET YOU FREE DEMO NOW!</div>
-                                <div class="grey--text text--darken-1 sm-caption sm-text-center mt-3 mb-5">Our integrated lead genneration system gives you real-time updates whenever a new lead enters your ad campaigns. The CRM helps you manage, track, and share details with the leads and assists you to filter out the potential leads. You can assign leads to your team members, or even categorise them in.</div>
+                                <div class="grey--text text--darken-1 sm-caption subtitle-1 sm-text-center mt-3 mb-5">Our integrated lead genneration system gives you real-time updates whenever a new lead enters your ad campaigns. The CRM helps you manage, track, and share details with the leads and assists you to filter out the potential leads. You can assign leads to your team members, or even categorise them in.</div>
                             </section>
                         </v-col>
                         <v-col cols="12" md="6" class="align-center flex flex-col">
@@ -207,19 +220,19 @@
                     <v-row class="px-2">
                         <v-col cols="12" md="6">
                             <div class="title font-weight-bold secondary-color">agnt.</div>
-                            <div class="caption grey--text text--darken-1 mt-2">A software curated for Real Estate Agents offering an end-to-end business solution. We work around simplifying each tool for agents to manage their clients, properties, and the team on one platform.</div>
+                            <div class="subtitle-1 grey--text text--darken-1 mt-2">A software curated for Real Estate Agents offering an end-to-end business solution. We work around simplifying each tool for agents to manage their clients, properties, and the team on one platform.</div>
                         </v-col>
                         <v-col cols="12" md="6">
                             <div class="title font-weight-bold secondary-color">Contact Us</div>
-                            <div class="body-2 grey--text text--darken-1 mb-4"><span class="font-weight-bold secondary-color">Address:</span> Sushma Infinium, Chandigarh-Ambala Highway, Zirkpur, Punjab, India</div>
+                            <div class="subtitle-1 grey--text text--darken-1 mb-4"><span class="font-weight-bold secondary-color">Address:</span> Sushma Infinium, Chandigarh-Ambala Highway, Zirkpur, Punjab, India</div>
 
-                            <div class="d-flex mb-2">
+                            <!-- <div class="d-flex mb-2">
                                 <v-icon size="20" color="#1e2d55">mdi-phone</v-icon>
-                                <div class="caption ml-3 grey--text text--darken-1">+91 123 45678</div>
-                            </div>
+                                <div class="subtitle-1 ml-3 grey--text text--darken-1">+91 123 45678</div>
+                            </div> -->
                             <div class="d-flex">
                                 <v-icon size="20" color="#1e2d55">mdi-email</v-icon>
-                                <div class="caption ml-3 grey--text text--darken-1">hello@agentsnest.com</div>
+                                <div class="subtitle-1 ml-3 grey--text text--darken-1">hello@agentsnest.com</div>
                             </div>
 
                         </v-col>
@@ -238,27 +251,27 @@
         <!-- Book Demo Dialog -->
         <v-dialog
             transition="dialog-top-transition"
-            width="70vw"
             v-model="bookDemo"
+            width="80vh"
         >
-            <v-card class="rounded-lg">
+            <v-card class="rounded-lg mx-auto book-box">
                 <v-toolbar flat>
                     <v-spacer></v-spacer>
                     <v-btn icon @click="bookDemo = !bookDemo"><v-icon>mdi-close</v-icon></v-btn>
                 </v-toolbar>
-                <div class="d-flex">
-                    <div class="px-16 flex-grow-2">
+                <v-card-text class="">
+                    <div class="">
                         <div class="text-h4 mb-8">Book Demo Now</div>
-                        <input type="text" placeholder="Name" class="search-input">
-                        <input type="email" placeholder="Email" class="search-input">
-                        <input type="text" placeholder="Phone" class="search-input">
+                        <div><input type="text" placeholder="Name" class="search-input"></div>
+                        <div><input type="email" placeholder="Email" class="search-input"></div>
+                        <div><input type="text" placeholder="Phone" class="search-input"></div>
                         <v-btn block depressed class="bg-gradient text-capitalize my-4" x-large dark>Book Now</v-btn>
-                        <div class="mt-10">250+ BROKERS IN 10+ CITIES TRUST US</div>
+                        <!-- <div class="mt-10">250+ BROKERS IN 10+ CITIES TRUST US</div> -->
                     </div>
-                    <div>
+                    <!-- <div>
                         <v-img src="../assets/img/plans.jpg"></v-img>
-                    </div>
-                </div>
+                    </div> -->
+                </v-card-text>
             </v-card>
         </v-dialog>
     </v-card>
@@ -332,7 +345,7 @@ export default {
   border-radius: 8px;
   padding: 0.8em 1em;
   margin-bottom: 1em;
-  width: 22vw;
+  width: 100%;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }
 </style>

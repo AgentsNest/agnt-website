@@ -21,12 +21,12 @@
             </v-btn>
         </v-card>
 
-        <v-card class="my-8 d-none d-md-flex" elevation="0">
+        <!-- <v-card class="my-8 d-none d-md-flex" elevation="0">
             <div class="mr-5">
               <v-btn color="#111828" class="rounded-l-lg mr-1" large dark tile><v-icon>mdi-card-account-details</v-icon></v-btn>
               <v-btn dark color="#111828" tile class="rounded-r-lg text-capitalize" large>V-Card</v-btn>
             </div>
-        </v-card>
+        </v-card> -->
 
         <v-card flat width="100%" class="white rounded-t-xl pb-16 pt-4 mt-n7 mt-md-0 fill-height">
         <v-container>

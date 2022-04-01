@@ -1,5 +1,5 @@
 <template>
-    <v-card flat min-height="100vh" tile class="pa-md-5">
+    <v-card flat min-height="100vh" max-width="80vw" tile class="pa-md-5">
 
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
@@ -30,7 +30,7 @@
             </div>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pt-2 mt-n7 mt-md-0">
+        <v-card flat class="white rounded-t-xl pt-2 mt-n7 mt-md-0">
           
           <div class="d-flex align-center mx-2 mb-3 search-input">
             <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
@@ -44,11 +44,11 @@
 
           <v-divider></v-divider>
 
-          <v-card flat class="py-2 px-3">
+          <!-- <v-card flat class="py-2 px-3"> -->
             <!-- Search Results Website -->
             <div v-if="showsearch">
               <v-row>
-                  <v-col md="4" v-for="website in results" :key="website.id">
+                  <v-col md="4" cols="12" v-for="website in results" :key="website.id">
                     <v-card class="transparent rounded-lg" elevation="1">
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
@@ -127,7 +127,7 @@
                 </v-col>
               </v-row>
             </div>
-          </v-card>
+          <!-- </v-card> -->
         </v-card>
       
         <!-- All Leads Dialog -->
@@ -482,7 +482,7 @@ export default {
 
 <style scoped>
 .content-card{
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 .bg-gradient{
   background-image: linear-gradient(to right, #283593, #3cabba);

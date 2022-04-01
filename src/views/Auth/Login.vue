@@ -11,7 +11,7 @@
                 </v-img>
             </v-col>
             <v-col cols="12" md="6">
-                <v-card flat class="pa-4 transparent flex flex-col pa-md-16 mt-md-12 align-center" height="100%">
+                <v-card flat class="pa-4 white flex flex-col pa-md-16 align-center" height="100vh">
                     <v-card-text>
                         <div class="title font-weight-bold">Realtor Login</div>
                         <div class="mb-5">Please enter the details below to continue.</div>

@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <v-card class="rounded-xl pa-md-5 pa-2 shadow" height="100vh" width="100%" elevation="0">
+    <div class="flex-grow-1">
 
             <v-toolbar flat>
                 <v-btn class="bg-gradient" dark @click="$router.go(-1)" depressed>
@@ -14,133 +13,135 @@
             </v-card-title>
 
             <!-- Properties -->
-            <v-row class="px-4">
-                <v-col md="6" cols="12">
-                    <v-img
-                        v-if="website.website_images"
-                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
-                        lazy-src="../../assets/img/bg-grey.svg"
-                        aspect-ratio="1.9"
-                        max-width="50vw"
-                        class="rounded-lg"
-                    ></v-img>
-                    
+            <v-container>
+                <v-row class="px-4">
+                    <v-col md="6" cols="12">
+                        <v-img
+                            v-if="website.website_images"
+                            :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
+                            lazy-src="../../assets/img/bg-grey.svg"
+                            max-height="400px"
+                            width="100vw"
+                            contain
+                            class="rounded-lg"
+                        ></v-img>
+                        
 
-                    <v-expansion-panels>
-                        <v-expansion-panel>
-                            <v-expansion-panel-header>Add Price List</v-expansion-panel-header>
-                            <v-expansion-panel-content>
-                                <v-card flat>
-                                    <!-- <v-alert text dense color="grey darken-3" border="left">
-                                        <v-row class="center py-1" align="center">
-                                            <v-col class="grow body-2 grey--text text--darken-3">Image Gallery ({{previewImage.length}})</v-col>
-                                            <v-col class="shrink">
-                                                <v-btn outlined x-small class="grey darken-2" dark>
-                                                    <label for="gallery">
-                                                        Upload
-                                                        <input 
-                                                            type="file" 
-                                                            id="gallery" 
-                                                            hidden multiple 
-                                                            ref="files" 
-                                                            @change="updateImageList"
-                                                            accept="image/png, image/jpeg, image/bmp"
-                                                            :maxlength="maxLength"
-                                                        >
-                                                    </label>
-                                                </v-btn>
+                        <v-expansion-panels>
+                            <v-expansion-panel>
+                                <v-expansion-panel-header>Add Price List</v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                    <v-card flat>
+                                        <!-- <v-alert text dense color="grey darken-3" border="left">
+                                            <v-row class="center py-1" align="center">
+                                                <v-col class="grow body-2 grey--text text--darken-3">Image Gallery ({{previewImage.length}})</v-col>
+                                                <v-col class="shrink">
+                                                    <v-btn outlined x-small class="grey darken-2" dark>
+                                                        <label for="gallery">
+                                                            Upload
+                                                            <input 
+                                                                type="file" 
+                                                                id="gallery" 
+                                                                hidden multiple 
+                                                                ref="files" 
+                                                                @change="updateImageList"
+                                                                accept="image/png, image/jpeg, image/bmp"
+                                                                :maxlength="maxLength"
+                                                            >
+                                                        </label>
+                                                    </v-btn>
+                                                </v-col>
+                                            </v-row>
+                                        </v-alert> -->
+
+                                        <v-row class="px-2">
+                                            <v-col cols="4" v-for="(preview, index) in previewImage" :key="index">
+                                                <v-img :src="preview.src" class="align-top rounded-lg" aspect-ratio="1.4">
+                                                    <v-btn class="blue-grey darken-4" dark fab x-small tile @click="clearImage(index)">
+                                                        <v-icon>mdi-close</v-icon>
+                                                    </v-btn>
+                                                </v-img>
+                                            </v-col>
+                                            <label for="gallery" class="addNewbtn">
+                                                <v-icon>mdi-plus</v-icon>
+                                                <input 
+                                                    type="file" 
+                                                    id="gallery" 
+                                                    hidden multiple 
+                                                    ref="files" 
+                                                    @change="updateImageList"
+                                                    accept="image/png, image/jpeg, image/bmp"
+                                                    :maxlength="maxLength"
+                                                >
+                                            </label>
+                                        </v-row>
+
+                                        <v-row>
+                                            <v-col cols="4" v-for="image in pricegallery" :key="image.id">
+                                                <v-img
+                                                    :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                                    aspect-ratio="1.4"
+                                                    cover
+                                                >
+                                                    <v-btn x-small fab tile @click="deletePriceImage(image.id)"><v-icon>mdi-close</v-icon></v-btn>
+                                                </v-img>
                                             </v-col>
                                         </v-row>
-                                    </v-alert> -->
+                                        
+                                        <v-btn small block depressed class="mt-6" @click="uploadImage">Save</v-btn>
+                                    </v-card>
+                                </v-expansion-panel-content>
+                            </v-expansion-panel>
+                        </v-expansion-panels>
 
-                                    <v-row class="px-2">
-                                        <v-col cols="4" v-for="(preview, index) in previewImage" :key="index">
-                                            <v-img :src="preview.src" class="align-top rounded-lg" aspect-ratio="1.4">
-                                                <v-btn class="blue-grey darken-4" dark fab x-small tile @click="clearImage(index)">
-                                                    <v-icon>mdi-close</v-icon>
-                                                </v-btn>
-                                            </v-img>
-                                        </v-col>
-                                        <label for="gallery" class="addNewbtn">
-                                            <v-icon>mdi-plus</v-icon>
-                                            <input 
-                                                type="file" 
-                                                id="gallery" 
-                                                hidden multiple 
-                                                ref="files" 
-                                                @change="updateImageList"
-                                                accept="image/png, image/jpeg, image/bmp"
-                                                :maxlength="maxLength"
-                                            >
-                                        </label>
-                                    </v-row>
+                    </v-col>
+                    <v-col md="6" cols="12">
+                        <v-simple-table>
+                            <thead><tr class="grey lighten-3"><th>Sharing History</th><th></th></tr></thead>
+                            <tbody>
+                                <tr class="grey--text text--darken-3">
+                                    <td>Total Shared</td>
+                                    <td>
+                                        {{total}}
+                                        <v-btn icon @click="leadListSidebar = !leadListSidebar"><v-icon>mdi-chevron-right</v-icon></v-btn>
+                                    </td>
+                                </tr>
+                                <tr class="grey--text text--darken-3">
+                                    <td>Opened</td>
+                                    <td>
+                                        {{opened}}
+                                        <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
+                                    </td>
+                                </tr>
+                                <tr class="grey--text text--darken-3">
+                                    <td>Unopened</td>
+                                    <td>
+                                        {{unopened}}
+                                        <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </v-simple-table>
+                        <v-btn class="text-capitalize" outlined block @click="dialog = true">Preview</v-btn>
 
-                                    <v-row>
-                                        <v-col cols="4" v-for="image in pricegallery" :key="image.id">
-                                            <v-img
-                                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
-                                                aspect-ratio="1.4"
-                                                cover
-                                            >
-                                                <v-btn x-small fab tile @click="deletePriceImage(image.id)"><v-icon>mdi-close</v-icon></v-btn>
-                                            </v-img>
-                                        </v-col>
-                                    </v-row>
-                                    
-                                    <v-btn small block depressed class="mt-6" @click="uploadImage">Save</v-btn>
-                                </v-card>
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
-                    </v-expansion-panels>
+                        <!-- all leads dialog by category -->
+                        <v-navigation-drawer v-model="leadListSidebar" tile absolute temporary right width="30vw">
+                            <v-card flat tile>
+                                <v-list>
+                                    <v-list-item v-for="lead in leads" :key="lead.id">
+                                        <v-list-item-content>
+                                            <v-list-item-title v-text="lead.name"></v-list-item-title>
+                                            <v-list-item-subtitle></v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list>
 
-                </v-col>
-                <v-col md="6" cols="12">
-                    <v-simple-table>
-                        <thead><tr class="grey lighten-3"><th>Sharing History</th><th></th></tr></thead>
-                        <tbody>
-                            <tr class="grey--text text--darken-3">
-                                <td>Total Shared</td>
-                                <td>
-                                    {{total}}
-                                    <v-btn icon @click="leadListSidebar = !leadListSidebar"><v-icon>mdi-chevron-right</v-icon></v-btn>
-                                </td>
-                            </tr>
-                            <tr class="grey--text text--darken-3">
-                                <td>Opened</td>
-                                <td>
-                                    {{opened}}
-                                    <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
-                                </td>
-                            </tr>
-                            <tr class="grey--text text--darken-3">
-                                <td>Unopened</td>
-                                <td>
-                                    {{unopened}}
-                                    <v-btn icon><v-icon>mdi-chevron-right</v-icon></v-btn>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </v-simple-table>
-                    <v-btn class="text-capitalize" outlined block @click="dialog = true">Preview</v-btn>
+                            </v-card>
+                        </v-navigation-drawer>
+                    </v-col>
+                </v-row>
+            </v-container>
 
-                    <!-- all leads dialog by category -->
-                    <v-navigation-drawer v-model="leadListSidebar" tile absolute temporary right width="30vw">
-                        <v-card flat tile>
-                            <v-list>
-                                <v-list-item v-for="lead in leads" :key="lead.id">
-                                    <v-list-item-content>
-                                        <v-list-item-title v-text="lead.name"></v-list-item-title>
-                                        <v-list-item-subtitle></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-list>
-
-                        </v-card>
-                    </v-navigation-drawer>
-                </v-col>
-            </v-row>
-
-        </v-card>
 
         <!-- Website Preview -->
         <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -334,7 +335,7 @@ export default {
 
 <style scoped>
 .content-card{
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 .search-input{
   background-color: #fff;

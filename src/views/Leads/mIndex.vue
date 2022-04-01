@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-grow-1">
+    <div>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{ snackbarText }}
             <template v-slot:action="{ attrs }">
@@ -9,8 +9,8 @@
 
         <Navbar/>
 
-        <v-card class="bg-gradient px-4 pt-3 pb-10 mt-n6 rounded-t-xl d-md-none d-flex align-center" flat>
-            <div>
+        <v-card class="bg-gradient d-flex px-4 py-3 mt-n6 rounded-t-xl d-md-none" flat tile>
+            <!-- <div>
                 <v-icon color="white" size="18">mdi-format-list-bulleted-square</v-icon>
                 <span class="white--text  ml-2 body-2 font-weight-bold">Clients ({{total_leads}})</span>
             </div>
@@ -35,29 +35,26 @@
                 >
                     <v-icon size="20" color="white">mdi-chevron-double-right</v-icon>
                 </v-btn>
+            </div> -->
+            
+            <div>
+                <v-icon color="white" size="18">mdi-format-list-bulleted-square</v-icon>
+                <span class="white--text  ml-2 body-2 font-weight-bold">Clients</span>
             </div>
-             <!-- <v-btn-toggle dense rounde class="transparent">
-                <v-btn x-small tile fab
-                    @click="fetchData(pagination.prev_page_url)"
-                    :disabled="!pagination.prev_page_url"
-                    color="#3cabba"
-                >
-                    <v-icon size="20" color="white">mdi-chevron-double-left</v-icon>
-                </v-btn>
-                <v-btn x-small tile fab class="transparent white--text">
-                    {{pagination.current_page}}/{{pagination.last_page}}
-                </v-btn>
-                <v-btn x-small tile fab
-                    @click="fetchData(pagination.next_page_url)"
-                    :disabled="!pagination.next_page_url"
-                    color="#3cabba"
-                >
-                    <v-icon size="20" color="white">mdi-chevron-double-right</v-icon>
-                </v-btn>
-            </v-btn-toggle> -->
+            <v-spacer></v-spacer>
+            <v-text-field
+                dense
+                dark
+                color="white"
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+            ></v-text-field>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl overflow-y-auto mt-n7 mt-md-0">
+        <v-card tile flat>
 
             <!-- <v-toolbar flat dense>
                 <div class="font-weight-bold">Total Leads ({{totalLeads}})</div>
@@ -106,7 +103,7 @@
             
 
             <v-card height="100%" class="" flat>
-                <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
+                <!-- <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
                     <v-card-actions class="pa-3">
                         <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
                         <div>
@@ -124,18 +121,36 @@
                             </div>
                         </div>
                         <v-spacer></v-spacer>
-                        <!-- <v-btn :to="{name: 'singleLead', params: {id:lead.id}}" icon>
-                            <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
-                        </v-btn> -->
                         <router-link
                             :to="{name: 'singleLead', params: {id:lead.id}}"
                         >
                             <v-icon color="grey ">mdi-chevron-double-right</v-icon>
                         </router-link>
                     </v-card-actions>
-                </v-card>               
+                </v-card> -->
                 
-                <!-- <v-btn block @click="loadMoreDesktop" v-if="loadMoreBtn" class="my-3 rounded-lg text-capitalize">load more</v-btn> -->
+                <v-data-table :headers="headers" :items="leads" :search="search" :items-per-page="15">
+                    <template v-slot:body="props">
+                        <tbody>
+                            <tr v-for="lead in props.items" :key="lead.id">
+                                <td style="width: 100vw" class="py-2 cursor-pointer">
+                                    <router-link :to="{name: 'singleLead', params: {id:lead.id}}">
+                                        <div class="grey--text text--darken-4 subtitle-1 font">{{ lead.name}}</div>
+                                        <div class="grey--text text--darken-2">{{ lead.contact }}</div>
+                                        <div v-if="lead.activities" class="caption">
+                                            <div v-for="task in lead.activities.slice(0, 1)" :key="task.id" class="grey--text text--darken-2">
+                                                {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
+                                            </div>
+                                        </div>
+                                    </router-link>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </template>
+                    <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                        Your search for "{{ search }}" found no results.
+                    </v-alert>
+                </v-data-table>
 
             </v-card>
 
@@ -517,11 +532,12 @@ export default {
         search: '',
         benched: 0,
         headers: [
-          { text: 'Name',align: 'start',sortable: false,value: 'name' },
-          { text: 'Contact No.', value: 'contact' },
-          { text: 'Added On', value: 'created_at' },
-          { text: 'Assign', value: 'team_id' },
-          { text: 'Last Remark', value: 'activites' },
+            { sortable: false },
+            { text: 'Name',align: 'start',sortable: false,value: 'name' },
+            { text: 'Contact No.', value: 'contact', sortable: false },
+            { text: 'Added On', value: 'created_at', sortable: false },
+            { text: 'Assign', value: 'team_id', sortable: false },
+            { text: 'Last Remark', value: 'activites', sortable: false },
         ],
         status_name: '',
         page: 1,
@@ -599,7 +615,9 @@ export default {
         multipleActionToolbar: false,
         loadMoreBtn: true,
         pagination: {},
-        leads:[]
+        leads:[],
+        total_leads: '',
+        lead: ''
       }
     },
     methods:{
@@ -610,9 +628,8 @@ export default {
         async fetchData(){
             Lead.auth(this.page).then(response => {
                 this.leads = response.data.data;
-                this.total_leads = response.data.meta.total;
-                this.makePagination(response.data)
-                console.log(response.data)
+                // this.total_leads = response.data.meta.total;
+                // console.log(response.data)
             });
         },
         async fetchGroups(){
