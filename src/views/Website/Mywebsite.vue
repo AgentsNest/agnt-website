@@ -1,5 +1,5 @@
 <template>
-    <v-card flat min-height="100vh" max-width="80vw" tile class="pa-md-5">
+    <v-card flat tile class="pa-md-5">
 
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
@@ -10,16 +10,16 @@
         
         <Navbar/>
 
-        <v-card class="bg-gradient px-4 pt-1 pb-8 mt-n6 mt-md-0 d-md-none rounded-t-xl d-flex align-center" flat>
+        <v-card class="bg-gradient px-4 py-2 d-flex align-center mt-n6 rounded-t-xl d-md-none" flat tile>
             <v-btn class="text-capitalize dark body-2" text dark>
-              <v-icon left class="mr-2">mdi-office-building-outline</v-icon>
+              <v-icon left>mdi-office-building-outline</v-icon>
               My Projects
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn class="rounded-xl text-capitalize" small outlined dark :to="{name: 'Website'}">All Projects</v-btn>
         </v-card>
 
-        <v-card class="mt-8 mb-5 d-none d-md-flex" elevation="0">
+        <v-card class="mt-5 mb-5 d-none d-md-flex" elevation="0">
             <div class="mr-5">
               <v-btn class="rounded-l-lg mr-1" color="#111828" large dark tile><v-icon>mdi-view-dashboard</v-icon></v-btn>
               <v-btn dark tile color="#111828" class="rounded-r-lg text-capitalize" large>My Projects</v-btn>
@@ -30,7 +30,7 @@
             </div>
         </v-card>
 
-        <v-card flat class="white rounded-t-xl pt-2 mt-n7 mt-md-0">
+        <v-card flat tile class="">
           
           <div class="d-flex align-center mx-2 mb-3 search-input">
             <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">

@@ -1,5 +1,5 @@
 <template>
-    <v-card flat min-height="100vh" tile class="pa-md-5">
+    <v-card flat tile>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
             <template v-slot:action="{ attrs }">
@@ -9,7 +9,7 @@
 
         <Navbar/>
 
-        <v-card class="bg-gradient px-4 pt-1 pb-8 mt-n6 mt-md-0 d-md-none rounded-t-xl d-flex align-center" flat>
+        <v-card class="bg-gradient px-4 pt-2 pb-2 mt-n6 mt-md-0 d-md-none rounded-t-xl d-flex align-center" flat tile>
             <v-btn class="text-capitalize" small text dark :to="{name: 'MyWebsite'}">
               <v-icon left class="mr-2">mdi-office-building-outline</v-icon>
               My Projects
@@ -20,7 +20,7 @@
             </v-btn>
         </v-card>
 
-        <v-card class="my-8 d-none d-md-flex" elevation="0">
+        <v-card class="my-8 px-5 d-none d-md-flex" elevation="0">
             <div class="shadow rounded-lg">
               <v-btn dark large><v-icon>mdi-view-dashboard</v-icon></v-btn>
               <v-btn class="text-capitalize" text :to="{name: 'MyWebsite'}" link>My Projects</v-btn>
@@ -31,7 +31,7 @@
             </div>
         </v-card>
 
-        <v-card flat width="100%" class="white rounded-t-xl pt-3 mt-n7 mt-md-0">
+        <v-card flat tile>
           
           <div class="d-flex align-center mx-2 mb-3 search-input">
             <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
@@ -45,11 +45,11 @@
 
           <v-divider></v-divider>
 
-          <v-card flat class="pt-1 px-3" height="100%">
+          <v-card flat class="pt-1 px-3">
             <!-- Search Results Website -->
             <div v-if="showsearch">
               <v-row>
-                  <v-col md="4" v-for="website in results" :key="website.id">
+                  <v-col md="4" cols="12" v-for="website in results" :key="website.id">
                     <v-card class="transparent rounded-lg" elevation="1">
                       
                       <!-- Website Preview -->
@@ -71,7 +71,7 @@
                                 <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                             </v-toolbar>
 
-                            <v-container class="pa-0">
+                            <v-container>
                               <v-row>
                                   <v-col md="8" offset-md="2" cols="12">
                                       <v-card class="mx-auto" tile>
@@ -179,14 +179,14 @@
                               class="rounded-lg shadow-xl my-2"
                             ></v-img>
                         </template>
-                        <v-card tile>
+                        <v-card tile flat>
                             <v-toolbar dark color="#111828">
                                 <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
                                 <v-spacer></v-spacer>
                                 <v-btn icon dark @click="preview[website.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                             </v-toolbar>
 
-                            <v-container class="pa-0">
+                            <v-container>
                               <v-row>
                                   <v-col md="8" offset-md="2" cols="12">
                                       <v-card class="mx-auto" tile>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-grow-1">
+    <div>
         <Navbar/>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Profile Updated

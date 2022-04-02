@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-grow-1">
+    <div>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             Group Created Successfully
             <template v-slot:action="{ attrs }">

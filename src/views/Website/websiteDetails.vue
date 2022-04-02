@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-grow-1">
+    <div>
 
             <v-toolbar flat>
                 <v-btn class="bg-gradient" dark @click="$router.go(-1)" depressed>
@@ -20,9 +20,8 @@
                             v-if="website.website_images"
                             :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
                             lazy-src="../../assets/img/bg-grey.svg"
-                            max-height="400px"
-                            width="100vw"
-                            contain
+                            aspect-ratio="1.7"
+                            cover
                             class="rounded-lg"
                         ></v-img>
                         
@@ -122,7 +121,7 @@
                                 </tr>
                             </tbody>
                         </v-simple-table>
-                        <v-btn class="text-capitalize" outlined block @click="dialog = true">Preview</v-btn>
+                        <v-btn class="text-capitalize amber accent-3" outlined block @click="dialog = true">Preview</v-btn>
 
                         <!-- all leads dialog by category -->
                         <v-navigation-drawer v-model="leadListSidebar" tile absolute temporary right width="30vw">

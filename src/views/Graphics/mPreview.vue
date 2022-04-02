@@ -512,8 +512,6 @@ export default {
             a.remove();
         },
         download(){
-            // console.log(this.$refs.stage.getNode().toDataURL({ pixelRatio: 3 }));
-
             var dataURL = this.$refs.stage.getNode().toDataURL({ pixelRatio: 2 });
 
             var head = document.getElementsByTagName('head')[0];
@@ -521,23 +519,43 @@ export default {
             var a = document.createElement('a');
 
             if (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) { //iOS = Iphone, Ipad, etc.
-                var img = new Image();
-                img.crossOrigin = "Anonymous";
-                img.src = dataURL;
-                document.body.appendChild(img);
+                // var img = new Image();
+                // img.crossOrigin = "Anonymous";
+                // img.src = dataURL;
+                // document.body.appendChild(img);
 
-                a.href = img.src;
+                // a.href = img.src;
 
-                const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-                let date = new Date();
+                // const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+                // let date = new Date();
 
-                a.download = 'agnt' + '-' + weekday[date.getDay()] + '.png';
-                a.click();
-                document.body.removeChild(img);
+                // a.download = 'agnt' + '-' + weekday[date.getDay()] + '.png';
+                // a.click();
+                // document.body.removeChild(img);
+
+                html2canvas(document.getElementById("theCanvas"), {
+                    useCORS : true,
+                    allowTaint : true,
+                    scale : 1,
+                    dpi : 500,
+                }).then(function (canvas) {
+                    var image = canvas.toDataURL("image/jpeg");
+                    let date = new Date(),
+                    time = date.getTime(),
+                    fileName = time + ".jpeg";
+                    // console.log(image, fileName)
+
+                    let a = document.createElement("a");
+                    a.href = canvas.toDataURL("image/jpeg");
+                    a.download = fileName;
+                    a.click();
+                    a.remove();
+
+                });
                 this.snackbar = true;
+
                 console.log("safari")
             } else {
-                a.target = "_blank";
                 a.href = dataURL.replace(/^data[:]image\/png[;]/i, "data:application/download;");
                 a.download = 'agnt.png'
                 head.appendChild(a);
@@ -546,8 +564,6 @@ export default {
                 this.snackbar = true;
                 console.log("chrome")
             }
-
-            // console.log(this.$refs.stage.getNode().toDataURL({devicePixelRatio: 2}));
         },
         multiple(){
             this.downloadProgress = true;
