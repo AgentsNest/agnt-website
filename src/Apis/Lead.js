@@ -15,8 +15,11 @@ export default {
     return Api().get("/leads/" + id);
   },
 
-  auth(page) {
-    return Api().get("/leads/by/user?page=" + page);
+  // auth(page) {
+  //   return Api().get("/leads/by/user?page=" + page);
+  // },
+  auth(params) {
+    return Api().get("/leads/by/user?searchTerm=" + params);
   },
 
   authHotLead(page) {

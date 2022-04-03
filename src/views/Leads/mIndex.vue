@@ -42,7 +42,7 @@
                 <span class="white--text  ml-2 body-2 font-weight-bold">Clients</span>
             </div>
             <v-spacer></v-spacer>
-            <v-text-field
+            <!-- <v-text-field
                 dense
                 dark
                 color="white"
@@ -51,7 +51,7 @@
                 label="Search"
                 single-line
                 hide-details
-            ></v-text-field>
+            ></v-text-field> -->
         </v-card>
 
         <v-card tile flat>
@@ -129,7 +129,7 @@
                     </v-card-actions>
                 </v-card> -->
                 
-                <v-data-table :headers="headers" :items="leads" :search="search" :items-per-page="15">
+                <!-- <v-data-table :headers="headers" :items="leads" :search="search" :items-per-page="15">
                     <template v-slot:body="props">
                         <tbody>
                             <tr v-for="lead in props.items" :key="lead.id">
@@ -150,8 +150,37 @@
                     <v-alert slot="no-results" :value="true" color="error" icon="warning">
                         Your search for "{{ search }}" found no results.
                     </v-alert>
-                </v-data-table>
+                </v-data-table> -->
 
+                <vue-good-table
+                    :columns="headers"
+                    :rows="leads"
+                    :search-options="{enabled: true, trigger: 'enter', skipDiacritics: true,}"
+                    :pagination-options="{
+                        enabled: true,
+                        position: 'top',
+                        perPage: 15,
+                        perPageDropdownEnabled: false,
+                    }"
+                    compactMode
+                    styleClass="vgt-table striped condensed"
+                    @on-row-click="onRowClick"
+                    @on-page-change="onPageChange"
+                    :totalRows="totalRecords"
+                    :isLoading.sync="isLoading"
+                >
+                    <template slot="table-row" slot-scope="props">
+                        <span v-if="props.column.field == 'activity'">
+                            <!-- <a :href="`/user/${props.row.id}/edit`">Edit</a> -->
+                            <div v-for="task in props.row.activities.slice(0, 1)" :key="task.id">
+                                {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
+                            </div>
+                        </span>
+                        <!-- <span v-else>
+                            {{props.formattedRow[props.column.field]}}
+                        </span> -->
+                    </template>
+                </vue-good-table>
             </v-card>
 
 
@@ -523,21 +552,28 @@ import Other from '../../Apis/Other'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import Navbar from '../../components/Dashboard/Navbar.vue'
 // import InfiniteLoading from 'vue-infinite-loading';
+import 'vue-good-table/dist/vue-good-table.css'
+import { VueGoodTable } from 'vue-good-table';
 
 
 export default {
-    components:{ Navbar },
+    components:{ Navbar, VueGoodTable },
     data () {
       return {
         search: '',
         benched: 0,
-        headers: [
-            { sortable: false },
-            { text: 'Name',align: 'start',sortable: false,value: 'name' },
-            { text: 'Contact No.', value: 'contact', sortable: false },
-            { text: 'Added On', value: 'created_at', sortable: false },
-            { text: 'Assign', value: 'team_id', sortable: false },
-            { text: 'Last Remark', value: 'activites', sortable: false },
+        // headers: [
+        //     { sortable: false },
+        //     { text: 'Name',align: 'start',sortable: false,value: 'name' },
+        //     { text: 'Contact No.', value: 'contact', sortable: false },
+        //     { text: 'Added On', value: 'created_at', sortable: false },
+        //     { text: 'Assign', value: 'team_id', sortable: false },
+        //     { text: 'Last Remark', value: 'activites', sortable: false },
+        // ],
+        headers:[
+            { label: 'Name', field: 'name' },
+            { label: 'Contact No.', field: 'contact' },
+            { label: 'Activity', field: 'activity' },
         ],
         status_name: '',
         page: 1,
@@ -617,7 +653,13 @@ export default {
         pagination: {},
         leads:[],
         total_leads: '',
-        lead: ''
+        lead: '',
+        serverParams: {
+            page: 1, 
+            perPage: 10
+        },
+        totalRecords: 0,
+        isLoading: false,
       }
     },
     methods:{
@@ -625,11 +667,21 @@ export default {
             this.actionBtn = !this.actionBtn
             this.multipleActionToolbar = !this.multipleActionToolbar
         },
-        async fetchData(){
-            Lead.auth(this.page).then(response => {
+        onPageChange(params) {
+            this.updateParams({page: params.currentPage});
+            this.fetchData();
+        },
+        updateParams(newProps) {
+            this.serverParams = Object.assign({}, this.serverParams, newProps);
+        },
+        async fetchData(){  
+            // Lead.auth(this.page).then(response => {
+            //     this.leads = response.data.data;
+            // });
+            Lead.auth(this.serverParams.page)
+            .then(response => {
+                // this.totalRecords = response.data.meta.total;
                 this.leads = response.data.data;
-                // this.total_leads = response.data.meta.total;
-                // console.log(response.data)
             });
         },
         async fetchGroups(){
@@ -983,19 +1035,10 @@ export default {
                 });
             }
         },
-        makePagination: function(data){
-            if(this.page < data.meta.last_page){
-                this.page++;
-            } else {
-                this.page--;
-            }
-            let paginate = {
-                current_page: data.meta.current_page,
-                last_page: data.meta.last_page,
-                next_page_url: data.links.next,
-                prev_page_url: data.links.prev
-            }
-            this.pagination = paginate;
+        onRowClick(params){
+            let leadId = params.row.id;
+            console.log(leadId);
+            // this.$router.push({ name: 'singleLead', params: { id: leadId } })
         }
     },
     computed:{

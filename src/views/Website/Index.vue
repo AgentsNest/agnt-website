@@ -31,21 +31,22 @@
             </div>
         </v-card>
 
+        <!-- Search Bar -->
+        <div class="d-flex align-center mx-5 mb-3 search-input">
+          <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <input type="text" v-model="search" placeholder="Search Projects..." class=" mx-2 flex-grow-1 searchInputField">
+          <v-btn icon class="white rounded-lg" @click.prevent="searchWebsite()">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </div>
+
+        <v-divider></v-divider>
+
         <v-card flat tile>
-          
-          <div class="d-flex align-center mx-2 mb-3 search-input">
-            <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <input type="text" v-model="search" placeholder="Search Projects..." class=" mx-2 flex-grow-1 searchInputField">
-            <v-btn icon class="white rounded-lg" @click.prevent="searchWebsite()">
-              <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-          </div>
 
-          <v-divider></v-divider>
-
-          <v-card flat class="pt-1 px-3">
+          <v-card flat class="pt-1 px-5">
             <!-- Search Results Website -->
             <div v-if="showsearch">
               <v-row>
@@ -339,7 +340,7 @@ export default {
       fetchData(){
         Website.all().then(response => {
             this.websites = response.data.data;
-            // console.log(response.data)
+            console.log(response.data)
         });
       },
       cloneWebsite(website){
@@ -366,9 +367,9 @@ export default {
       searchWebsite(){
         Website.search(this.search)
         .then((res) => {
-          // console.log(res.data)
+          console.log('search result',res.data)
           this.showsearch = true
-          this.results = res.data;
+          this.results = res.data.data;
         }).catch((err) => {
           console.log(err)
         })

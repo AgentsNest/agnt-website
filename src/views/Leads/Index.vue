@@ -124,17 +124,10 @@
                     </v-btn> Clients 
                     <span v-if="selectedLeads.length >= 2">({{selectedLeads.length}})</span>
                     <v-spacer></v-spacer>
-                    <v-text-field
-                        v-model="search"
-                        append-icon="mdi-magnify"
-                        label="Search Client"
-                        single-line
-                        hide-details
-                    ></v-text-field>
-                    <v-spacer></v-spacer>
                     <v-btn class="text-capitalize dark" dark small @click="newLeadDialog = !newLeadDialog">Add Client</v-btn>
                 </v-card-title>
-                <v-data-table
+
+                <!-- <v-data-table
                     :headers="headers"
                     :items="leads.data"
                     :items-per-page="15"
@@ -166,23 +159,38 @@
                     <v-alert slot="no-results" :value="true" color="error" icon="warning">
                         Your search for "{{ search }}" found no results.
                     </v-alert>
-                    <!-- <template v-slot:item.actions="{ item }">
-                        <v-icon
-                            small
-                            class="mr-2"
-                            @click="editedLeadDialogBox(item.id)"
-                        >
-                            mdi-pencil
-                        </v-icon>
-                        <v-icon
-                            small
-                            @click="deleteLeadDialogBox(item.id)"
-                        >
-                            mdi-delete
-                        </v-icon>
-                    </template> -->
-                </v-data-table>
-
+                </v-data-table> -->
+                
+                <vue-good-table
+                    :columns="headers"
+                    :rows="leads"
+                    :globalSearch="true"
+                    :search-options="{
+                        enabled: true,
+                        skipDiacritics: true,
+                    }"
+                    @on-search="searchLead"
+                    :pagination-options="{
+                        enabled: true,
+                        position: 'bottom',
+                        perPage: 15,
+                        perPageDropdownEnabled: false,
+                    }"
+                    styleClass="vgt-table striped condensed"
+                    @on-row-click="onRowClick"
+                    @on-page-change="onPageChange"
+                    :totalRows="totalRecords"
+                    :isLoading.sync="isLoading"
+                >
+                    <template slot="table-row" slot-scope="props">
+                        <span v-if="props.column.field == 'activity'">
+                            <!-- <a :href="`/user/${props.row.id}/edit`">Edit</a> -->
+                            <div v-for="task in props.row.activities.slice(0, 1)" :key="task.id">
+                                {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
+                            </div>
+                        </span>
+                    </template>
+                </vue-good-table>
                 <!-- ===========================
                           Edit Lead Dialog 
                 ============================ -->
@@ -548,22 +556,25 @@ import Tracker from '../../Apis/Tracker'
 import Other from '../../Apis/Other'
 // import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import 'vue-good-table/dist/vue-good-table.css'
+import { VueGoodTable } from 'vue-good-table';
+import _ from 'lodash'
 
 
 export default {
-    components:{  },
+    components:{ VueGoodTable },
     data () {
       return {
         search: '',
         benched: 0,
-        headers: [
-          { text: 'Name',align: 'start',sortable: false,value: 'name' },
-          { text: 'Contact No.', value: 'contact' },
-          { text: 'Status', value: 'status' },
-          { text: 'Assign', value: 'team_id' },
-          { text: 'Last Remark', value: 'activities.notes' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
+        // headers: [
+        //   { text: 'Name',align: 'start',sortable: false,value: 'name' },
+        //   { text: 'Contact No.', value: 'contact' },
+        //   { text: 'Status', value: 'status' },
+        //   { text: 'Assign', value: 'team_id' },
+        //   { text: 'Last Remark', value: 'activities.notes' },
+        //   { text: 'Actions', value: 'actions', sortable: false },
+        // ],
         status_name: '',
         lead:{},
         total_leads : 0,
@@ -625,14 +636,54 @@ export default {
         whateverActivatesThisLink: true,
         newLeadDialog: false,
         newLead: {},
+        serverParams: {
+            page: 1, 
+            perPage: 10
+        },
+        totalRecords: 0,
+        isLoading: false,
+        headers:[
+            { label: 'Name', field: 'name' },
+            { label: 'Contact No.', field: 'contact' },
+            { label: 'Status', field: 'status' },
+            { label: 'Activity', field: 'activity' },
+            { label: 'Actions', field: 'actions' },
+        ],
+        leads: {
+            searchTerm: '',
+            total: 0,
+            per_page: 5,
+            from: 1,
+            to: 0,
+            current_page: 1
+        },
+        rows:[]
       }
     },
     methods:{
         fetchData(){
-            Lead.auth(this.page).then(response => {
-                this.leads = response.data;
-                this.loading = false
+            Lead.auth(this.leads.searchTerm)
+            .then(response => {
+                // this.totalRecords = response.data.meta.total;
+                this.leads = response.data.data;
+                // this.rows = response.data.leads.data; 
+                console.log(response.data)
             });
+        },
+        searchLead: _.debounce(function (params) {
+            this.updateParams(params);
+            this.fetchData();
+            return false;
+        }, 500),
+        onPageChange(params) {
+            this.updateParams({page: params.currentPage});
+            this.fetchData();
+        },
+        updateParams(newProps) {
+            this.serverParams = Object.assign({}, this.serverParams, newProps);
+        },
+        onRowClick(params){
+            alert(params.row.id)
         },
         async fetchGroups(){
             Group.userGroup().then(response => {
@@ -913,7 +964,7 @@ export default {
                 return lead.name.toLowerCase().match(this.search.toLowerCase());
             })
         },
-        leads(){  return this.$store.state.leads; },
+        // leads(){  return this.$store.state.leads; },
         selectAll:{
             get : function (){
                 return this.leads ? this.selectedLeads.length == this.leads.length : false;
@@ -939,7 +990,7 @@ export default {
         User.auth().then(response => {
             this.shareData.agent_id = response.data.data.id;
         });
-        this.$store.dispatch('getLeads');
+        // this.$store.dispatch('getLeads');
     }
 }
 </script>

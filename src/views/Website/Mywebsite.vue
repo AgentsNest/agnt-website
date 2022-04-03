@@ -1,5 +1,5 @@
 <template>
-    <v-card flat tile class="pa-md-5">
+    <v-card flat tile>
 
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
@@ -19,7 +19,7 @@
             <v-btn class="rounded-xl text-capitalize" small outlined dark :to="{name: 'Website'}">All Projects</v-btn>
         </v-card>
 
-        <v-card class="mt-5 mb-5 d-none d-md-flex" elevation="0">
+        <v-card class="my-8 px-5 d-none d-md-flex" elevation="0">
             <div class="mr-5">
               <v-btn class="rounded-l-lg mr-1" color="#111828" large dark tile><v-icon>mdi-view-dashboard</v-icon></v-btn>
               <v-btn dark tile color="#111828" class="rounded-r-lg text-capitalize" large>My Projects</v-btn>
@@ -30,19 +30,19 @@
             </div>
         </v-card>
 
-        <v-card flat tile class="">
-          
-          <div class="d-flex align-center mx-2 mb-3 search-input">
-            <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <input type="text" v-model="search" placeholder="Search Projects..." class=" mx-2 flex-grow-1 searchInputField">
-            <v-btn icon class="white rounded-lg" @click.prevent="searchWebsite()">
-              <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-          </div>
+        <div class="d-flex align-center mx-5 mb-3 search-input">
+          <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <input type="text" v-model="search" placeholder="Search Projects..." class=" mx-2 flex-grow-1 searchInputField">
+          <v-btn icon class="white rounded-lg" @click.prevent="searchWebsite()">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </div>
 
-          <v-divider></v-divider>
+        <v-divider></v-divider>
+
+        <v-card flat tile class="px-5">
 
           <!-- <v-card flat class="py-2 px-3"> -->
             <!-- Search Results Website -->
@@ -52,6 +52,7 @@
                     <v-card class="transparent rounded-lg" elevation="1">
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
+                            v-if="website.website_images"
                             aspect-ratio="2"
                             :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                             lazy-src="../../assets/img/bg-grey.svg"
@@ -93,11 +94,12 @@
                     <v-card class="transparent rounded-lg" elevation="1">
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
-                            aspect-ratio="2"
-                            :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
-                            lazy-src="../../assets/img/bg-grey.svg"
-                            class="rounded-lg shadow-xl my-2"
-                            cover
+                          v-if="website.website_images"
+                          aspect-ratio="2"
+                          :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                          lazy-src="../../assets/img/bg-grey.svg"
+                          class="rounded-lg shadow-xl my-2"
+                          cover
                         >
                         </v-img>
                       </router-link>
@@ -276,6 +278,7 @@ export default {
       fetchData(){
         Website.auth().then(response => {
             this.websites = response.data.data;
+            // console.log(response.data)
         });
       },
       // fetchLeadsDetails(){
@@ -422,11 +425,10 @@ export default {
           })
       },
       searchWebsite(){
-        Website.search(this.search)
+        Website.searchMyWebsite(this.search)
         .then((res) => {
-          // console.log(res.data)
           this.showsearch = true
-          this.results = res.data;
+          this.results = res.data.data;
         }).catch((err) => {
           console.log(err)
         })
