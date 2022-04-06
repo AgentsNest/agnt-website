@@ -28,6 +28,10 @@ export default {
     return Api().get("/my-website/search?q=" + params);
   },
 
+  searchLeadByName(params) {
+    return Api().get("search-lead/by/name?q=" + params);
+  },
+
   clone(id) {
     return Api().get("/w/" + id + "/clone");
   },

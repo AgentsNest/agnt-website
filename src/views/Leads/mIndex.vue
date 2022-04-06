@@ -186,7 +186,7 @@
             </v-card>
 
 
-    <!-- Single Lead Dialog -->
+        <!-- Single Lead Dialog -->
             <v-dialog
                 v-model="drawer"
                 fullscreen
@@ -526,9 +526,9 @@
                 :transition="transition"
             >
                 <template v-slot:activator>
-                    <v-btn v-model="fab" icon small class="rounded grey darken-4" dark>
-                        <v-icon v-if="fab" size="18">mdi-close</v-icon>
-                        <v-icon v-else size="18">mdi-plus</v-icon>
+                    <v-btn v-model="fab" icon medium class="rounded grey darken-4" dark>
+                        <v-icon v-if="fab" size="20">mdi-close</v-icon>
+                        <v-icon v-else size="20">mdi-plus</v-icon>
                     </v-btn>
                 </template>
 
@@ -543,8 +543,8 @@
             </v-speed-dial>
 
             <transition name="fade">
-                <v-btn icon small class="mt-2 grey lighten-2 rounded" @click="toTop" v-show="scY > 500">
-                    <v-icon size="18">mdi-arrow-up</v-icon>
+                <v-btn icon medium class="mt-2 grey lighten-3 rounded" @click="toTop" v-show="scY > 500">
+                    <v-icon size="20" color="grey darken-4">mdi-arrow-up</v-icon>
                 </v-btn>
             </transition>
         </div>
@@ -655,7 +655,7 @@ export default {
         searchInput: false,
         selectedWebsiteMsg: '',
         multipleActionToolbar: false,
-        loadMoreBtn: true,
+        loadMoreBtn: false,
         pagination: {},
         leads:[],
         total_leads: '',
@@ -708,6 +708,13 @@ export default {
                 this.totalRecords = response.data.meta.total;
                 this.last_page = response.data.meta.last_page;
                 this.leads = response.data.data;
+            })
+            .then(() => {
+                if(this.totalRecords > 10){
+                    this.loadMoreBtn = true
+                } else {
+                    this.loadMoreBtn = false
+                }
             });
         },
         async fetchGroups(){
@@ -1107,6 +1114,7 @@ export default {
                 this.selectedLeads = selectedLeads;
             }
         },
+
     },
     mounted(){
         this.fetchData();
@@ -1155,6 +1163,6 @@ select{
 .speed-dail{
     position: fixed;
     bottom: 5em;
-    right: 15px;
+    right: 2em;
 }
 </style>

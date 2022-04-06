@@ -1,5 +1,5 @@
 <template>
-    <v-card flat tile>
+    <div>
 
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
             {{snackbarText}}
@@ -30,14 +30,22 @@
             </div>
         </v-card>
 
-        <div class="d-flex align-center mx-5 mb-3 search-input">
-          <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
+        <div class="d-flex align-center mx-5 mt-3">
+          <!-- <v-btn icon elevation="0" class="" @click.prevent="clearSearch()">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <input type="text" v-model="search" placeholder="Search Projects..." class=" mx-2 flex-grow-1 searchInputField">
           <v-btn icon class="white rounded-lg" @click.prevent="searchWebsite()">
             <v-icon>mdi-magnify</v-icon>
-          </v-btn>
+          </v-btn> -->
+          <v-text-field
+              append-icon="mdi-magnify"
+              label="Search Projects..."
+              outlined
+              v-model="search"
+              v-on:enter="searchWebsite"
+              @click:append="searchWebsite"
+          ></v-text-field>
         </div>
 
         <v-divider></v-divider>
@@ -131,32 +139,34 @@
             </div>
           <!-- </v-card> -->
         </v-card>
-      
-        <!-- All Leads Dialog -->
-        <v-navigation-drawer v-model="allLeadSidebar" tile absolute temporary right width="75vw">
-          <v-card flat tile>
-            <v-list>
-              
-              <v-list-item v-for="lead in leads" :key="lead.id">
-                <v-list-item-content>
-                  <v-list-item-title v-text="lead.name"></v-list-item-title>
-                </v-list-item-content>
 
-                <v-list-item-action>
-                  <!-- <v-btn block class="text-capitalize blue darken-2" dark 
-                    v-if="website"
-                    @click="shareNow(lead)"
-                    :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a Here is the details for ${website.title} %0a http://localhost:3000/w/${tracker_id}/${website.id}`"
-                  >
-                    Share
-                  </v-btn> -->
-                  <!-- <v-btn @click="showSelectedWebsiteMessage(lead)">Share</v-btn> -->
-                </v-list-item-action>
+        <!-- Lead Sheet Open -->
+        <v-bottom-sheet v-model="allLeadSidebar" class="white">
+          <v-card>
+            <v-card class="white px-6 pt-10" flat tile>
+                <v-text-field
+                    dense
+                    append-icon="mdi-magnify"
+                    label="Search Client"
+                    outlined
+                    v-model="searchLead" 
+                    v-on:keyup.enter="searchLeadMethod"
+                    @click:append="searchLeadMethod"
+                ></v-text-field>
+            </v-card>
+          </v-card>
+          <v-card v-if="leadresults.length" height="300px" class="overflow-y-auto pb-3" tile>
+              <div class="d-flex px-6 py-3" v-for="lead in leadresults" :key="lead.id" style="border-bottom: 1px solid #ededed">
+                <div class="">
+                  <div>{{lead.name}}</div>
+                  <div class="caption grey--text text--darken-2">{{lead.contact}}</div>
+                </div>
+                <v-spacer></v-spacer>
 
                 <!-- Default website share message window -->
                 <v-dialog v-model="editWebsiteWindow[lead.id]" width="500">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn v-bind="attrs" v-on="on">Share</v-btn>
+                    <v-btn v-bind="attrs" dark small class="text-capitalize" v-on="on">Share</v-btn>
                   </template>
 
                   <v-card class="pt-5 rounded-lg">
@@ -198,16 +208,13 @@
                       </v-card-actions>
                   </v-card>
                 </v-dialog>
-
-              </v-list-item>
-      
-            </v-list>
+              </div>
 
           </v-card>
-        </v-navigation-drawer>
+        </v-bottom-sheet>
 
 
-    </v-card>
+    </div>
 </template>
 
 <script>
@@ -235,11 +242,11 @@ export default {
         websites:[],
         website: null,
         shareData:{
-            website_id: null,
-            lead_id: null,
-            agent_id: null,
-            opened: false,
-            total_views: 0
+          website_id: null,
+          lead_id: null,
+          agent_id: null,
+          opened: false,
+          total_views: 0
         },
         tracker_id : null,
         clientList: false,
@@ -256,7 +263,9 @@ export default {
         editWebsiteWindow: {},
         whatsappShare: false,
         snackbarText: '',
-        snackbar: false
+        snackbar: false,
+        searchLead: '',
+        leadresults: []
       }
     },
     watch: {
@@ -274,6 +283,15 @@ export default {
           })
           this.loading = false
         }, 500)
+      },
+      searchLeadMethod(){
+        this.leadresults = [];
+        if(this.searchLead.length > 4){
+            Website.searchLeadByName(this.searchLead)
+            .then((res) => {
+                this.leadresults = res.data
+            })
+        }
       },
       fetchData(){
         Website.auth().then(response => {
@@ -492,7 +510,7 @@ export default {
 .search-input{
   border-radius: 12px;
   padding: 0.6em 0.8em;
-  width: 96%; 
+  width: 100%; 
   background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }

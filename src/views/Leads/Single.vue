@@ -156,68 +156,72 @@
                 Share Website Dialog 
         ********************************** -->
             <v-bottom-sheet v-model="sheet" class="white">
-                <v-card class="white" flat>
-                    <div class="pa-3 grey--text text--darken-2">Search Website</div>
-                    <div class="d-flex align-center">
-                        <input type="text" v-model="search" placeholder="Project Name..." class="search-input px-4">
-                        <v-btn fab depressed class="white rounded-lg" @click.prevent="searchWebsite()">
-                            <v-icon>mdi-magnify</v-icon>
-                        </v-btn>
-                    </div>
+                <v-card class="white px-6 pt-10" flat tile>
+                    <v-text-field
+                        dense
+                        append-icon="mdi-magnify"
+                        label="Search Website"
+                        outlined
+                        v-model="search" 
+                        v-on:keyup.enter="searchWebsite"
+                        @click:append="searchWebsite"
+                    ></v-text-field>
                 </v-card>
-                <v-list two-line>
-                    <v-list-item v-for="website in websites" :key="website.id">
-                        <!-- <v-list-item-avatar tile>
-                            <v-img
-                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images.slice(0, 1)[0].url}`"
-                            ></v-img>
-                        </v-list-item-avatar> -->
+                <v-card class="pa-5">
+                    <v-list two-line class="pb-5">
+                        <v-list-item v-for="website in websites" :key="website.id">
+                            <!-- <v-list-item-avatar tile>
+                                <v-img
+                                    :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images.slice(0, 1)[0].url}`"
+                                ></v-img>
+                            </v-list-item-avatar> -->
 
-                        <v-list-item-content>
-                            <v-list-item-title>{{website.title}}</v-list-item-title>
-                            <v-list-item-subtitle>Total shared: {{website.trackers.length}}</v-list-item-subtitle>
-                        </v-list-item-content>
+                            <v-list-item-content>
+                                <v-list-item-title>{{website.title}}</v-list-item-title>
+                                <v-list-item-subtitle>Total shared: {{website.trackers.length}}</v-list-item-subtitle>
+                            </v-list-item-content>
 
-                        <!-- <v-btn class="text-capitalize blue darken-2" dark small
-                            @click="showSelectedWebsiteMessage(lead, website)"
-                        >Select</v-btn> -->
+                            <!-- <v-btn class="text-capitalize blue darken-2" dark small
+                                @click="showSelectedWebsiteMessage(lead, website)"
+                            >Select</v-btn> -->
 
-                        <!-- 
-                        ============== Edit Website Dialog ================
-                        -->
-                        <v-dialog v-model="editWebsiteWindow[lead.id]" width="500">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn v-bind="attrs" v-on="on" class="text-capitalize blue darken-2" dark small>Select</v-btn>
-                            </template>
+                            <!-- 
+                            ============== Edit Website Dialog ================
+                            -->
+                            <v-dialog v-model="editWebsiteWindow[lead.id]" width="500">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn v-bind="attrs" v-on="on" class="text-capitalize blue darken-2" dark small>Select</v-btn>
+                                </template>
 
-                            <v-card class="pt-5 rounded-lg">
-                                <v-card-text>
-                                    <span class="caption grey--text">Hi, {clientName},</span> <br>
-                                    <div>{{selectedWebsiteMsg}}</div>
-                                    <span class="caption grey--text">Regards,</span> <br/>
-                                    <span class="caption grey--text">{yourName}</span>
-                                </v-card-text>
+                                <v-card class="pt-5 rounded-lg">
+                                    <v-card-text>
+                                        <span class="caption grey--text">Hi, {clientName},</span> <br>
+                                        <div>{{selectedWebsiteMsg}}</div>
+                                        <span class="caption grey--text">Regards,</span> <br/>
+                                        <span class="caption grey--text">{yourName}</span>
+                                    </v-card-text>
 
-                                <v-textarea outlined label="Default Message" v-model="selectedWebsiteMsg" height="100" class="mt-6"></v-textarea>
+                                    <v-textarea outlined label="Default Message" v-model="selectedWebsiteMsg" height="100" class="mt-6"></v-textarea>
 
-                                <v-divider></v-divider>
-                                <v-card-actions>
-                                    <span class="grey--text text--darken-2">Share Via:</span>
-                                    <v-spacer></v-spacer>
-                                    <v-btn 
-                                        @click="shareNowViaWhatsapp(lead, website)"
-                                        fab x-small elevation="1" class="green" dark
-                                    ><v-icon>mdi-whatsapp</v-icon></v-btn>
-                                    <v-btn 
-                                        @click="shareNowViaMsg(lead, website)"
-                                        fab x-small elevation="1" class="blue" dark
-                                    ><v-icon>mdi-message-text-outline</v-icon></v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                        
-                    </v-list-item>
-                </v-list>
+                                    <v-divider></v-divider>
+                                    <v-card-actions>
+                                        <span class="grey--text text--darken-2">Share Via:</span>
+                                        <v-spacer></v-spacer>
+                                        <v-btn 
+                                            @click="shareNowViaWhatsapp(lead, website)"
+                                            fab x-small elevation="1" class="green" dark
+                                        ><v-icon>mdi-whatsapp</v-icon></v-btn>
+                                        <v-btn 
+                                            @click="shareNowViaMsg(lead, website)"
+                                            fab x-small elevation="1" class="blue" dark
+                                        ><v-icon>mdi-message-text-outline</v-icon></v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            
+                        </v-list-item>
+                    </v-list>
+                </v-card>
             </v-bottom-sheet>
             
 
