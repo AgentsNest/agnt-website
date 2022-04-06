@@ -22,6 +22,10 @@ export default {
     return Api().get("/leads/by/user?searchTerm=" + params);
   },
 
+  leadByUserMobile(page) {
+    return Api().get("/leads/by/user/mobile?page=" + page);
+  },
+
   authHotLead(page) {
     return Api().get("/user/hot-lead?page=" + page);
   },
@@ -34,6 +38,9 @@ export default {
     return Api().get("/leads/" + id);
   },
 
+  searchLeadByName(params) {
+    return Api().get("search-lead/by/name?q=" + params);
+  },
   /**
    * Activities Request
    */

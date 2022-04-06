@@ -164,90 +164,103 @@
                 <vue-good-table
                     :columns="headers"
                     :rows="leads"
-                    :globalSearch="true"
                     :search-options="{
                         enabled: true,
                         skipDiacritics: true,
                     }"
-                    @on-search="searchLead"
                     :pagination-options="{
                         enabled: true,
                         position: 'bottom',
                         perPage: 15,
-                        perPageDropdownEnabled: false,
                     }"
-                    styleClass="vgt-table striped condensed"
-                    @on-row-click="onRowClick"
+                    :sort-options="{
+                        enabled: false,
+                    }"
+                    styleClass="vgt-table condensed"
                     @on-page-change="onPageChange"
                     :totalRows="totalRecords"
                     :isLoading.sync="isLoading"
                 >
+                    <!-- Activities -->
                     <template slot="table-row" slot-scope="props">
+                        <span v-if="props.column.field == 'name'">
+                            <div class="subtitle-2">{{props.row.name}}</div>
+                        </span>
+                        <span v-if="props.column.field == 'contact'">
+                            <div style="font-size: 14px">{{props.row.contact}}</div>
+                        </span>
+                        <span v-if="props.column.field == 'status'">
+                            <v-chip outlined label color="indigo darken-3" small>{{props.row.status}}</v-chip>
+                        </span>
                         <span v-if="props.column.field == 'activity'">
-                            <!-- <a :href="`/user/${props.row.id}/edit`">Edit</a> -->
-                            <div v-for="task in props.row.activities.slice(0, 1)" :key="task.id">
+                            <div v-for="task in props.row.activities.slice(0, 1)" :key="task.id" style="font-size: 14px">
                                 {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
                             </div>
+                        </span>
+                        <span v-if="props.column.field == 'view'">
+                            <v-btn small depressed dark class="grey darken-3 text-capitalize">view</v-btn>
+                        </span>
+                        <span v-if="props.column.field == 'actions'">
+                            <v-btn icon><v-icon small @click="editedLeadDialogBox(props)">mdi-pencil</v-icon></v-btn>
+                            <v-btn icon><v-icon small @click="deleteLeadDialogBox(props)">mdi-delete</v-icon></v-btn>
                         </span>
                     </template>
                 </vue-good-table>
                 <!-- ===========================
                           Edit Lead Dialog 
                 ============================ -->
-                <v-dialog v-model="editLead" persistent max-width="600px">
+                <v-dialog v-model="editLead" persistent max-width="400px">
                     <v-card>
-                        <v-card-title>
-                            <span class="text-h5">Lead Details</span>
-                        </v-card-title>
-                        <v-card-text>
+                        <v-toolbar dense elevation="1">
+                            <div>Lead Details</div>
+                            <v-spacer></v-spacer>
+                            <v-btn icon @click="editLead = !editLead"><v-icon>mdi-close</v-icon></v-btn>
+                        </v-toolbar>
+                        <v-card-text class="pt-6">
                             <v-container>
                                 <v-row>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Name" v-model="editedLead.name" required></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Contact" v-model="editedLead.contact"></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6" md="12">
-                                    <v-text-field label="Email" v-model="editedLead.email" required></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-select
-                                        :items="leadStatus"
-                                        label="Lead Status"
-                                        item-text="title"
-                                        item-value="title"
-                                        @change="onChangeLeadStatus($event)"
-                                        v-model="editedLead.status"
-                                    ></v-select>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-select
-                                        :items="teams"
-                                        item-text="name"
-                                        item-value="id"
-                                        label="Assign Team"
-                                        v-model="editedLead.team_id"
-                                    ></v-select>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-select
-                                        :items="groups"
-                                        item-text="title"
-                                        item-value="id"
-                                        label="Group"
-                                        v-model="editedLead.group_id"
-                                    ></v-select>
-                                </v-col>
+                                    <v-col cols="12" sm="6" md="6">
+                                        <v-text-field label="Name" v-model="editedLead.name" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="6">
+                                        <v-text-field label="Contact" v-model="editedLead.contact"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="12">
+                                        <v-text-field label="Email" v-model="editedLead.email" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="12">
+                                        <v-select
+                                            :items="leadStatus"
+                                            label="Lead Status"
+                                            item-text="title"
+                                            item-value="title"
+                                            @change="onChangeLeadStatus($event)"
+                                            v-model="editedLead.status"
+                                        ></v-select>
+                                    </v-col>
+                                    <!-- <v-col cols="12" md="4">
+                                        <v-select
+                                            :items="teams"
+                                            item-text="name"
+                                            item-value="id"
+                                            label="Assign Team"
+                                            v-model="editedLead.team_id"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                        <v-select
+                                            :items="groups"
+                                            item-text="title"
+                                            item-value="id"
+                                            label="Group"
+                                            v-model="editedLead.group_id"
+                                        ></v-select>
+                                    </v-col> -->
                                 </v-row>
                             </v-container>
-                            <small>*indicates required field</small>
+                            <!-- <small>*indicates required field</small> -->
                         </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="blue darken-1" text @click="editLead = !editLead">Close</v-btn>
-                            <v-btn color="blue darken-1" text @click="updateSingleLead(editedLead.id)">Save</v-btn>
-                        </v-card-actions>
+                        <v-btn block dark class="text-capitalize" @click="updateSingleLead(editedLead.id)">Update</v-btn>
                     </v-card>
                 </v-dialog>
 
@@ -647,6 +660,7 @@ export default {
             { label: 'Contact No.', field: 'contact' },
             { label: 'Status', field: 'status' },
             { label: 'Activity', field: 'activity' },
+            { label: 'View', field: 'view' },
             { label: 'Actions', field: 'actions' },
         ],
         leads: {
@@ -667,7 +681,7 @@ export default {
                 // this.totalRecords = response.data.meta.total;
                 this.leads = response.data.data;
                 // this.rows = response.data.leads.data; 
-                console.log(response.data)
+                // console.log(response.data)
             });
         },
         searchLead: _.debounce(function (params) {
@@ -863,19 +877,21 @@ export default {
                 // this.fetchData();
                 this.snackbarText = 'Lead Updated'
                 this.snackbar = true;
+                this.editLead = false
+                this.fetchData();
             })
             .catch((error) => {
                 console.log(error)
             })
         },
-        deleteLeadDialogBox(lead){
+        deleteLeadDialogBox(props){
             // console.log(lead)
-            Lead.delete(lead)
+            Lead.delete(props.row.id)
         },
-        editedLeadDialogBox(lead){
-            this.editLead = true
-            Lead.details(lead)
+        editedLeadDialogBox(props){
+            Lead.details(props.row.id)
             .then(response => {
+                this.editLead = true
                 this.editedLead = response.data.data;
             });
         },

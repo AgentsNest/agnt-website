@@ -42,16 +42,34 @@
                 <span class="white--text  ml-2 body-2 font-weight-bold">Clients</span>
             </div>
             <v-spacer></v-spacer>
-            <!-- <v-text-field
-                dense
-                dark
-                color="white"
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field> -->
+            <div class="searchLeadField" v-click-outside="onClickOutside">
+                <v-text-field
+                    dense
+                    dark
+                    color="white"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                    v-model="query" 
+                    v-on:enter="autoComplete"
+                    @click:append="autoComplete"
+                ></v-text-field>
+                <v-card class="top-0 resultBox rounded" v-if="results.length">
+                   
+                        <v-list dense class="pa-0">
+                            <v-list-item link
+                                :to="{name: 'singleLead', params: {id:result.id}}"
+                                v-for="result in results"
+                                :key="result.id"
+                            >
+                                {{result.name}}
+                            </v-list-item>
+                        </v-list>
+                </v-card>
+            </div>
+                
+            
         </v-card>
 
         <v-card tile flat>
@@ -103,37 +121,47 @@
             
 
             <v-card height="100%" class="" flat>
-                <!-- <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
-                    <v-card-actions class="pa-3">
-                        <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
-                        <div>
-                            <span class="font-weight-bold">{{ lead.name }}</span> <br>
-                            <span class="caption">{{ lead.contact }}</span> <br>
-                            <div v-if="lead.activities" class="caption">
-                                <div v-for="task in lead.activities.slice(0, 1)" :key="task.id">
-                                    {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
+                <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
+                    <router-link :to="{name: 'singleLead', params: {id:lead.id}}">
+                        <v-card-actions class="py-2 px-4">
+                            <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
+                            <div>
+                                <span class="font-weight-bold grey--text text--darken-3">{{ lead.name }}</span> <br>
+                                <span class="caption grey--text text--darken-2">{{ lead.contact }}</span> <br>
+                                <div v-if="lead.activities" class="caption grey--text text--darken-2">
+                                    <div v-for="task in lead.activities.slice(0, 1)" :key="task.id">
+                                        {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
+                                    </div>
+                                </div>
+                                <div>
+                                    <v-chip x-small label class="mr-1 red lighten-4">{{lead.status}}</v-chip>
+                                    <v-chip x-small label class="mr-1 teal lighten-4" v-if="lead.group_id">{{lead.group_id}}</v-chip>
+                                    <v-chip x-small label class="mr-1 purple lighten-4" v-if="lead.team_id">{{lead.team_id}}</v-chip>
                                 </div>
                             </div>
-                            <div>
-                                <v-chip x-small class="mr-1 red lighten-4">{{lead.status}}</v-chip>
-                                <v-chip x-small class="mr-1 teal lighten-4" v-if="lead.group_id">{{lead.group_id}}</v-chip>
-                                <v-chip x-small class="mr-1 purple lighten-4" v-if="lead.team_id">{{lead.team_id}}</v-chip>
-                            </div>
-                        </div>
-                        <v-spacer></v-spacer>
-                        <router-link
-                            :to="{name: 'singleLead', params: {id:lead.id}}"
-                        >
-                            <v-icon color="grey ">mdi-chevron-double-right</v-icon>
-                        </router-link>
-                    </v-card-actions>
-                </v-card> -->
+                        </v-card-actions>
+                    </router-link>
+                </v-card>
+
+                <v-btn block text class="mt-3" 
+                    @click="loadMoreDesktop"
+                    v-show="loadMoreBtn"
+                >
+                    <v-icon>mdi-arrow-down</v-icon>
+                </v-btn>
                 
-                <!-- <v-data-table :headers="headers" :items="leads" :search="search" :items-per-page="15">
+                <!-- <v-data-table 
+                    :headers="headers" 
+                    :items="leads" :search="search" 
+                    :items-per-page="15"
+                    :loading="loading"
+                    loading-text="Loading... Please wait"
+                >
                     <template v-slot:body="props">
                         <tbody>
                             <tr v-for="lead in props.items" :key="lead.id">
-                                <td style="width: 100vw" class="py-2 cursor-pointer">
+                                <td :style="`width: 100vw;border-left: 7px solid ${lead.color}`" 
+                                    class="py-2 cursor-pointer">
                                     <router-link :to="{name: 'singleLead', params: {id:lead.id}}">
                                         <div class="grey--text text--darken-4 subtitle-1 font">{{ lead.name}}</div>
                                         <div class="grey--text text--darken-2">{{ lead.contact }}</div>
@@ -142,6 +170,9 @@
                                                 {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
                                             </div>
                                         </div>
+                                        <v-chip x-small class="mr-1 red lighten-4">{{lead.status}}</v-chip>
+                                        <v-chip x-small class="mr-1 teal lighten-4" v-if="lead.group_id">{{lead.group_id}}</v-chip>
+                                        <v-chip x-small class="mr-1 purple lighten-4" v-if="lead.team_id">{{lead.team_id}}</v-chip>
                                     </router-link>
                                 </td>
                             </tr>
@@ -152,35 +183,6 @@
                     </v-alert>
                 </v-data-table> -->
 
-                <vue-good-table
-                    :columns="headers"
-                    :rows="leads"
-                    :search-options="{enabled: true, trigger: 'enter', skipDiacritics: true,}"
-                    :pagination-options="{
-                        enabled: true,
-                        position: 'top',
-                        perPage: 15,
-                        perPageDropdownEnabled: false,
-                    }"
-                    compactMode
-                    styleClass="vgt-table striped condensed"
-                    @on-row-click="onRowClick"
-                    @on-page-change="onPageChange"
-                    :totalRows="totalRecords"
-                    :isLoading.sync="isLoading"
-                >
-                    <template slot="table-row" slot-scope="props">
-                        <span v-if="props.column.field == 'activity'">
-                            <!-- <a :href="`/user/${props.row.id}/edit`">Edit</a> -->
-                            <div v-for="task in props.row.activities.slice(0, 1)" :key="task.id">
-                                {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
-                            </div>
-                        </span>
-                        <!-- <span v-else>
-                            {{props.formattedRow[props.column.field]}}
-                        </span> -->
-                    </template>
-                </vue-good-table>
             </v-card>
 
 
@@ -516,29 +518,36 @@
             
         </v-card>
 
-        <v-speed-dial
-            v-model="fab"
-            class="speed-dail"
-            :direction="direction"
-            :open-on-hover="hover"
-            :transition="transition"
-        >
-            <template v-slot:activator>
-                <v-btn v-model="fab" class="gradient" dark fab>
-                    <v-icon v-if="fab">mdi-close</v-icon>
-                    <v-icon v-else>mdi-plus</v-icon>
-                </v-btn>
-            </template>
+        <div class="speed-dail d-flex flex-column">
+            <v-speed-dial
+                v-model="fab"
+                :direction="direction"
+                :open-on-hover="hover"
+                :transition="transition"
+            >
+                <template v-slot:activator>
+                    <v-btn v-model="fab" icon small class="rounded grey darken-4" dark>
+                        <v-icon v-if="fab" size="18">mdi-close</v-icon>
+                        <v-icon v-else size="18">mdi-plus</v-icon>
+                    </v-btn>
+                </template>
 
-            <v-btn dark small color="white" class="rounded" link :to="{name: 'AddLeads'}">
-                <v-icon left color="#444">mdi-pencil</v-icon>
-                <span class="text-capitalize grey--text text--darken-3" >manual</span>
-            </v-btn>
-            <v-btn dark small color="white" class="rounded" link :to="{name: 'bulkUploadLead'}">
-                <v-icon left color="#444">mdi-file-upload-outline</v-icon>
-                <span class="text-capitalize grey--text text--darken-3">bulk</span>
-            </v-btn>
-        </v-speed-dial>
+                <v-btn dark small color="white" class="rounded" link :to="{name: 'AddLeads'}">
+                    <v-icon left color="#444">mdi-pencil</v-icon>
+                    <span class="text-capitalize grey--text text--darken-3" >manual</span>
+                </v-btn>
+                <v-btn dark small color="white" class="rounded" link :to="{name: 'bulkUploadLead'}">
+                    <v-icon left color="#444">mdi-file-upload-outline</v-icon>
+                    <span class="text-capitalize grey--text text--darken-3">bulk</span>
+                </v-btn>
+            </v-speed-dial>
+
+            <transition name="fade">
+                <v-btn icon small class="mt-2 grey lighten-2 rounded" @click="toTop" v-show="scY > 500">
+                    <v-icon size="18">mdi-arrow-up</v-icon>
+                </v-btn>
+            </transition>
+        </div>
 
     </div>
 </template>
@@ -552,15 +561,12 @@ import Other from '../../Apis/Other'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import Navbar from '../../components/Dashboard/Navbar.vue'
 // import InfiniteLoading from 'vue-infinite-loading';
-import 'vue-good-table/dist/vue-good-table.css'
-import { VueGoodTable } from 'vue-good-table';
 
 
 export default {
-    components:{ Navbar, VueGoodTable },
+    components:{ Navbar },
     data () {
       return {
-        search: '',
         benched: 0,
         // headers: [
         //     { sortable: false },
@@ -659,10 +665,29 @@ export default {
             perPage: 10
         },
         totalRecords: 0,
-        isLoading: false,
+        loading: false,
+        scTimer: 0,
+        scY: 0,
+        search: null,
+        query: '',
+        results: []
       }
     },
     methods:{
+        autoComplete(){
+            this.results = [];
+            if(this.query.length > 4){
+                Lead.searchLeadByName(this.query)
+                .then((res) => {
+                    this.results = res.data
+                    console.log(res.data)
+                })
+            }
+        },
+        onClickOutside(){
+            this.results = [];
+            this.query = ""
+        },
         onTap(){
             this.actionBtn = !this.actionBtn
             this.multipleActionToolbar = !this.multipleActionToolbar
@@ -678,9 +703,10 @@ export default {
             // Lead.auth(this.page).then(response => {
             //     this.leads = response.data.data;
             // });
-            Lead.auth(this.serverParams.page)
+            Lead.leadByUserMobile(this.page)
             .then(response => {
-                // this.totalRecords = response.data.meta.total;
+                this.totalRecords = response.data.meta.total;
+                this.last_page = response.data.meta.last_page;
                 this.leads = response.data.data;
             });
         },
@@ -1027,7 +1053,7 @@ export default {
                 this.loadMoreBtn = false
             } else {
                 this.page = this.page + 1;
-                Lead.auth(this.page).then(response => {
+                Lead.leadByUserMobile(this.page).then(response => {
                     response.data.data.forEach(data => {
                         this.leads.push(data);
                     });
@@ -1039,6 +1065,20 @@ export default {
             let leadId = params.row.id;
             console.log(leadId);
             // this.$router.push({ name: 'singleLead', params: { id: leadId } })
+        },
+        handleScroll(){
+            if (this.scTimer) return;
+            this.scTimer = setTimeout(() => {
+                this.scY = window.scrollY;
+                clearTimeout(this.scTimer);
+                this.scTimer = 0;
+            }, 100);
+        },
+        toTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
         }
     },
     computed:{
@@ -1077,13 +1117,22 @@ export default {
             this.shareData.agent_id = response.data.data.id;
         });
         this.$store.dispatch('getLeads');
+        window.addEventListener('scroll', this.handleScroll);
     }
 }
 </script>
 
 <style scoped>
 .content-card{
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+}
+.searchLeadField{ position: relative;}
+.resultBox{
+    position: absolute;
+    top: 1.9em;
+    right: 0;
+    left: 0;
+    z-index: 999;
 }
 .search-input{
   background-color: #fff;
