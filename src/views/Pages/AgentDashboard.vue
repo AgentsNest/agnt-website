@@ -108,7 +108,8 @@
                   <v-row>
                     <v-col cols="6" md="4" v-for="website in websites" :key="website.id">
                       <v-img
-                          aspect-ratio="1"
+                          aspect-ratio="2"
+                          cover
                           :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                           lazy-src="../../assets/img/bg-grey.svg"
                           class="rounded-lg shadow-xl my-2 d-flex align-end"

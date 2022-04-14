@@ -122,11 +122,14 @@
 
             <v-card height="100%" class="" flat>
                 <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
-                    <router-link :to="{name: 'singleLead', params: {id:lead.id}}">
+                    <router-link :to="{name: 'singleLead', params: {id:lead.id}}" class="nameFiled">
                         <v-card-actions class="py-2 px-4">
                             <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
                             <div>
-                                <span class="font-weight-bold grey--text text--darken-3">{{ lead.name }}</span> <br>
+                                <span class="font-weight-bold grey--text text--darken-3">
+                                    {{ lead.name }}
+                                    <span v-if="lead.isNew" class="newTag red lighten-2 white--text rounded-xl">new</span>
+                                </span> <br>
                                 <span class="caption grey--text text--darken-2">{{ lead.contact }}</span> <br>
                                 <div v-if="lead.activities" class="caption grey--text text--darken-2">
                                     <div v-for="task in lead.activities.slice(0, 1)" :key="task.id">
@@ -1141,6 +1144,19 @@ export default {
     right: 0;
     left: 0;
     z-index: 999;
+}
+.nameFiled{
+    position: relative;
+}
+.newTag{
+    /* background: rgb(250, 162, 162);
+    position: absolute;
+    left: 0;
+    margin-top: 5px;
+    width: 6px;
+    height: 95px; */
+    font-size: 9px;
+    padding: 2px 5px;
 }
 .search-input{
   background-color: #fff;

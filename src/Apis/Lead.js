@@ -15,6 +15,10 @@ export default {
     return Api().get("/leads/" + id);
   },
 
+  isNew(id) {
+    return Api().post("/change-lead/new-tag/" + id);
+  },
+
   // auth(page) {
   //   return Api().get("/leads/by/user?page=" + page);
   // },

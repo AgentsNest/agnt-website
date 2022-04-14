@@ -426,8 +426,18 @@ export default {
     },
     mounted(){
         this.$store.dispatch('singleLead', this.$route.params.id);
+        this.leadOpened();
     },
     methods:{
+        leadOpened(){
+            Lead.isNew(this.$route.params.id)
+            .then(response => {
+                console.log(response)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        },
         addActivityNotes(){
             let data = new FormData();
             data.append('notes', this.input)

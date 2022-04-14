@@ -183,8 +183,11 @@
                 >
                     <!-- Activities -->
                     <template slot="table-row" slot-scope="props">
-                        <span v-if="props.column.field == 'name'">
-                            <div class="subtitle-2">{{props.row.name}}</div>
+                        <span v-if="props.column.field == 'name'" class="nameFiled">
+                            <div class="subtitle-2">
+                                {{props.row.name}}
+                                <span class="newTag red lighten-2 white--text rounded-xl" v-if="props.row.isNew">new</span>
+                            </div>
                         </span>
                         <span v-if="props.column.field == 'contact'">
                             <div style="font-size: 14px">{{props.row.contact}}</div>
@@ -1015,6 +1018,13 @@ export default {
 .navigation-bar{display: none;}
 .content-card{
   overflow-y: scroll;
+}
+.nameFiled{
+    position: relative;
+}
+.newTag{
+    font-size: 9px;
+    padding: 2px 5px;
 }
 .search-input{
   background-color: #fff;

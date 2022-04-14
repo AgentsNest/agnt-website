@@ -1,5 +1,13 @@
 <template>
     <div class="main-div">
+ 
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
+            Incorrect Creadiential
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
+
         <v-row>
             <v-col cols="12" md="6">
                 <v-img src="../../assets/img/login.png" class="mt-md-16">
@@ -104,7 +112,9 @@ export default {
                 password: "",
                 device_name: 'mobile'
             },
-            errors:''
+            emailError:'',
+            passwordError:'',
+            snackbar: false
         }
     },
     methods:{
@@ -115,8 +125,8 @@ export default {
                 this.$router.push('/dashboard');
             })
             .catch((error) => {
-                this.errors = error.response.data.errors;
-                console.log(error.response.data.errors);
+                // console.log(error.response.data.errors);
+                this.snackbar = true
             });
         }
     }
