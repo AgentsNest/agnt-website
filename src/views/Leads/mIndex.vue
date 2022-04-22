@@ -145,13 +145,6 @@
                         </v-card-actions>
                     </router-link>
                 </v-card>
-
-                <v-btn block text class="mt-3" 
-                    @click="loadMoreDesktop"
-                    v-show="loadMoreBtn"
-                >
-                    <v-icon>mdi-arrow-down</v-icon>
-                </v-btn>
                 
                 <!-- <v-data-table 
                     :headers="headers" 
@@ -522,6 +515,12 @@
         </v-card>
 
         <div class="speed-dail d-flex flex-column">
+            <transition name="fade">
+                <v-btn icon medium class="mb-3 blue-grey darken-2 rounded" @click="toTop" v-show="scY > 500">
+                    <v-icon size="20" color="white">mdi-arrow-up</v-icon>
+                </v-btn>
+            </transition>
+            
             <v-speed-dial
                 v-model="fab"
                 :direction="direction"
@@ -545,11 +544,12 @@
                 </v-btn>
             </v-speed-dial>
 
-            <transition name="fade">
-                <v-btn icon medium class="mt-2 grey lighten-3 rounded" @click="toTop" v-show="scY > 500">
-                    <v-icon size="20" color="grey darken-4">mdi-arrow-up</v-icon>
-                </v-btn>
-            </transition>
+            <v-btn icon medium class="mt-3 blue-grey lighten-4 rounded" 
+                @click="loadMoreDesktop"
+                v-show="loadMoreBtn"
+            >
+                <v-icon>mdi-arrow-down</v-icon>
+            </v-btn>
         </div>
 
     </div>

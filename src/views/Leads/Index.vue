@@ -201,7 +201,7 @@
                             </div>
                         </span>
                         <span v-if="props.column.field == 'view'">
-                            <v-btn small depressed dark class="grey darken-3 text-capitalize">view</v-btn>
+                            <router-link :to="{name: 'singleLead', params: {id:props.row.id}}" class="white--text px-2 py-1 rounded caption grey darken-3 text-capitalize">view</router-link>
                         </span>
                         <span v-if="props.column.field == 'actions'">
                             <v-btn icon><v-icon small @click="editedLeadDialogBox(props)">mdi-pencil</v-icon></v-btn>

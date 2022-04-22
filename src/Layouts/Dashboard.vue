@@ -6,9 +6,9 @@
         <Sidelink />
       </v-col> -->
       <v-col cols="12">
-        <keep-alive>
+
           <router-view/>
-        </keep-alive>
+
       </v-col>
     </v-row>
   </div>

@@ -8,7 +8,9 @@
         </v-snackbar>
         <v-card class="pa-md-6" min-height="100vh" v-if="lead" flat tile>
             <v-toolbar elevation="0">
-                <v-btn icon @click="$router.go(-1)"><v-icon>mdi-arrow-left</v-icon></v-btn>
+                <router-link :to="{name: 'Leads'}" class="d-none d-md-block"><v-icon>mdi-arrow-left</v-icon></router-link>
+                <router-link :to="{name: 'mLeads'}" class="d-block d-md-none"><v-icon>mdi-arrow-left</v-icon></router-link>
+
                 <v-spacer></v-spacer>
 
                 <v-menu offset-y>
@@ -432,7 +434,7 @@ export default {
         leadOpened(){
             Lead.isNew(this.$route.params.id)
             .then(response => {
-                console.log(response)
+                // console.log(response)
             })
             .catch((error) => {
                 console.log(error)
