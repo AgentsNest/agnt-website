@@ -195,6 +195,9 @@
                         <span v-if="props.column.field == 'status'">
                             <v-chip outlined label color="indigo darken-3" small>{{props.row.status}}</v-chip>
                         </span>
+                        <span v-if="props.column.field == 'source'">
+                            <v-chip label small v-if="props.row.lead_source" >{{props.row.lead_source}}</v-chip>
+                        </span>
                         <span v-if="props.column.field == 'activity'">
                             <div v-for="task in props.row.activities.slice(0, 1)" :key="task.id" style="font-size: 14px">
                                 {{task.action}} {{task.notes}} {{task.message}} {{task.call}} {{task.whatsapp}}
@@ -662,6 +665,7 @@ export default {
             { label: 'Name', field: 'name' },
             { label: 'Contact No.', field: 'contact' },
             { label: 'Status', field: 'status' },
+            { label: 'Source', field: 'source' },
             { label: 'Activity', field: 'activity' },
             { label: 'View', field: 'view' },
             { label: 'Actions', field: 'actions' },

@@ -138,6 +138,8 @@
                                 </div>
                                 <div>
                                     <v-chip x-small label class="mr-1 red lighten-4">{{lead.status}}</v-chip>
+                                    <v-chip x-small label class="mr-1 red lighten-4" v-if="lead.lead_source">{{lead.lead_source}}</v-chip>
+                                    <v-chip x-small label class="mr-1 red lighten-4" v-if="lead.label">{{lead.label}}</v-chip>
                                     <v-chip x-small label class="mr-1 teal lighten-4" v-if="lead.group_id">{{lead.group_id}}</v-chip>
                                     <v-chip x-small label class="mr-1 purple lighten-4" v-if="lead.team_id">{{lead.team_id}}</v-chip>
                                 </div>
