@@ -58,7 +58,7 @@ import User from '../../Apis/User'
           { title: 'Dashboard', icon: 'mdi-apps-box', link: 'Dashboard' },
           { title: 'Leads', icon: 'mdi-format-list-bulleted-square', link: 'Leads' },
           { title: 'Graphics', icon: 'mdi-image-size-select-large', link: 'Graphic' },
-          // { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
+          { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
           // { title: 'Social Ads', icon: 'mdi-advertisements', link: 'Smm' },
           { title: 'Projects', icon: 'mdi-home-city-outline', link: 'MyWebsite' },
           { title: 'Groups', icon: 'mdi-folder-open', link: 'Groups' },

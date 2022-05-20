@@ -140,7 +140,7 @@ export default {
         { title: 'Leads', icon: 'mdi-format-list-bulleted-square', link: 'mLeads' },
         // { title: 'Followups', icon: 'mdi-calendar-clock-outline', link: 'Followups' },
         { title: 'Graphics', icon: 'mdi-image-size-select-large', link: 'mGraphic' },
-        // { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
+        { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
         // { title: 'Social Ads', icon: 'mdi-advertisements', link: 'Smm' },
         { title: 'Projects', icon: 'mdi-office-building-marker', link: 'MyWebsite' },
         { title: 'Groups', icon: 'mdi-folder-open', link: 'Groups' },
