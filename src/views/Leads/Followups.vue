@@ -1,5 +1,13 @@
 <template>
     <div>
+        <Navbar />
+
+        <v-card class="bg-gradient d-flex px-4 py-3 mt-n6 rounded-t-xl d-md-none" flat tile>
+            <div>
+                <v-icon color="white" size="18">mdi-archive-clock-outline</v-icon>
+                <span class="white--text  ml-2 body-2 font-weight-bold">Followups</span>
+            </div>
+        </v-card>
 
         <v-card class="shadow content-card" height="88vh" elevation="0" >
             
@@ -84,9 +92,10 @@ import Lead from '../../Apis/Lead'
 import User from '../../Apis/User'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import Navbar from '../../components/Dashboard/Navbar.vue'
 
 export default {
-    components:{ VueCtkDateTimePicker },
+    components:{ VueCtkDateTimePicker, Navbar },
     data () {
         return {
             events: [],
