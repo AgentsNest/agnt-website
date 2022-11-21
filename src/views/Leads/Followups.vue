@@ -12,7 +12,7 @@
         <v-card class="shadow content-card" height="88vh" elevation="0" >
             
             <v-toolbar flat>
-                <div class="font-weight-bold text-h6">My Followups</div>
+                <div class="font-weight-bold text-h6">Followups</div>
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
