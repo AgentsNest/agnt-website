@@ -9,6 +9,7 @@ import converter from "number-to-words";
 import InfiniteLoading from "vue-infinite-loading";
 import Vuelidate from "vuelidate";
 import VueObserveVisibility from "vue-observe-visibility";
+import OneSignal from "onesignal-vue";
 
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer";
@@ -29,9 +30,9 @@ Vue.use(VueKonva);
 Vue.use(InfiniteLoading);
 Vue.use(Vuelidate);
 Vue.use(VueObserveVisibility);
+Vue.use(OneSignal);
 
 Vue.config.productionTip = false;
-
 
 Vue.filter("formatDate", function(value) {
   if (value) {
@@ -53,4 +54,10 @@ new Vue({
   store,
   vuetify,
   render: (h) => h(App),
+  beforeMount() {
+    this.$OneSignal.init({
+      appId: "55a99d30-0d4e-4dda-b454-d2b72606cdf5",
+      allowLocalhostAsSecureOrigin: true,
+    });
+  },
 }).$mount("#app");
